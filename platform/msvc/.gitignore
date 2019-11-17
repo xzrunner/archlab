@@ -1,0 +1,5 @@
+cgaview/
+projects/*
+
+!projects/cgaview.vcxproj
+!projects/cgaview.vcxproj.filters
