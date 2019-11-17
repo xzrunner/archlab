@@ -55,8 +55,8 @@ void ModelAdapter::UpdateModel(const cga::Geometry& geo, const n0::SceneNode& no
 
     brush.desc.mesh_begin = 0;
     brush.desc.mesh_end   = 1;
-    const int face_num    = faces.size();
-    brush.desc.meshes.push_back({ 0, 0, 0, face_num });
+    const size_t face_num = faces.size();
+    brush.desc.meshes.push_back({ 0, 0, 0, static_cast<int>(face_num) });
 
     brush.impl = poly;
 
