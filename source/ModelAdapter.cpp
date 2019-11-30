@@ -65,14 +65,7 @@ void ModelAdapter::UpdateModel(const cga::Geometry& geo, const n0::SceneNode& no
     brushes.push_back(brush);
     brush_model->SetBrushes(brushes);
 
-    std::vector<std::vector<sm::vec2>> texcoords;
-    texcoords.resize(face_num);
-    for (size_t i = 0; i < face_num; ++i) {
-        texcoords[i].assign(faces[i]->points.size(), sm::vec2(0, 0));
-    }
-
-    std::shared_ptr<model::Model> model =
-        model::BrushBuilder::PolymeshFromBrush(*brush_model, { texcoords });
+    std::shared_ptr<model::Model> model = model::BrushBuilder::PolymeshFromBrushPN(*brush_model);
 
     auto& cmodel = node.GetSharedComp<n3::CompModel>();
     cmodel.SetModel(model);
