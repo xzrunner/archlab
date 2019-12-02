@@ -79,7 +79,7 @@ void Node::InitPins(const std::string& name)
 		&& var_exports.is_type<std::vector<cga::Node::Port>>());
 	auto& exports = var_exports.get_value<std::vector<cga::Node::Port>>();
 
-	auto rg2grp = [](std::vector<PinDesc>& dst, const std::vector<cga::Node::Port>& src)
+	auto port_back2front = [](std::vector<PinDesc>& dst, const std::vector<cga::Node::Port>& src)
 	{
 		dst.reserve(dst.size() + src.size());
 		for (int i = 0, n = src.size(); i < n; ++i)
@@ -94,8 +94,8 @@ void Node::InitPins(const std::string& name)
 	};
 
 	std::vector<PinDesc> input, output;
-	rg2grp(input, imports);
-	rg2grp(output, exports);
+	port_back2front(input, imports);
+	port_back2front(output, exports);
 
 	InitPins(input, output);
 }
