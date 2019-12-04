@@ -27,6 +27,13 @@ rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
 #undef PARM_FILEPATH
 ;
 rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
+#define PARM_NODE_CLASS PrimQuad
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 
 }
 

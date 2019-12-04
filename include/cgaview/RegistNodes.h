@@ -21,6 +21,16 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
+#define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
+#define PARM_NODE_CLASS PrimQuad
+#define PARM_NODE_CLASS_STR "PrimQuad"
+#define PARM_NODE_NAME "prim_quad"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+;
 
 }
 
