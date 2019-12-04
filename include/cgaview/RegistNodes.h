@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cgaview/Node.h"
-#
 
 namespace cgav
 {
@@ -11,25 +10,17 @@ void nodes_regist_rttr();
 namespace node
 {
 
-#define CGAV_DEFINE_NODE(type, name, prop) \
-class type : public Node                   \
-{                                          \
-public:                                    \
-	type()                                 \
-		: Node(#type)                      \
-	{                                      \
-		InitPins(#name);                   \
-	}                                      \
-                                           \
-	prop                                   \
-	RTTR_ENABLE(Node)                      \
-};
-
 // creation
-
-CGAV_DEFINE_NODE(PrimCube, prim_cube,
-    sm::vec3 size = sm::vec3(1, 1, 1); \
-)
+#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#define PARM_NODE_CLASS PrimCube
+#define PARM_NODE_CLASS_STR "PrimCube"
+#define PARM_NODE_NAME "prim_cube"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+;
 
 }
 

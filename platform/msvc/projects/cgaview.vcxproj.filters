@@ -76,6 +76,12 @@
     <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h">
       <Filter>tools\trans</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">

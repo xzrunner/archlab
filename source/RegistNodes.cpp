@@ -2,15 +2,6 @@
 
 #include <ee0/ReflectPropTypes.h>
 
-#define REGIST_NODE_RTTI(type, name, prop)                      \
-	rttr::registration::class_<cgav::node::type>("cgav::"#name) \
-		.constructor<>()                                        \
-		prop                                                    \
-	;
-
-#define PROP
-#define REGIST_NODE_RTTI_DEFAULT(type, name) REGIST_NODE_RTTI(type, name, PROP)
-
 RTTR_REGISTRATION
 {
 
@@ -27,12 +18,15 @@ rttr::registration::class_<cgav::Node>("cgav::node")
 ;
 
 // creation
-REGIST_NODE_RTTI(PrimCube, prim_cube,
-.property("size", &cgav::node::PrimCube::size)                    \
-(                                                                 \
-	rttr::metadata(ee0::UIMetaInfoTag(), ee0::UIMetaInfo("Size")) \
-)                                                                 \
-)
+rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#define PARM_NODE_CLASS PrimCube
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 
 }
 

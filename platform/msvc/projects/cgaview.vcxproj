@@ -17,9 +17,11 @@
     <ClInclude Include="..\..\..\include\cgaview\MessageID.h" />
     <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h" />
     <ClInclude Include="..\..\..\include\cgaview\Node.h" />
+    <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\PinCallback.h" />
     <ClInclude Include="..\..\..\include\cgaview\PinType.h" />
     <ClInclude Include="..\..\..\include\cgaview\RegistNodes.h" />
+    <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\RenderSystem.h" />
     <ClInclude Include="..\..\..\include\cgaview\Serializer.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxNodeProperty.h" />

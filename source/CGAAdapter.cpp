@@ -1,9 +1,12 @@
 #include "cgaview/CGAAdapter.h"
 #include "cgaview/RegistNodes.h"
+#include "cgaview/PinType.h"
+#include "cgaview/Node.h"
 
 #include <blueprint/Node.h>
+#include <blueprint/Pin.h>
 
-#include <cga/node/PrimCube.h>
+#include <cga/Node.h>
 
 namespace cgav
 {
@@ -12,13 +15,17 @@ void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front,
                                   cga::Node& back,
                                   const Evaluator& eval)
 {
-    auto type = front.get_type();
-    // creation
-    if (type == rttr::type::get<node::PrimCube>())
+    auto f_type = front.get_type();
+    auto b_type = back.get_type();
+    if (f_type.is_derived_from<Node>() &&
+        b_type.is_derived_from<cga::Node>())
     {
-        auto& src = static_cast<const node::PrimCube&>(front);
-        auto& dst = static_cast<cga::node::PrimCube&>(back);
-        dst.SetSize(src.size);
+        for (auto& dst_prop : b_type.get_properties())
+        {
+            auto src_prop = f_type.get_property(dst_prop.get_name());
+            assert(src_prop.is_valid());
+            dst_prop.set_value(back, src_prop.get_value(front));
+        }
     }
 }
 
