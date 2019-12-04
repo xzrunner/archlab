@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cga/typedef.h>
+#include <cga/NodeVarType.h>
 
 namespace cga { class Node; }
 namespace bp { class Node; class Pin; }
@@ -17,6 +18,8 @@ public:
         cga::Node& back, const Evaluator& eval);
 
     static cga::NodePtr CreateBackFromFront(const bp::Node& front);
+
+    static int TypeBackToFront(cga::NodeVarType type);
 
 }; // SOP
 

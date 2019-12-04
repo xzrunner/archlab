@@ -87,7 +87,7 @@ void Node::InitPins(const std::string& name)
             PinDesc d;
 
 			auto& s = src[i];
-            d.name = s.name;
+            d.name = s.var.name;
 
             dst.push_back(d);
 		}

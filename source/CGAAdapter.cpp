@@ -67,4 +67,22 @@ cga::NodePtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
     return dst;
 }
 
+
+int CGAAdapter::TypeBackToFront(cga::NodeVarType type)
+{
+    int ret = -1;
+
+    switch (type)
+    {
+    case cga::NodeVarType::Any:
+        ret = bp::PIN_ANY_VAR;
+        break;
+    case cga::NodeVarType::Primitive:
+        ret = PIN_PRIMITIVE;
+        break;
+    }
+
+    return ret;
+}
+
 }
