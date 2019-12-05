@@ -41,30 +41,6 @@ void WxStageCanvas::DrawForeground3D() const
         return;
     }
 
-    n0::SceneNodePtr node = nullptr;
-    m_graph_stage->Traverse([&](const ee0::GameObj& obj)->bool
-    {
-        if (!obj->HasUniqueComp<bp::CompNode>()) {
-            return true;
-        }
-
-        auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
-        auto bp_type = bp_node->get_type();
-        if (bp_type.is_derived_from<Node>())
-        {
-            auto cga_node = std::static_pointer_cast<Node>(bp_node);
-            if (cga_node->GetDisplay()) {
-                node = obj;
-                return false;
-            }
-        }
-        return true;
-    });
-
-    if (!node) {
-        return;
-    }
-
     pt0::RenderContext rc;
     rc.AddVar(
         pt3::MaterialMgr::PositionUniforms::light_pos.name,
@@ -92,7 +68,23 @@ void WxStageCanvas::DrawForeground3D() const
     auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
     RenderSystem rs(GetViewport(), cam_mat);
 
-    rs.DrawNode3D(rc, *node);
+    m_graph_stage->Traverse([&](const ee0::GameObj& obj)->bool
+    {
+        if (!obj->HasUniqueComp<bp::CompNode>()) {
+            return true;
+        }
+
+        auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
+        auto bp_type = bp_node->get_type();
+        if (bp_type.is_derived_from<Node>())
+        {
+            auto cga_node = std::static_pointer_cast<Node>(bp_node);
+            if (cga_node->GetDisplay()) {
+                rs.DrawNode3D(rc, *obj);
+            }
+        }
+        return true;
+    });
 }
 
 void WxStageCanvas::DrawForeground2D() const
