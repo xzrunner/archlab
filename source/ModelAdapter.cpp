@@ -19,9 +19,12 @@ namespace cgav
 void ModelAdapter::SetupModel(n0::SceneNode& node)
 {
     auto& cmodel = node.AddSharedComp<n3::CompModel>();
+    cmodel.DisableSerialize();
     auto& cmodel_inst = node.AddUniqueComp<n3::CompModelInst>();
+    cmodel_inst.DisableSerialize();
 
     auto& cmaterial = node.AddUniqueComp<n0::CompMaterial>();
+    cmaterial.DisableSerialize();
     auto mat = std::make_unique<pt0::Material>();
     typedef pt3::MaterialMgr::PhongUniforms UNIFORMS;
     mat->AddVar(UNIFORMS::ambient.name, pt0::RenderVariant(sm::vec3(0.04f, 0.04f, 0.04f)));
@@ -36,6 +39,7 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
     cmodel_inst.SetModel(model, 0);
 
     auto& caabb = node.AddUniqueComp<n3::CompAABB>();
+    caabb.DisableSerialize();
     caabb.SetAABB(model->aabb);
 
     std::unique_ptr<model::ModelExtend> model_ext = std::make_unique<model::BrushModel>();
