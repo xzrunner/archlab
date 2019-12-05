@@ -48,7 +48,7 @@ private:
     std::string m_name;
 
     bool m_bypass  = false;
-    bool m_display = false;
+    bool m_display = true;
 
     RTTR_ENABLE(bp::Node)
 
