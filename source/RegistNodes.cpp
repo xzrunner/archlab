@@ -18,6 +18,14 @@ rttr::registration::class_<cgav::Node>("cgav::node")
 ;
 
 // creation
+rttr::registration::class_<cgav::node::Extrude>("cgav::extrude")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Extrude.parm.h"
+#define PARM_NODE_CLASS Extrude
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/PrimCube.parm.h"
