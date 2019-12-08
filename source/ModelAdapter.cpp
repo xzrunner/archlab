@@ -1,6 +1,6 @@
 #include "cgaview/ModelAdapter.h"
 
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <cga/Geometry.h>
 #include <model/Model.h>
 #include <model/BrushModel.h>
@@ -69,7 +69,26 @@ void ModelAdapter::UpdateModel(const cga::Geometry& geo, const n0::SceneNode& no
     brushes.push_back(brush);
     brush_model->SetBrushes(brushes);
 
-    std::shared_ptr<model::Model> model = model::BrushBuilder::PolymeshFromBrushPN(*brush_model);
+    std::shared_ptr<model::Model> model = nullptr;
+    auto& color = geo.GetColor();
+    if (color.IsValid())
+    {
+        std::vector<std::vector<std::vector<sm::vec3>>> colors;
+        auto& brushes = brush_model->GetBrushes();
+        colors.resize(brushes.size());
+        for (size_t i = 0, n = brushes.size(); i < n; ++i) {
+            auto& faces = brushes[i].impl->Faces();
+            for (auto& face : faces) {
+                colors[i].push_back(std::vector<sm::vec3>(face->points.size(), color));
+            }
+        }
+
+        model = model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
+    }
+    else
+    {
+        model = model::BrushBuilder::PolymeshFromBrushPN(*brush_model);
+    }
 
     auto& cmodel = node.GetSharedComp<n3::CompModel>();
     cmodel.SetModel(model);

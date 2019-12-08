@@ -43,6 +43,26 @@ rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 #undef PARM_FILEPATH
 ;
 
+// subdivision
+rttr::registration::class_<cgav::node::Offset>("cgav::offset")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Offset.parm.h"
+#define PARM_NODE_CLASS Offset
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// attributes
+rttr::registration::class_<cgav::node::Color>("cgav::color")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Color.parm.h"
+#define PARM_NODE_CLASS Color
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
 }
 
 namespace cgav
