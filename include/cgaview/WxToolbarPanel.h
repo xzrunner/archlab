@@ -5,11 +5,10 @@
 #include <wx/panel.h>
 
 namespace ee0 { class WxStagePage; class WxNavigationBar; }
+namespace bp { class WxNodeProperty; }
 
 namespace cgav
 {
-
-class WxNodeProperty;
 
 class WxToolbarPanel : public wxPanel, public ee0::Observer
 {
@@ -27,7 +26,7 @@ private:
 private:
     ee0::WxStagePage* m_stage_page;
 
-    WxNodeProperty* m_node_prop;
+    bp::WxNodeProperty* m_node_prop;
 
 }; // WxToolbarPanel
 

@@ -25,7 +25,6 @@
     <ClInclude Include="..\..\..\include\cgaview\RenderSystem.h" />
     <ClInclude Include="..\..\..\include\cgaview\Serializer.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxNodeProperty.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxStageCanvas.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h" />
   </ItemGroup>
@@ -41,7 +40,6 @@
     <ClCompile Include="..\..\..\source\RenderSystem.cpp" />
     <ClCompile Include="..\..\..\source\Serializer.cpp" />
     <ClCompile Include="..\..\..\source\WxGraphPage.cpp" />
-    <ClCompile Include="..\..\..\source\WxNodeProperty.cpp" />
     <ClCompile Include="..\..\..\source\WxStageCanvas.cpp" />
     <ClCompile Include="..\..\..\source\WxToolbarPanel.cpp" />
   </ItemGroup>
