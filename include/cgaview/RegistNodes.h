@@ -60,6 +60,16 @@ namespace node
 #undef PARM_FILEPATH
 #undef Selector
 ;
+#define PARM_FILEPATH "cga/node/ShapeO.parm.h"
+#define PARM_NODE_CLASS ShapeO
+#define PARM_NODE_CLASS_STR "ShapeO"
+#define PARM_NODE_NAME "shapeo"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+;
 
 // attributes
 #define PARM_FILEPATH "cga/node/Color.parm.h"

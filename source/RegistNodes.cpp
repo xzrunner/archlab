@@ -52,6 +52,14 @@ rttr::registration::class_<cgav::node::Offset>("cgav::offset")
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
 ;
+rttr::registration::class_<cgav::node::ShapeO>("cgav::shapeo")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/ShapeO.parm.h"
+#define PARM_NODE_CLASS ShapeO
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 
 // attributes
 rttr::registration::class_<cgav::node::Color>("cgav::color")

@@ -18,7 +18,7 @@ namespace
 
 void update_model(const cga::NodePtr& node, void* ud)
 {
-    auto geo = node->GetGeo();
+    auto geo = node->GetGeo(-1);
     auto snode = static_cast<n0::SceneNode*>(ud);
     if (geo && snode) {
         cgav::ModelAdapter::UpdateModel(*geo, *snode);
