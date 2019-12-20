@@ -10,7 +10,6 @@ const char* Node::STR_PROP_DISPLAY = "Display";
 Node::Node(const std::string& title, bool props)
     : bp::Node(title)
 {
-    m_style.hori = false;
 }
 
 Node::Node(const Node& node)
