@@ -37,6 +37,8 @@ private:
     bool BeforeDeleteNodeConn(const ee0::VariantSet& variants);
     bool UpdateNodeProp(const ee0::VariantSet& variants);
 
+    void UpdateAABB(const ee0::GameObj& obj);
+
 private:
     n0::SceneNodePtr m_root = nullptr;
 

@@ -2,6 +2,7 @@
 
 #include "cgaview/Node.h"
 
+#include <cga/node/Comp.h>
 #include <cga/node/Extrude.h>
 #include <cga/node/Offset.h>
 
@@ -48,6 +49,20 @@ namespace node
 ;
 
 // subdivision
+#define Type cga::node::Comp::Type
+#define Selector cga::node::Comp::Selector
+#define PARM_FILEPATH "cga/node/Comp.parm.h"
+#define PARM_NODE_CLASS Comp
+#define PARM_NODE_CLASS_STR "Comp"
+#define PARM_NODE_NAME "comp"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+#undef Type
+#undef Selector
+;
 #define Selector cga::node::Offset::Selector
 #define PARM_FILEPATH "cga/node/Offset.parm.h"
 #define PARM_NODE_CLASS Offset

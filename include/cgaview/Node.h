@@ -2,6 +2,8 @@
 
 #include <blueprint/Node.h>
 
+#include <cga/Node.h>
+
 namespace cgav
 {
 
@@ -20,6 +22,8 @@ public:
 
     bool GetDisplay() const { return m_display; }
     void SetDisplay(bool display) { m_display = display; }
+
+    void UpdatePins(const cga::Node& node);
 
 protected:
     struct PinDesc
@@ -43,6 +47,9 @@ protected:
 private:
     void InitPinsImpl(const std::vector<PinDesc>& pins,
         bool is_input);
+
+    static void PortBack2Front(std::vector<PinDesc>& dst,
+        const std::vector<cga::Node::Port>& src);
 
 private:
     std::string m_name;

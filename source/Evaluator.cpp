@@ -198,6 +198,14 @@ cga::NodePtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 void Evaluator::Update()
 {
     m_eval.Update();
+    for (auto& itr : m_nodes_map) {
+        if (itr.second->IsPortChanged()) {
+            if (itr.first->get_type().is_derived_from<Node>()) {
+                auto front = static_cast<const Node*>(itr.first);
+                const_cast<Node*>(front)->UpdatePins(*itr.second);
+            }
+        }
+    }
 }
 
 }

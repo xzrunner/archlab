@@ -6,10 +6,12 @@
 #include <ee0/WxStageCanvas.h>
 #include <blueprint/MessageID.h>
 #include <blueprint/CompNode.h>
+#include <blueprint/Node.h>
 
 #include <cga/Evaluator.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
+#include <node2/CompBoundingBox.h>
 
 namespace
 {
@@ -236,12 +238,24 @@ bool WxGraphPage::UpdateNodeProp(const ee0::VariantSet& variants)
     {
         auto& bp_node = (*obj)->GetUniqueComp<bp::CompNode>().GetNode();
         m_eval->OnNodePropChanged(bp_node);
+        UpdateAABB(*obj);
+
         return true;
     }
     else
     {
         return false;
     }
+}
+
+void WxGraphPage::UpdateAABB(const ee0::GameObj& obj)
+{
+    auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
+
+    auto& st = bp_node->GetStyle();
+    obj->GetUniqueComp<n2::CompBoundingBox>().SetSize(
+        *obj, sm::rect(st.width, st.height)
+    );
 }
 
 }

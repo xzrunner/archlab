@@ -44,6 +44,14 @@ rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 ;
 
 // subdivision
+rttr::registration::class_<cgav::node::Comp>("cgav::comp")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Comp.parm.h"
+#define PARM_NODE_CLASS Comp
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 rttr::registration::class_<cgav::node::Offset>("cgav::offset")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Offset.parm.h"

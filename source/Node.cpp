@@ -2,8 +2,6 @@
 
 #include <blueprint/Pin.h>
 
-#include <cga/Node.h>
-
 namespace cgav
 {
 
@@ -47,6 +45,15 @@ void Node::Draw(const n2::RenderParams& rp) const
     //}
 }
 
+void Node::UpdatePins(const cga::Node& node)
+{
+    std::vector<PinDesc> input, output;
+    PortBack2Front(input, node.GetImports());
+    PortBack2Front(output, node.GetExports());
+
+    InitPins(input, output);
+}
+
 void Node::InitPins(const std::vector<PinDesc>& input,
                     const std::vector<PinDesc>& output)
 {
@@ -79,23 +86,9 @@ void Node::InitPins(const std::string& name)
 		&& var_exports.is_type<std::vector<cga::Node::Port>>());
 	auto& exports = var_exports.get_value<std::vector<cga::Node::Port>>();
 
-	auto port_back2front = [](std::vector<PinDesc>& dst, const std::vector<cga::Node::Port>& src)
-	{
-		dst.reserve(dst.size() + src.size());
-		for (int i = 0, n = src.size(); i < n; ++i)
-		{
-            PinDesc d;
-
-			auto& s = src[i];
-            d.name = s.var.name;
-
-            dst.push_back(d);
-		}
-	};
-
 	std::vector<PinDesc> input, output;
-	port_back2front(input, imports);
-	port_back2front(output, exports);
+    PortBack2Front(input, imports);
+    PortBack2Front(output, exports);
 
 	InitPins(input, output);
 }
@@ -114,6 +107,21 @@ void Node::InitPinsImpl(const std::vector<PinDesc>& pins, bool is_input)
 			return;
 		}
 		dst.push_back(p);
+	}
+}
+
+void Node::PortBack2Front(std::vector<PinDesc>& dst,
+                          const std::vector<cga::Node::Port>& src)
+{
+	dst.reserve(dst.size() + src.size());
+	for (int i = 0, n = src.size(); i < n; ++i)
+	{
+        PinDesc d;
+
+		auto& s = src[i];
+        d.name = s.var.name;
+
+        dst.push_back(d);
 	}
 }
 
