@@ -16,9 +16,8 @@
 namespace
 {
 
-void update_model(const cga::NodePtr& node, void* ud)
+void update_model(const cga::GeoPtr& geo, void* ud)
 {
-    auto geo = node->GetGeo(-1);
     auto snode = static_cast<n0::SceneNode*>(ud);
     if (geo && snode) {
         cgav::ModelAdapter::UpdateModel(*geo, *snode);
@@ -197,7 +196,8 @@ cga::NodePtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 
 void Evaluator::Update()
 {
-    m_eval.Update();
+    m_eval.Eval();
+
     for (auto& itr : m_nodes_map) {
         if (itr.second->IsPortChanged()) {
             if (itr.first->get_type().is_derived_from<Node>()) {
