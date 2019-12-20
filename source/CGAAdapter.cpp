@@ -11,9 +11,8 @@
 namespace cgav
 {
 
-void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front,
-                                  cga::Node& back,
-                                  const Evaluator& eval)
+void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front, cga::Node& back,
+                                         const Evaluator& eval)
 {
     auto f_type = front.get_type();
     auto b_type = back.get_type();
