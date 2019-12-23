@@ -82,6 +82,9 @@
     <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h">
       <Filter>view\blueprint</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxNodeProperty.h">
+      <Filter>view\toolbar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\WxGraphPage.cpp">
       <Filter>view\blueprint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxNodeProperty.cpp">
+      <Filter>view\toolbar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

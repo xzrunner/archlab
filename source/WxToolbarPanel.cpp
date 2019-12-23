@@ -1,5 +1,6 @@
 #include "cgaview/WxToolbarPanel.h"
 #include "cgaview/Node.h"
+#include "cgaview/WxNodeProperty.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -44,7 +45,7 @@ void WxToolbarPanel::InitLayout()
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 
     // property
-	sizer->Add(m_node_prop = new bp::WxNodeProperty(this, sub_mgr), wxEXPAND);
+	sizer->Add(m_node_prop = new WxNodeProperty(this, sub_mgr), wxEXPAND);
 
 	SetSizer(sizer);
 }
