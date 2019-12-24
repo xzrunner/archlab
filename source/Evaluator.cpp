@@ -204,6 +204,7 @@ void Evaluator::Update()
                 auto front = static_cast<const Node*>(itr.first);
                 const_cast<Node*>(front)->UpdatePins(*itr.second);
             }
+            itr.second->SetPortChanged(false);
         }
     }
 }
