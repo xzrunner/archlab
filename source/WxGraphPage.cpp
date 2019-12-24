@@ -165,6 +165,7 @@ bool WxGraphPage::InsertSceneObj(const ee0::VariantSet& variants)
         // front eval cb
         m_eval->OnNodeSetup(*obj);
         m_eval->OnAddNode(*bp_node, *obj);
+        UpdateAABB(*obj);
 
         //// update flags
         //auto type = bp_node->get_type();
