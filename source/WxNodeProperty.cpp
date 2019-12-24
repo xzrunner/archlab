@@ -118,6 +118,8 @@ bool WxNodeProperty::UpdateView(const rttr::property& prop, const wxPGProperty& 
                 assert(find);
             }
             prop.set_value(m_node, dst);
+
+            ret = true;
         }
     }
 
