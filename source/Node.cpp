@@ -1,6 +1,7 @@
 #include "cgaview/Node.h"
 
 #include <blueprint/Pin.h>
+#include <blueprint/Connecting.h>
 
 namespace cgav
 {
@@ -95,12 +96,24 @@ void Node::InitPins(const std::string& name)
 void Node::InitPinsImpl(const std::vector<PinDesc>& pins, bool is_input)
 {
     auto& dst = is_input ? m_all_input : m_all_output;
+    auto old_pins = dst;
+
 	dst.clear();
 	dst.reserve(pins.size());
 	int idx = 0;
 	for (auto& d : pins)
 	{
-		auto p = std::make_shared<bp::Pin>(is_input, idx++, d.type, d.name, *this);
+        std::shared_ptr<bp::Pin> p = nullptr;
+        for (auto& old_p : old_pins) {
+            if (old_p->GetName() == d.name &&
+                old_p->GetType() == d.type) {
+                p = old_p;
+                break;
+            }
+        }
+        if (!p) {
+            p = std::make_shared<bp::Pin>(is_input, idx++, d.type, d.name, *this);
+        }
 		if (!CheckPinName(*p, dst)) {
 			assert(0);
 			return;
