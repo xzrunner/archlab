@@ -24,6 +24,11 @@ void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front, cga::Node& back,
             auto src_prop = f_type.get_property(dst_prop.get_name());
             assert(src_prop.is_valid());
             dst_prop.set_value(back, src_prop.get_value(front));
+
+            if (b_type == rttr::type::get<cga::node::Comp>() &&
+                dst_prop.get_type() == rttr::type::get<std::vector<cga::node::Comp::Selector>>()) {
+                static_cast<cga::node::Comp&>(back).SetupExports();
+            }
         }
     }
 }
