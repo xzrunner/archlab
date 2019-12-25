@@ -34,7 +34,8 @@ void Serializer::Init()
         seri.LoadFromJson(alloc, dir, val);
         seri.StoreToMem(ccomplex);
 
-        bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), val["nodes"]);
+        //// move to after node insert, as pins maybe changed
+        //bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), val["nodes"]);
     }, true);
 
     ns::CompSerializer::Instance()->AddToJsonFunc(n0::CompComplex::TYPE_NAME,
@@ -83,6 +84,9 @@ void Serializer::LoadFromJson(ee0::WxStagePage& stage, const n0::SceneNodePtr& r
         for (auto& c : children) {
             ee0::MsgHelper::InsertNode(*sub_mgr, c, false);
         }
+
+        // load conns after nodes setup, as pins changed
+        bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), val["nodes"]);
     }
 
     // connection
