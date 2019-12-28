@@ -1,4 +1,4 @@
-#include "cgaview/WxStageCanvas.h"
+#include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/RenderSystem.h"
 #include "cgaview/Node.h"
 
@@ -23,19 +23,19 @@ const uint32_t LIGHT_SELECT_COLOR = 0x88000088;
 namespace cgav
 {
 
-WxStageCanvas::WxStageCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
-                             const ee0::RenderContext& rc)
+WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
+                                 const ee0::RenderContext& rc)
     : ee3::WxStageCanvas(stage, ECS_WORLD_VAR &rc, nullptr, true)
 {
 }
 
-void WxStageCanvas::DrawBackground3D() const
+void WxPreviewCanvas::DrawBackground3D() const
 {
     ee3::WxStageCanvas::DrawBackgroundGrids(10.0f, 0.2f);
 //    ee3::WxStageCanvas::DrawBackgroundCross();
 }
 
-void WxStageCanvas::DrawForeground3D() const
+void WxPreviewCanvas::DrawForeground3D() const
 {
     if (!m_graph_stage) {
         return;
@@ -87,7 +87,7 @@ void WxStageCanvas::DrawForeground3D() const
     });
 }
 
-void WxStageCanvas::DrawForeground2D() const
+void WxPreviewCanvas::DrawForeground2D() const
 {
 }
 

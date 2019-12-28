@@ -5,10 +5,10 @@
 namespace cgav
 {
 
-class WxStageCanvas : public ee3::WxStageCanvas
+class WxPreviewCanvas : public ee3::WxStageCanvas
 {
 public:
-    WxStageCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
+    WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
         const ee0::RenderContext& rc);
 
     void SetGraphStage(ee0::WxStagePage* stage) { m_graph_stage = stage; }
@@ -21,6 +21,6 @@ protected:
 private:
     ee0::WxStagePage* m_graph_stage = nullptr;
 
-}; // WxStageCanvas
+}; // WxPreviewCanvas
 
 }

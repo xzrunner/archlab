@@ -1,5 +1,5 @@
 #include "cgaview/WxGraphPage.h"
-#include "cgaview/WxStageCanvas.h"
+#include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/Evaluator.h"
 
 #include <ee0/SubjectMgr.h>
@@ -102,7 +102,7 @@ void WxGraphPage::SetPreviewCanvas(const std::shared_ptr<ee0::WxStageCanvas>& ca
     m_preview_canvas = canvas;
     if (canvas)
     {
-        auto preview_canvas = std::static_pointer_cast<WxStageCanvas>(canvas);
+        auto preview_canvas = std::static_pointer_cast<WxPreviewCanvas>(canvas);
         preview_canvas->SetGraphStage(this);
     }
 }
