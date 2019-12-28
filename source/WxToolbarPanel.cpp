@@ -1,6 +1,7 @@
 #include "cgaview/WxToolbarPanel.h"
 #include "cgaview/Node.h"
 #include "cgaview/WxNodeProperty.h"
+#include "cgaview/WxGlobalProperty.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -11,14 +12,17 @@
 #include <guard/check.h>
 #include <node0/SceneNode.h>
 
+#include <wx/notebook.h>
+
 namespace cgav
 {
 
-WxToolbarPanel::WxToolbarPanel(wxWindow* parent, ee0::WxStagePage* stage_page)
+WxToolbarPanel::WxToolbarPanel(wxWindow* parent, ee0::WxStagePage* stage_page,
+                               cga::EvalContext& ctx)
 	: wxPanel(parent)
     , m_stage_page(stage_page)
 {
-	InitLayout();
+	InitLayout(ctx);
 
     auto& sub_mgr = stage_page->GetSubjectMgr();
     sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_INSERT, this);
@@ -38,14 +42,17 @@ void WxToolbarPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 	}
 }
 
-void WxToolbarPanel::InitLayout()
+void WxToolbarPanel::InitLayout(cga::EvalContext& ctx)
 {
     auto sub_mgr = m_stage_page->GetSubjectMgr();
 
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 
     // property
-	sizer->Add(m_node_prop = new WxNodeProperty(this, sub_mgr), wxEXPAND);
+    auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
+    prop->AddPage(m_global_prop = new WxGlobalProperty(prop, ctx), "Global");
+    prop->AddPage(m_node_prop = new WxNodeProperty(prop, sub_mgr), "Node");
+	sizer->Add(prop, 1, wxEXPAND);
 
 	SetSizer(sizer);
 }

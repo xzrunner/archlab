@@ -24,9 +24,12 @@
     <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\RenderSystem.h" />
     <ClInclude Include="..\..\..\include\cgaview\Serializer.h" />
+    <ClInclude Include="..\..\..\include\cgaview\WxEditorPanel.h" />
+    <ClInclude Include="..\..\..\include\cgaview\WxGlobalProperty.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxNodeProperty.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxStageCanvas.h" />
+    <ClInclude Include="..\..\..\include\cgaview\WxPreviewCanvas.h" />
+    <ClInclude Include="..\..\..\include\cgaview\WxTextPage.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h" />
   </ItemGroup>
   <ItemGroup>
@@ -40,9 +43,12 @@
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp" />
     <ClCompile Include="..\..\..\source\RenderSystem.cpp" />
     <ClCompile Include="..\..\..\source\Serializer.cpp" />
+    <ClCompile Include="..\..\..\source\WxEditorPanel.cpp" />
+    <ClCompile Include="..\..\..\source\WxGlobalProperty.cpp" />
     <ClCompile Include="..\..\..\source\WxGraphPage.cpp" />
     <ClCompile Include="..\..\..\source\WxNodeProperty.cpp" />
-    <ClCompile Include="..\..\..\source\WxStageCanvas.cpp" />
+    <ClCompile Include="..\..\..\source\WxPreviewCanvas.cpp" />
+    <ClCompile Include="..\..\..\source\WxTextPage.cpp" />
     <ClCompile Include="..\..\..\source\WxToolbarPanel.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

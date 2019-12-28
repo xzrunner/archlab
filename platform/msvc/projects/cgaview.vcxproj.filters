@@ -28,11 +28,23 @@
     <Filter Include="view\toolbar">
       <UniqueIdentifier>{26929e2b-e133-41c6-8d19-d14bb4b88bcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="view\stage">
+    <Filter Include="view\toolbar\prop">
+      <UniqueIdentifier>{34319a69-d336-4baf-bc96-410f4f601829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\serialize">
+      <UniqueIdentifier>{03f7dfa6-43a4-40d8-a3d8-2bbc544db32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\editor">
+      <UniqueIdentifier>{1aa2829c-20b9-48ae-9aa9-945095c66a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\preview">
       <UniqueIdentifier>{05ad5c45-f086-4093-9385-975d31e5aa0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="view\blueprint">
-      <UniqueIdentifier>{1aa2829c-20b9-48ae-9aa9-945095c66a7f}</UniqueIdentifier>
+    <Filter Include="view\editor\editor">
+      <UniqueIdentifier>{f498c239-dd7f-44a2-a9ed-de1a00f8b8de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\plugin">
+      <UniqueIdentifier>{8fd131c7-7da1-4483-931b-67709a84b1e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,11 +61,8 @@
     <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h">
       <Filter>view\toolbar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxStageCanvas.h">
-      <Filter>view\stage</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\RenderSystem.h">
-      <Filter>view\stage</Filter>
+      <Filter>view\preview</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\Evaluator.h">
       <Filter>tools\eval</Filter>
@@ -63,9 +72,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\MessageID.h">
       <Filter>dataset</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\Serializer.h">
-      <Filter>view\blueprint</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\CGAAdapter.h">
       <Filter>tools\trans</Filter>
@@ -79,11 +85,26 @@
     <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h">
       <Filter>tools\rtti</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h">
-      <Filter>view\blueprint</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\WxNodeProperty.h">
-      <Filter>view\toolbar</Filter>
+      <Filter>view\toolbar\prop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxGlobalProperty.h">
+      <Filter>view\toolbar\prop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\Serializer.h">
+      <Filter>tools\serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxEditorPanel.h">
+      <Filter>view\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h">
+      <Filter>view\editor\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxTextPage.h">
+      <Filter>view\editor\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\WxPreviewCanvas.h">
+      <Filter>view\preview</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,11 +118,8 @@
     <ClCompile Include="..\..\..\source\WxToolbarPanel.cpp">
       <Filter>view\toolbar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\WxStageCanvas.cpp">
-      <Filter>view\stage</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\RenderSystem.cpp">
-      <Filter>view\stage</Filter>
+      <Filter>view\preview</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Evaluator.cpp">
       <Filter>tools\eval</Filter>
@@ -112,20 +130,32 @@
     <ClCompile Include="..\..\..\source\RegistNodes.cpp">
       <Filter>tools\rtti</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\Serializer.cpp">
-      <Filter>view\blueprint</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\CGAAdapter.cpp">
       <Filter>tools\trans</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\ModelAdapter.cpp">
       <Filter>tools\trans</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\WxGraphPage.cpp">
-      <Filter>view\blueprint</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\WxNodeProperty.cpp">
-      <Filter>view\toolbar</Filter>
+      <Filter>view\toolbar\prop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxGlobalProperty.cpp">
+      <Filter>view\toolbar\prop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Serializer.cpp">
+      <Filter>tools\serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxEditorPanel.cpp">
+      <Filter>view\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxGraphPage.cpp">
+      <Filter>view\editor\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxTextPage.cpp">
+      <Filter>view\editor\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WxPreviewCanvas.cpp">
+      <Filter>view\preview</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
