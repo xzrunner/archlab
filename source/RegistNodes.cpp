@@ -69,7 +69,19 @@ rttr::registration::class_<cgav::node::ShapeO>("cgav::shapeo")
 #undef PARM_FILEPATH
 ;
 
+// transformations
+
+rttr::registration::class_<cgav::node::SetSize>("cgav::s")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/SetSize.parm.h"
+#define PARM_NODE_CLASS SetSize
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
 // attributes
+
 rttr::registration::class_<cgav::node::Color>("cgav::color")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Color.parm.h"

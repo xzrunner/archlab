@@ -3,8 +3,14 @@
 
 #include <ee0/ReflectPropTypes.h>
 
+#include <cga/node/SetSize.h>
+
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
+
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 namespace cgav
 {
@@ -69,6 +75,18 @@ bool WxNodeProperty::InitView(const rttr::property& prop, const bp::NodePtr& nod
             ret = true;
         }
     }
+    else if (prop_type == rttr::type::get<cga::node::SetSize::SizeValue>())
+    {
+        auto v = prop.get_value(node).get_value<cga::node::SetSize::SizeValue>();
+
+        wxPGProperty* prop = m_pg->Append(new wxStringProperty(ui_info.desc, wxPG_LABEL, wxT("<composed>")));
+        prop->SetExpanded(false);
+
+        m_pg->AppendIn(prop, new wxFloatProperty(wxT("Value"), wxPG_LABEL, v.value));
+
+        auto c_prop = m_pg->AppendIn(prop, new wxBoolProperty(wxT("Relative"), wxPG_LABEL, v.relative));
+        m_pg->SetPropertyAttribute(c_prop, wxPG_BOOL_USE_CHECKBOX, true, wxPG_RECURSE);
+    }
 
     return ret;
 }
@@ -121,6 +139,26 @@ bool WxNodeProperty::UpdateView(const rttr::property& prop, const wxPGProperty& 
 
             ret = true;
         }
+    }
+    else if (prop_type == rttr::type::get<cga::node::SetSize::SizeValue>() && key == ui_info.desc)
+    {
+        std::vector<std::string> tokens;
+        auto str = wxANY_AS(val, wxString).ToStdString();
+        boost::split(tokens, str, boost::is_any_of(";"));
+        assert(tokens.size() == 2);
+
+        auto v = prop.get_value(m_node).get_value<cga::node::SetSize::SizeValue>();
+        v.value = std::stof(tokens[0]);
+        if (tokens[1] == " Relative") {
+            v.relative = true;
+        } else if (tokens[1] == " Not Relative") {
+            v.relative = false;
+        } else {
+            assert(0);
+        }
+        prop.set_value(m_node, v);
+
+        ret = true;
     }
 
     return ret;

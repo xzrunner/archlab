@@ -5,6 +5,7 @@
 #include <cga/node/Comp.h>
 #include <cga/node/Extrude.h>
 #include <cga/node/Offset.h>
+#include <cga/node/SetSize.h>
 
 namespace cgav
 {
@@ -85,8 +86,23 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
+// transformations
+
+#define SizeValue cga::node::SetSize::SizeValue
+#define PARM_FILEPATH "cga/node/SetSize.parm.h"
+#define PARM_NODE_CLASS SetSize
+#define PARM_NODE_CLASS_STR "SetSize"
+#define PARM_NODE_NAME "s"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+#undef SizeValue
+;
 
 // attributes
+
 #define PARM_FILEPATH "cga/node/Color.parm.h"
 #define PARM_NODE_CLASS Color
 #define PARM_NODE_CLASS_STR "Color"
