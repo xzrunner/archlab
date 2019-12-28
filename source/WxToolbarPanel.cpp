@@ -50,8 +50,8 @@ void WxToolbarPanel::InitLayout(cga::EvalContext& ctx)
 
     // property
     auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    prop->AddPage(m_global_prop = new WxGlobalProperty(prop, ctx), "Global");
     prop->AddPage(m_node_prop = new WxNodeProperty(prop, sub_mgr), "Node");
+    prop->AddPage(m_global_prop = new WxGlobalProperty(prop, ctx), "Global");
 	sizer->Add(prop, 1, wxEXPAND);
 
 	SetSizer(sizer);

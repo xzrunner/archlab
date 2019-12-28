@@ -20,8 +20,8 @@ void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, cga::EvalCo
 
     // property
     auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    prop->AddPage(m_text_page = new WxTextPage(prop), "Text");
     prop->AddPage(m_graph_page = graph_page_creator(prop, m_ctx), "Graph");
+    prop->AddPage(m_text_page = new WxTextPage(prop), "Text");
     sizer->Add(prop, 1, wxEXPAND);
 
     SetSizer(sizer);
