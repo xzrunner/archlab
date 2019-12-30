@@ -2,10 +2,12 @@
 #include "cgaview/Node.h"
 #include "cgaview/WxRuleNodeProp.h"
 #include "cgaview/WxRuleProperty.h"
+#include "cgaview/MessageID.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxNavigationBar.h>
+#include <ee3/WxStageCanvas.h>
 #include <blueprint/CompNode.h>
 #include <blueprint/WxNodeProperty.h>
 
@@ -17,16 +19,16 @@
 namespace cgav
 {
 
-WxToolbarPanel::WxToolbarPanel(wxWindow* parent, ee0::WxStagePage* stage_page,
-                               cga::EvalContext& ctx)
+WxToolbarPanel::WxToolbarPanel(wxWindow* parent, cga::EvalContext& ctx,
+                               const ee0::SubjectMgrPtr& graph_sub_mgr,
+                               const ee0::SubjectMgrPtr& preview_sub_mgr)
 	: wxPanel(parent)
-    , m_stage_page(stage_page)
+    , m_preview_sub_mgr(preview_sub_mgr)
 {
-	InitLayout(ctx);
+	InitLayout(ctx, graph_sub_mgr);
 
-    auto& sub_mgr = stage_page->GetSubjectMgr();
-    sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_INSERT, this);
-    sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_CLEAR, this);
+    graph_sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_INSERT, this);
+    graph_sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_CLEAR, this);
 }
 
 void WxToolbarPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
@@ -42,11 +44,20 @@ void WxToolbarPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 	}
 }
 
-void WxToolbarPanel::InitLayout(cga::EvalContext& ctx)
+void WxToolbarPanel::InitLayout(cga::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr)
 {
-    auto sub_mgr = m_stage_page->GetSubjectMgr();
-
 	auto sizer = new wxBoxSizer(wxVERTICAL);
+
+    // operator
+    wxArrayString choices;
+    choices.Add("view");
+    choices.Add("draw");
+    auto editop = new wxRadioBox(this, wxID_ANY, "operator",
+        wxDefaultPosition, wxDefaultSize, choices, 1, wxRA_SPECIFY_ROWS);
+    Connect(editop->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED,
+        wxCommandEventHandler(WxToolbarPanel::OnChangeEditType));
+    editop->SetSelection(0);
+    sizer->Add(editop);
 
     // property
     auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
@@ -55,6 +66,22 @@ void WxToolbarPanel::InitLayout(cga::EvalContext& ctx)
 	sizer->Add(prop, 1, wxEXPAND);
 
 	SetSizer(sizer);
+}
+
+void WxToolbarPanel::OnChangeEditType(wxCommandEvent& event)
+{
+    int sel = event.GetSelection();
+	switch (sel)
+	{
+	case 0:
+        m_preview_sub_mgr->NotifyObservers(MSG_SET_VIEW_EDITOP);
+		break;
+	case 1:
+        m_preview_sub_mgr->NotifyObservers(MSG_SET_DRAW_EDITOP);
+        break;
+	default:
+		GD_REPORT_ASSERT("err type.");
+	}
 }
 
 void WxToolbarPanel::OnSelectionInsert(const ee0::VariantSet& variants)
