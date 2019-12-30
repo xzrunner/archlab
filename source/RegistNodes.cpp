@@ -6,6 +6,7 @@ RTTR_REGISTRATION
 {
 
 // base
+
 rttr::registration::class_<cgav::Node>("cgav::node")
 .property("name", &cgav::Node::GetName, &cgav::Node::SetName)
 (
@@ -18,6 +19,7 @@ rttr::registration::class_<cgav::Node>("cgav::node")
 ;
 
 // creation
+
 rttr::registration::class_<cgav::node::Extrude>("cgav::extrude")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Extrude.parm.h"
@@ -44,6 +46,7 @@ rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 ;
 
 // subdivision
+
 rttr::registration::class_<cgav::node::Comp>("cgav::comp")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Comp.parm.h"
@@ -64,6 +67,14 @@ rttr::registration::class_<cgav::node::ShapeO>("cgav::shapeo")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/ShapeO.parm.h"
 #define PARM_NODE_CLASS ShapeO
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cgav::node::Split>("cgav::split")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Split.parm.h"
+#define PARM_NODE_CLASS Split
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH

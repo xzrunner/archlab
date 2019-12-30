@@ -5,6 +5,7 @@
 #include <cga/node/Comp.h>
 #include <cga/node/Extrude.h>
 #include <cga/node/Offset.h>
+#include <cga/node/Split.h>
 #include <cga/node/SetSize.h>
 
 namespace cgav
@@ -16,6 +17,7 @@ namespace node
 {
 
 // creation
+
 #define ExtrusionType cga::node::Extrude::ExtrusionType
 #define PARM_FILEPATH "cga/node/Extrude.parm.h"
 #define PARM_NODE_CLASS Extrude
@@ -50,6 +52,7 @@ namespace node
 ;
 
 // subdivision
+
 #define Type cga::node::Comp::Type
 #define Selector cga::node::Comp::Selector
 #define PARM_FILEPATH "cga/node/Comp.parm.h"
@@ -86,6 +89,21 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
+#define Axis cga::node::Split::Axis
+#define Part cga::node::Split::Part
+#define PARM_FILEPATH "cga/node/Split.parm.h"
+#define PARM_NODE_CLASS Split
+#define PARM_NODE_CLASS_STR "Split"
+#define PARM_NODE_NAME "split"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+#undef Axis
+#undef Part
+;
+
 // transformations
 
 #define SizeValue cga::node::SetSize::SizeValue
