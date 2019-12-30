@@ -1,4 +1,4 @@
-#include "cgaview/WxNodeProperty.h"
+#include "cgaview/WxRuleNodeProp.h"
 #include "cgaview/RegistNodes.h"
 
 #include <ee0/ReflectPropTypes.h>
@@ -9,12 +9,12 @@
 namespace cgav
 {
 
-WxNodeProperty::WxNodeProperty(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr)
+WxRuleNodeProp::WxRuleNodeProp(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr)
     : bp::WxNodeProperty(parent, sub_mgr)
 {
 }
 
-bool WxNodeProperty::InitView(const rttr::property& prop, const bp::NodePtr& node)
+bool WxRuleNodeProp::InitView(const rttr::property& prop, const bp::NodePtr& node)
 {
     bool ret = false;
 
@@ -72,7 +72,7 @@ bool WxNodeProperty::InitView(const rttr::property& prop, const bp::NodePtr& nod
     return ret;
 }
 
-bool WxNodeProperty::UpdateView(const rttr::property& prop, const wxPGProperty& wx_prop)
+bool WxRuleNodeProp::UpdateView(const rttr::property& prop, const wxPGProperty& wx_prop)
 {
     bool ret = false;
 
@@ -125,7 +125,7 @@ bool WxNodeProperty::UpdateView(const rttr::property& prop, const wxPGProperty& 
     return ret;
 }
 
-bool WxNodeProperty::UpdateView(wxPropertyGridEvent& event)
+bool WxRuleNodeProp::UpdateView(wxPropertyGridEvent& event)
 {
     // todo
     return false;

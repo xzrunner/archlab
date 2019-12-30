@@ -1,7 +1,7 @@
 #include "cgaview/WxToolbarPanel.h"
 #include "cgaview/Node.h"
-#include "cgaview/WxNodeProperty.h"
-#include "cgaview/WxGlobalProperty.h"
+#include "cgaview/WxRuleNodeProp.h"
+#include "cgaview/WxRuleProperty.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -50,8 +50,8 @@ void WxToolbarPanel::InitLayout(cga::EvalContext& ctx)
 
     // property
     auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    prop->AddPage(m_node_prop = new WxNodeProperty(prop, sub_mgr), "Node");
-    prop->AddPage(m_global_prop = new WxGlobalProperty(prop, ctx), "Global");
+    prop->AddPage(m_rule_node_prop = new WxRuleNodeProp(prop, graph_sub_mgr), "Rule Node");
+    prop->AddPage(m_rule_prop = new WxRuleProperty(prop, ctx), "Rule");
 	sizer->Add(prop, 1, wxEXPAND);
 
 	SetSizer(sizer);
@@ -65,12 +65,12 @@ void WxToolbarPanel::OnSelectionInsert(const ee0::VariantSet& variants)
 	GD_ASSERT(GAME_OBJ_VALID(obj), "err scene obj");
 
 	auto& cnode = obj->GetUniqueComp<bp::CompNode>();
-	m_node_prop->LoadFromNode(obj, cnode.GetNode());
+	m_rule_node_prop->LoadFromNode(obj, cnode.GetNode());
 }
 
 void WxToolbarPanel::OnSelectionClear(const ee0::VariantSet& variants)
 {
-    m_node_prop->Clear();
+    m_rule_node_prop->Clear();
 }
 
 }

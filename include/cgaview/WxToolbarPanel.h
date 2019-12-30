@@ -11,7 +11,7 @@ namespace cga { class EvalContext; }
 namespace cgav
 {
 
-class WxGlobalProperty;
+class WxRuleProperty;
 
 class WxToolbarPanel : public wxPanel, public ee0::Observer
 {
@@ -30,8 +30,8 @@ private:
 private:
     ee0::WxStagePage* m_stage_page;
 
-    WxGlobalProperty*   m_global_prop;
-    bp::WxNodeProperty* m_node_prop;
+    WxRuleProperty*     m_rule_prop;
+    bp::WxNodeProperty* m_rule_node_prop;
 
 }; // WxToolbarPanel
 

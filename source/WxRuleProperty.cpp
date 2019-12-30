@@ -1,4 +1,4 @@
-#include "cgaview/WxGlobalProperty.h"
+#include "cgaview/WxRuleProperty.h"
 
 #include <wx/wx.h>
 #include <wx/propgrid/propgrid.h>
@@ -83,14 +83,14 @@ private:
 namespace cgav
 {
 
-WxGlobalProperty::WxGlobalProperty(wxWindow* parent, cga::EvalContext& ctx)
+WxRuleProperty::WxRuleProperty(wxWindow* parent, cga::EvalContext& ctx)
     : wxPanel(parent)
     , m_ctx(ctx)
 {
     InitLayout();
 }
 
-void WxGlobalProperty::InitLayout()
+void WxRuleProperty::InitLayout()
 {
     wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     InitHeader(sizer);
@@ -98,35 +98,35 @@ void WxGlobalProperty::InitLayout()
     SetSizer(sizer);
 }
 
-void WxGlobalProperty::InitHeader(wxSizer* top_sizer)
+void WxRuleProperty::InitHeader(wxSizer* top_sizer)
 {
     wxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 
     m_add_btn = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(20, 20));
     Connect(m_add_btn->GetId(), wxEVT_COMMAND_BUTTON_CLICKED,
-        wxCommandEventHandler(WxGlobalProperty::OnAddPress));
+        wxCommandEventHandler(WxRuleProperty::OnAddPress));
     sizer->Add(m_add_btn, 0, wxLEFT | wxRIGHT, 5);
 
     m_del_btn = new wxButton(this, wxID_ANY, "-", wxDefaultPosition, wxSize(20, 20));
     Connect(m_del_btn->GetId(), wxEVT_COMMAND_BUTTON_CLICKED,
-        wxCommandEventHandler(WxGlobalProperty::OnDelPress));
+        wxCommandEventHandler(WxRuleProperty::OnDelPress));
     sizer->Add(m_del_btn, 0, wxLEFT | wxRIGHT, 5);
 
     top_sizer->Add(sizer);
 }
 
-void WxGlobalProperty::InitProperty(wxSizer* top_sizer)
+void WxRuleProperty::InitProperty(wxSizer* top_sizer)
 {
     m_pg = new wxPropertyGrid(this, -1, wxDefaultPosition, wxSize(500, -1),
         wxPG_SPLITTER_AUTO_CENTER | wxPG_BOLD_MODIFIED);
     Connect(m_pg->GetId(), wxEVT_PG_CHANGED, wxPropertyGridEventHandler(
-        WxGlobalProperty::OnPropertyGridChange));
+        WxRuleProperty::OnPropertyGridChange));
     top_sizer->Add(m_pg, wxEXPAND);
 
     ReloadParmProps();
 }
 
-void WxGlobalProperty::OnAddPress(wxCommandEvent& event)
+void WxRuleProperty::OnAddPress(wxCommandEvent& event)
 {
     WxAddParmDlg dlg(this, m_add_btn->GetScreenPosition());
     if (dlg.ShowModal() != wxID_OK) {
@@ -151,7 +151,7 @@ void WxGlobalProperty::OnAddPress(wxCommandEvent& event)
     m_ctx.AddGlobalParm(p);
 }
 
-void WxGlobalProperty::OnDelPress(wxCommandEvent& event)
+void WxRuleProperty::OnDelPress(wxCommandEvent& event)
 {
     auto prop = m_pg->GetSelectedProperty();
     auto name = prop->GetName().ToStdString();
@@ -159,11 +159,11 @@ void WxGlobalProperty::OnDelPress(wxCommandEvent& event)
     m_ctx.RemoveGlobalParm(name);
 }
 
-void WxGlobalProperty::OnPropertyGridChange(wxPropertyGridEvent& event)
+void WxRuleProperty::OnPropertyGridChange(wxPropertyGridEvent& event)
 {
 }
 
-void WxGlobalProperty::ReloadParmProps()
+void WxRuleProperty::ReloadParmProps()
 {
     m_pg->Clear();
 
@@ -172,7 +172,7 @@ void WxGlobalProperty::ReloadParmProps()
     }
 }
 
-void WxGlobalProperty::AddParmToProp(const cga::EvalContext::Parm& p)
+void WxRuleProperty::AddParmToProp(const cga::EvalContext::Parm& p)
 {
     switch (p.val.type)
     {

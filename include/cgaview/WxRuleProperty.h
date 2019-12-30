@@ -10,10 +10,10 @@ class wxPropertyGridEvent;
 namespace cgav
 {
 
-class WxGlobalProperty : public wxPanel
+class WxRuleProperty : public wxPanel
 {
 public:
-    WxGlobalProperty(wxWindow* parent, cga::EvalContext& ctx);
+    WxRuleProperty(wxWindow* parent, cga::EvalContext& ctx);
 
 private:
     void InitLayout();
@@ -37,6 +37,6 @@ private:
 
     cga::EvalContext& m_ctx;
 
-}; // WxGlobalProperty
+}; // WxRuleProperty
 
 }
