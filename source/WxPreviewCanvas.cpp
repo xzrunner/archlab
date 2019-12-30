@@ -7,10 +7,12 @@
 #include <blueprint/CompNode.h>
 
 #include <node0/SceneNode.h>
+#include <painting2/RenderSystem.h>
 #include <painting3/MaterialMgr.h>
 #include <painting3/Blackboard.h>
 #include <painting3/WindowContext.h>
 #include <painting3/PerspCam.h>
+#include <node3/RenderSystem.h>
 
 namespace
 {
@@ -37,10 +39,6 @@ void WxPreviewCanvas::DrawBackground3D() const
 
 void WxPreviewCanvas::DrawForeground3D() const
 {
-    if (!m_graph_stage) {
-        return;
-    }
-
     pt0::RenderContext rc;
     rc.AddVar(
         pt3::MaterialMgr::PositionUniforms::light_pos.name,
@@ -68,23 +66,33 @@ void WxPreviewCanvas::DrawForeground3D() const
     auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
     RenderSystem rs(GetViewport(), cam_mat);
 
-    m_graph_stage->Traverse([&](const ee0::GameObj& obj)->bool
+    if (m_graph_stage)
     {
-        if (!obj->HasUniqueComp<bp::CompNode>()) {
-            return true;
-        }
-
-        auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
-        auto bp_type = bp_node->get_type();
-        if (bp_type.is_derived_from<Node>())
+        m_graph_stage->Traverse([&](const ee0::GameObj& obj)->bool
         {
-            auto cga_node = std::static_pointer_cast<Node>(bp_node);
-            if (cga_node->GetDisplay()) {
-                rs.DrawNode3D(rc, *obj);
+            if (!obj->HasUniqueComp<bp::CompNode>()) {
+                return true;
             }
-        }
+
+            auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
+            auto bp_type = bp_node->get_type();
+            if (bp_type.is_derived_from<Node>())
+            {
+                auto cga_node = std::static_pointer_cast<Node>(bp_node);
+                if (cga_node->GetDisplay()) {
+                    rs.DrawNode3D(rc, *obj);
+                }
+            }
+            return true;
+        });
+    }
+
+    m_stage->Traverse([&](const ee0::GameObj& obj)->bool {
+        rs.DrawNode3D(rc, *obj);
         return true;
     });
+
+    pt2::RenderSystem::DrawPainter(rs.GetPainter());
 }
 
 void WxPreviewCanvas::DrawForeground2D() const

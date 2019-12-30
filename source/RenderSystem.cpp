@@ -2,7 +2,9 @@
 #include "cgaview/Evaluator.h"
 
 #include <painting3/RenderSystem.h>
+#include <node0/SceneNode.h>
 #include <node3/RenderSystem.h>
+#include <node3/CompShape.h>
 
 namespace cgav
 {
@@ -20,6 +22,18 @@ void RenderSystem::DrawNode3D(const pt0::RenderContext& rc, const n0::SceneNode&
     rp.painter  = &m_pt;
     rp.viewport = &m_vp;
     rp.cam_mat  = &m_cam_mat;
+
+    // draw shapes
+    if (node.HasSharedComp<n3::CompShape>())
+    {
+        auto& cshape = node.GetSharedComp<n3::CompShape>();
+        auto& shapes = cshape.GetShapes();
+        if (!shapes.empty()) {
+            for (auto& s : shapes) {
+                pt3::RenderSystem::DrawShape(*s, rp);
+            }
+        }
+    }
 
     // draw face
     rp.type = pt3::RenderParams::DRAW_MESH;
