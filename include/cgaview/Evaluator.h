@@ -2,7 +2,7 @@
 
 #include <blueprint/typedef.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 #include <cga/typedef.h>
 #include <node0/typedef.h>
 
@@ -50,7 +50,7 @@ private:
     void Update();
 
 private:
-    cga::Evaluator m_eval;
+    cga::EvalNode m_eval;
 
     std::unordered_map<const bp::Node*, cga::NodePtr> m_nodes_map;
 

@@ -8,7 +8,7 @@
 #include <blueprint/CompNode.h>
 #include <blueprint/Node.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <node2/CompBoundingBox.h>
