@@ -7,6 +7,7 @@
 #include <blueprint/MessageID.h>
 #include <blueprint/CompNode.h>
 #include <blueprint/Node.h>
+#include <blueprint/Blueprint.h>
 
 #include <cga/EvalNode.h>
 #include <node0/SceneNode.h>
@@ -38,6 +39,8 @@ WxGraphPage::WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr,
     : ee0::WxStagePage(parent, sub_mgr)
     , m_root(root)
 {
+    bp::Blueprint::Instance();
+
     m_eval = std::make_shared<Evaluator>();
 
     for (auto& msg : MESSAGES) {
