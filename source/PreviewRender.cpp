@@ -1,4 +1,4 @@
-#include "cgaview/RenderSystem.h"
+#include "cgaview/PreviewRender.h"
 #include "cgaview/Evaluator.h"
 
 #include <painting3/RenderSystem.h>
@@ -9,14 +9,14 @@
 namespace cgav
 {
 
-RenderSystem::RenderSystem(const pt3::Viewport& vp,
+PreviewRender::PreviewRender(const pt3::Viewport& vp,
                            const sm::mat4& cam_mat)
     : m_vp(vp)
     , m_cam_mat(cam_mat)
 {
 }
 
-void RenderSystem::DrawNode3D(const pt0::RenderContext& rc, const n0::SceneNode& node) const
+void PreviewRender::DrawNode3D(const pt0::RenderContext& rc, const n0::SceneNode& node) const
 {
     pt3::RenderParams rp;
     rp.painter  = &m_pt;

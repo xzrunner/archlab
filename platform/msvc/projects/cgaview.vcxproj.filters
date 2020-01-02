@@ -61,9 +61,6 @@
     <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h">
       <Filter>view\toolbar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\RenderSystem.h">
-      <Filter>view\preview</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cgaview\Evaluator.h">
       <Filter>tools\eval</Filter>
     </ClInclude>
@@ -106,6 +103,9 @@
     <ClInclude Include="..\..\..\include\cgaview\WxRuleNodeProp.h">
       <Filter>view\toolbar\prop</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\PreviewRender.h">
+      <Filter>view\preview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">
@@ -117,9 +117,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\WxToolbarPanel.cpp">
       <Filter>view\toolbar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\RenderSystem.cpp">
-      <Filter>view\preview</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Evaluator.cpp">
       <Filter>tools\eval</Filter>
@@ -156,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\WxRuleNodeProp.cpp">
       <Filter>view\toolbar\prop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PreviewRender.cpp">
+      <Filter>view\preview</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

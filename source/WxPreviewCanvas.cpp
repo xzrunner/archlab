@@ -1,5 +1,5 @@
 #include "cgaview/WxPreviewCanvas.h"
-#include "cgaview/RenderSystem.h"
+#include "cgaview/PreviewRender.h"
 #include "cgaview/Node.h"
 
 #include <ee0/WxStagePage.h>
@@ -64,7 +64,7 @@ void WxPreviewCanvas::DrawForeground3D() const
     );
 
     auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-    RenderSystem rs(GetViewport(), cam_mat);
+    PreviewRender pr(GetViewport(), cam_mat);
 
     if (m_graph_stage)
     {
@@ -80,7 +80,7 @@ void WxPreviewCanvas::DrawForeground3D() const
             {
                 auto cga_node = std::static_pointer_cast<Node>(bp_node);
                 if (cga_node->GetDisplay()) {
-                    rs.DrawNode3D(rc, *obj);
+                    pr.DrawNode3D(rc, *obj);
                 }
             }
             return true;
@@ -88,11 +88,11 @@ void WxPreviewCanvas::DrawForeground3D() const
     }
 
     m_stage->Traverse([&](const ee0::GameObj& obj)->bool {
-        rs.DrawNode3D(rc, *obj);
+        pr.DrawNode3D(rc, *obj);
         return true;
     });
 
-    pt2::RenderSystem::DrawPainter(rs.GetPainter());
+    pt2::RenderSystem::DrawPainter(pr.GetPainter());
 }
 
 void WxPreviewCanvas::DrawForeground2D() const
