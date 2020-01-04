@@ -38,7 +38,8 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
 
     cmodel_inst.SetModel(model, 0);
 
-    auto& caabb = node.AddUniqueComp<n3::CompAABB>();
+    auto& caabb = node.HasUniqueComp<n3::CompAABB>() ?
+        node.GetUniqueComp<n3::CompAABB>() : node.AddUniqueComp<n3::CompAABB>();
     caabb.DisableSerialize();
     caabb.SetAABB(model->aabb);
 
