@@ -106,6 +106,9 @@
     <ClInclude Include="..\..\..\include\cgaview\PreviewRender.h">
       <Filter>view\preview</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\PreviewPage.h">
+      <Filter>view\preview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">
@@ -155,6 +158,9 @@
       <Filter>view\toolbar\prop</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\PreviewRender.cpp">
+      <Filter>view\preview</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PreviewPage.cpp">
       <Filter>view\preview</Filter>
     </ClCompile>
   </ItemGroup>

@@ -42,6 +42,8 @@ public:
     float CalcFloat(const std::string& expr, const cga::Node& node, float expect = 0.0f) const;
     int CalcInt(const std::string& expr, const cga::Node& node, int expect = 0) const;
 
+    auto& GetEval() const { return m_eval; }
+
     auto& GetAllNodes() const { return m_nodes_map; }
 
     cga::NodePtr QueryBackNode(const bp::Node& front_node) const;

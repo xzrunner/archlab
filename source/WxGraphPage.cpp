@@ -1,6 +1,7 @@
 #include "cgaview/WxGraphPage.h"
 #include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/Evaluator.h"
+#include "cgaview/MessageID.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -89,6 +90,7 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
 	if (dirty)
     {
+        m_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
 		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
         m_preview_canvas->SetDirty();
 	}

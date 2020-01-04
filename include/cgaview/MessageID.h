@@ -9,6 +9,8 @@ enum MessageID
 
     MSG_SET_VIEW_EDITOP,
     MSG_SET_DRAW_EDITOP,
+
+    MSG_RULE_CHANGED,
 };
 
 }
