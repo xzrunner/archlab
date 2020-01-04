@@ -50,8 +50,8 @@ void WxToolbarPanel::InitLayout(cga::EvalContext& ctx, const ee0::SubjectMgrPtr&
 
     // operator
     wxArrayString choices;
-    choices.Add("view");
-    choices.Add("draw");
+    choices.Add("Edit");
+    choices.Add("Select");
     auto editop = new wxRadioBox(this, wxID_ANY, "operator",
         wxDefaultPosition, wxDefaultSize, choices, 1, wxRA_SPECIFY_ROWS);
     Connect(editop->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED,
@@ -74,10 +74,10 @@ void WxToolbarPanel::OnChangeEditType(wxCommandEvent& event)
 	switch (sel)
 	{
 	case 0:
-        m_preview_sub_mgr->NotifyObservers(MSG_SET_VIEW_EDITOP);
+        m_preview_sub_mgr->NotifyObservers(MSG_SET_EDIT_OP);
 		break;
 	case 1:
-        m_preview_sub_mgr->NotifyObservers(MSG_SET_DRAW_EDITOP);
+        m_preview_sub_mgr->NotifyObservers(MSG_SET_SELECT_OP);
         break;
 	default:
 		GD_REPORT_ASSERT("err type.");

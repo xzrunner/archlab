@@ -35,8 +35,8 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
     : m_stage_page(stage_page)
 {
     m_messages.push_back(ee0::MSG_SCENE_NODE_INSERT);
-    m_messages.push_back(MSG_SET_VIEW_EDITOP);
-    m_messages.push_back(MSG_SET_DRAW_EDITOP);
+    m_messages.push_back(MSG_SET_EDIT_OP);
+    m_messages.push_back(MSG_SET_SELECT_OP);
     for (auto& msg : m_messages) {
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
@@ -73,15 +73,17 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
     }
         break;
 
-    case MSG_SET_VIEW_EDITOP:
-        m_stage_page.GetImpl().SetEditOP(m_view_op);
-        break;
-    case MSG_SET_DRAW_EDITOP:
+    case MSG_SET_EDIT_OP:
         m_stage_page.GetImpl().SetEditOP(m_edit_op);
+        break;
+    case MSG_SET_SELECT_OP:
+        m_stage_page.GetImpl().SetEditOP(m_select_op);
         break;
 
     case MSG_RULE_CHANGED:
     {
+        m_stage_page.GetSubjectMgr()->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
             auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
@@ -115,19 +117,19 @@ void PreviewPage::InitEditOP()
     assert(sub_mgr);
 
     auto& vp = std::static_pointer_cast<ee3::WxStageCanvas>(canvas)->GetViewport();
-    m_view_op = std::make_shared<draft3::PolygonSelectOP>(
+    m_select_op = std::make_shared<draft3::PolygonSelectOP>(
         canvas->GetCamera(), m_stage_page, vp
     );
     m_edit_op = std::make_shared<draft3::PolygonBuildOP>(
         canvas->GetCamera(), vp, sub_mgr
     );
-    m_view_op->SetPrevEditOP(std::make_shared<ee3::WorldTravelOP>(
+    m_select_op->SetPrevEditOP(std::make_shared<ee3::WorldTravelOP>(
         canvas->GetCamera(), vp, sub_mgr
     ));
     m_edit_op->SetPrevEditOP(std::make_shared<ee3::CameraDriveOP>(
         canvas->GetCamera(), vp, sub_mgr
     ));
-    m_stage_page.GetImpl().SetEditOP(m_view_op);
+    m_stage_page.GetImpl().SetEditOP(m_edit_op);
 }
 
 bool PreviewPage::BuildModel(n0::SceneNode& node)

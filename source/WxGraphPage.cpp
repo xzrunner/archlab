@@ -92,7 +92,6 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
     {
         m_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
 		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
-        m_preview_canvas->SetDirty();
 	}
 }
 
@@ -100,16 +99,6 @@ void WxGraphPage::Traverse(std::function<bool(const ee0::GameObj&)> func,
                            const ee0::VariantSet& variants , bool inverse) const
 {
     m_root->GetSharedComp<n0::CompComplex>().Traverse(func, inverse);
-}
-
-void WxGraphPage::SetPreviewCanvas(const std::shared_ptr<ee0::WxStageCanvas>& canvas)
-{
-    m_preview_canvas = canvas;
-    if (canvas)
-    {
-        auto preview_canvas = std::static_pointer_cast<WxPreviewCanvas>(canvas);
-        preview_canvas->SetGraphStage(this);
-    }
 }
 
 void WxGraphPage::SetRootNode(const ee0::GameObj& root)

@@ -35,7 +35,7 @@ private:
 
     WxGraphPage* m_graph_page = nullptr;
 
-    ee0::EditOPPtr m_view_op = nullptr;
+    ee0::EditOPPtr m_select_op = nullptr;
     ee0::EditOPPtr m_edit_op = nullptr;
 
 }; // PreviewPage

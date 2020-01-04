@@ -14,7 +14,8 @@ class PreviewRender
 public:
     PreviewRender(const pt3::Viewport& vp, const sm::mat4& cam_mat);
 
-    void DrawNode3D(const pt0::RenderContext& rc, const n0::SceneNode& node) const;
+    void DrawNode3D(const pt0::RenderContext& rc, const n0::SceneNode& node,
+        bool draw_face, bool draw_shape) const;
 //    void DrawNode2D(const cga::Node& back, const bp::Node& front) const;
 
     auto& GetPainter() const { return m_pt; }

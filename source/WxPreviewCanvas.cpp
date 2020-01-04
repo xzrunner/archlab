@@ -1,8 +1,10 @@
 #include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/PreviewRender.h"
 #include "cgaview/Node.h"
+#include "cgaview/MessageID.h"
 
 #include <ee0/WxStagePage.h>
+#include <ee0/SubjectMgr.h>
 #include <blueprint/Node.h>
 #include <blueprint/CompNode.h>
 
@@ -29,6 +31,29 @@ WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
                                  const ee0::RenderContext& rc)
     : ee3::WxStageCanvas(stage, ECS_WORLD_VAR &rc, nullptr, true)
 {
+    stage->GetSubjectMgr()->RegisterObserver(MSG_SET_EDIT_OP, this);
+    stage->GetSubjectMgr()->RegisterObserver(MSG_SET_SELECT_OP, this);
+}
+
+WxPreviewCanvas::~WxPreviewCanvas()
+{
+    m_stage->GetSubjectMgr()->UnregisterObserver(MSG_SET_EDIT_OP, this);
+    m_stage->GetSubjectMgr()->UnregisterObserver(MSG_SET_SELECT_OP, this);
+}
+
+void WxPreviewCanvas::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
+{
+    ee3::WxStageCanvas::OnNotify(msg, variants);
+
+    switch (msg)
+    {
+    case MSG_SET_EDIT_OP:
+        m_op_type = OpType::Edit;
+        break;
+    case MSG_SET_SELECT_OP:
+        m_op_type = OpType::Select;
+        break;
+    }
 }
 
 void WxPreviewCanvas::DrawBackground3D() const
@@ -66,29 +91,23 @@ void WxPreviewCanvas::DrawForeground3D() const
     auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
     PreviewRender pr(GetViewport(), cam_mat);
 
-    if (m_graph_stage)
+    bool draw_face = true, draw_shape = true;
+    switch (m_op_type)
     {
-        m_graph_stage->Traverse([&](const ee0::GameObj& obj)->bool
-        {
-            if (!obj->HasUniqueComp<bp::CompNode>()) {
-                return true;
-            }
-
-            auto& bp_node = obj->GetUniqueComp<bp::CompNode>().GetNode();
-            auto bp_type = bp_node->get_type();
-            if (bp_type.is_derived_from<Node>())
-            {
-                auto cga_node = std::static_pointer_cast<Node>(bp_node);
-                if (cga_node->GetDisplay()) {
-                    pr.DrawNode3D(rc, *obj);
-                }
-            }
-            return true;
-        });
+    case OpType::Edit:
+        draw_face  = false;
+        draw_shape = true;
+        break;
+    case OpType::Select:
+        draw_face  = true;
+        draw_shape = false;
+        break;
+    default:
+        assert(0);
     }
 
     m_stage->Traverse([&](const ee0::GameObj& obj)->bool {
-        pr.DrawNode3D(rc, *obj);
+        pr.DrawNode3D(rc, *obj, draw_face, draw_shape);
         return true;
     });
 

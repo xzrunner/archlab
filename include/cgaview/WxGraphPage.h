@@ -23,8 +23,6 @@ public:
 
     void SetToolbarPanel(WxToolbarPanel* toolbar) { m_toolbar = toolbar; }
 
-    void SetPreviewCanvas(const std::shared_ptr<ee0::WxStageCanvas>& canvas);
-
     auto GetRootNode() const { return m_root; }
     void SetRootNode(const ee0::GameObj& root);
 
@@ -43,8 +41,6 @@ private:
     n0::SceneNodePtr m_root = nullptr;
 
     std::shared_ptr<Evaluator> m_eval = nullptr;
-
-    std::shared_ptr<ee0::WxStageCanvas> m_preview_canvas = nullptr;
 
     WxToolbarPanel* m_toolbar = nullptr;
 

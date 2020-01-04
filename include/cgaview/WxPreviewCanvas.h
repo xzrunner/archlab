@@ -10,8 +10,9 @@ class WxPreviewCanvas : public ee3::WxStageCanvas
 public:
     WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
         const ee0::RenderContext& rc);
+    virtual ~WxPreviewCanvas();
 
-    void SetGraphStage(ee0::WxStagePage* stage) { m_graph_stage = stage; }
+    virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
 
 protected:
     virtual void DrawBackground3D() const override;
@@ -19,7 +20,14 @@ protected:
     virtual void DrawForeground2D() const override;
 
 private:
-    ee0::WxStagePage* m_graph_stage = nullptr;
+    enum class OpType
+    {
+        Edit,
+        Select,
+    };
+
+private:
+    OpType m_op_type = OpType::Edit;
 
 }; // WxPreviewCanvas
 
