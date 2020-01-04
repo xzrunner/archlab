@@ -80,13 +80,9 @@ void ModelAdapter::UpdateModel(const cga::Geometry& geo, const n0::SceneNode& no
         for (size_t i = 0, n = brushes.size(); i < n; ++i)
         {
             auto& faces = brushes[i].impl->Faces();
-            for (auto& face : faces)
-            {
-                size_t v_num = face->border.size();
-                for (auto& hole : face->holes) {
-                    v_num += hole.size();
-                }
-                colors[i].push_back(std::vector<sm::vec3>(v_num, color));
+            auto& pts = brushes[i].impl->Points();
+            for (auto& face : faces) {
+                colors[i].push_back(std::vector<sm::vec3>(pts.size(), color));
             }
         }
 
