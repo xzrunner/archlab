@@ -2,6 +2,9 @@
 
 #include <ee0/WxCodeCtrl.h>
 
+#include <cga/EvalRule.h>
+#include <cga/RuleLoader.h>
+
 #include <wx/sizer.h>
 #include <wx/button.h>
 
@@ -12,6 +15,18 @@ WxTextPage::WxTextPage(wxWindow* parent)
     : wxPanel(parent)
 {
     InitLayout();
+}
+
+std::string WxTextPage::GetText() const
+{
+    return m_code->GetText().ToStdString();
+}
+
+void WxTextPage::SetText(const std::string& text)
+{
+    m_code->SetText(text);
+
+    RebuildEval();
 }
 
 void WxTextPage::InitLayout()
@@ -30,8 +45,16 @@ void WxTextPage::InitLayout()
 
 void WxTextPage::OnRunPress(wxCommandEvent& event)
 {
+    RebuildEval();
+}
+
+void WxTextPage::RebuildEval()
+{
     auto str = m_code->GetText().ToStdString();
-    printf("Run:\n%s\n", str.c_str());
+
+    cga::RuleLoader loader;
+    m_eval = std::make_shared<cga::EvalRule>();
+    loader.RunString(str, *m_eval/*, true*/);
 }
 
 }

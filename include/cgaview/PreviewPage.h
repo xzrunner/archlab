@@ -12,6 +12,7 @@ namespace cgav
 {
 
 class WxGraphPage;
+class Scene;
 
 class PreviewPage : public ee0::Observer
 {
@@ -25,8 +26,7 @@ public:
 
     void InitEditOP();
 
-private:
-    static bool BuildModel(n0::SceneNode& node);
+    void InitSceneNodeRule(const Scene& scene);
 
 private:
     ee0::WxStagePage& m_stage_page;

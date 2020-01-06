@@ -100,7 +100,7 @@ void WxPreviewCanvas::DrawForeground3D() const
         break;
     case OpType::Select:
         draw_face  = true;
-        draw_shape = false;
+        draw_shape = true;
         break;
     default:
         assert(0);

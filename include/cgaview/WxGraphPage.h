@@ -6,7 +6,6 @@ namespace cgav
 {
 
 class Evaluator;
-class WxToolbarPanel;
 
 class WxGraphPage : public ee0::WxStagePage
 {
@@ -20,8 +19,6 @@ public:
         const ee0::VariantSet& variants = ee0::VariantSet(), bool inverse = false) const override;
 
     auto GetEval() const { return m_eval; }
-
-    void SetToolbarPanel(WxToolbarPanel* toolbar) { m_toolbar = toolbar; }
 
     auto GetRootNode() const { return m_root; }
     void SetRootNode(const ee0::GameObj& root);
@@ -41,8 +38,6 @@ private:
     n0::SceneNodePtr m_root = nullptr;
 
     std::shared_ptr<Evaluator> m_eval = nullptr;
-
-    WxToolbarPanel* m_toolbar = nullptr;
 
 }; // WxGraphPage
 

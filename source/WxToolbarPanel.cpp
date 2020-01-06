@@ -3,6 +3,8 @@
 #include "cgaview/WxRuleNodeProp.h"
 #include "cgaview/WxRuleProperty.h"
 #include "cgaview/MessageID.h"
+#include "cgaview/WxEditorPanel.h"
+#include "cgaview/WxSceneProp.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -44,11 +46,42 @@ void WxToolbarPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 	}
 }
 
+void WxToolbarPanel::SetEditorPanel(WxEditorPanel* editor_panel)
+{
+    m_editor_panel = editor_panel;
+
+    assert(m_preview_sub_mgr);
+    m_scene_prop = new WxSceneProp(
+        m_prop_nb, m_editor_panel->GetSubMgr(),
+        *m_preview_sub_mgr, m_editor_panel->GetScene()
+    );
+    m_prop_nb->AddPage(m_scene_prop, "Scene");
+}
+
+void WxToolbarPanel::ReloadRulesList()
+{
+    m_scene_prop->ReloadRulesList(m_editor_panel->GetScene());
+}
+
 void WxToolbarPanel::InitLayout(cga::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr)
 {
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 
-    // operator
+    // header
+    auto header_sizer = new wxBoxSizer(wxHORIZONTAL);
+    InitOperatorPanel(header_sizer);
+    header_sizer->AddSpacer(20);
+    InitButtonsPanel(header_sizer);
+    sizer->Add(header_sizer);
+
+    // property
+    InitPropsPanel(sizer, ctx, graph_sub_mgr);
+
+	SetSizer(sizer);
+}
+
+void WxToolbarPanel::InitOperatorPanel(wxSizer* sizer)
+{
     wxArrayString choices;
     choices.Add("Edit");
     choices.Add("Select");
@@ -58,14 +91,35 @@ void WxToolbarPanel::InitLayout(cga::EvalContext& ctx, const ee0::SubjectMgrPtr&
         wxCommandEventHandler(WxToolbarPanel::OnChangeEditType));
     editop->SetSelection(0);
     sizer->Add(editop);
+}
 
-    // property
-    auto prop = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    prop->AddPage(m_rule_node_prop = new WxRuleNodeProp(prop, graph_sub_mgr), "Rule Node");
-    prop->AddPage(m_rule_prop = new WxRuleProperty(prop, ctx), "Rule");
-	sizer->Add(prop, 1, wxEXPAND);
+void WxToolbarPanel::InitButtonsPanel(wxSizer* sizer)
+{
+    wxStaticBox* rule_bounding = new wxStaticBox(this, wxID_ANY, "rule");
+    wxSizer* rule_sizer = new wxStaticBoxSizer(rule_bounding, wxHORIZONTAL);
 
-	SetSizer(sizer);
+    auto save_rule_btn = new wxButton(this, wxID_ANY, "Save...");
+    Connect(save_rule_btn->GetId(), wxEVT_COMMAND_BUTTON_CLICKED,
+        wxCommandEventHandler(WxToolbarPanel::OnSaveRule));
+    rule_sizer->Add(save_rule_btn);
+
+    rule_sizer->AddSpacer(5);
+
+    auto load_rule_btn = new wxButton(this, wxID_ANY, "Load...");
+    Connect(load_rule_btn->GetId(), wxEVT_COMMAND_BUTTON_CLICKED,
+        wxCommandEventHandler(WxToolbarPanel::OnLoadRule));
+    rule_sizer->Add(load_rule_btn);
+
+    sizer->Add(rule_sizer);
+}
+
+void WxToolbarPanel::InitPropsPanel(wxSizer* sizer, cga::EvalContext& ctx,
+                                    const ee0::SubjectMgrPtr& graph_sub_mgr)
+{
+    m_prop_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
+    m_prop_nb->AddPage(m_rule_node_prop = new WxRuleNodeProp(m_prop_nb, graph_sub_mgr), "Rule Node");
+    m_prop_nb->AddPage(m_rule_prop = new WxRuleProperty(m_prop_nb, ctx), "Rule");
+	sizer->Add(m_prop_nb, 1, wxEXPAND);
 }
 
 void WxToolbarPanel::OnChangeEditType(wxCommandEvent& event)
@@ -98,6 +152,26 @@ void WxToolbarPanel::OnSelectionInsert(const ee0::VariantSet& variants)
 void WxToolbarPanel::OnSelectionClear(const ee0::VariantSet& variants)
 {
     m_rule_node_prop->Clear();
+}
+
+void WxToolbarPanel::OnSaveRule(wxCommandEvent& event)
+{
+    assert(m_editor_panel);
+    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.cga";
+    wxFileDialog dlg(this, wxT("Save Rule"), wxEmptyString, wxEmptyString, filter, wxFD_OPEN);
+    if (dlg.ShowModal() == wxID_OK) {
+        m_editor_panel->SaveRuleToFile(dlg.GetPath().ToStdString());
+    }
+}
+
+void WxToolbarPanel::OnLoadRule(wxCommandEvent& event)
+{
+    assert(m_editor_panel);
+    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.cga";
+    wxFileDialog dlg(this, wxT("Open Rule"), wxEmptyString, wxEmptyString, filter, wxFD_OPEN);
+    if (dlg.ShowModal() == wxID_OK) {
+        m_editor_panel->LoadRuleFromFile(dlg.GetPath().ToStdString());
+    }
 }
 
 }

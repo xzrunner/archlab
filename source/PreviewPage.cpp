@@ -6,6 +6,7 @@
 #include "cgaview/WxGraphPage.h"
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
+#include "cgaview/Scene.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/GameObj.h>
@@ -17,16 +18,9 @@
 #include <draft3/PolygonSelectOP.h>
 
 #include <guard/check.h>
-#include <node0/SceneNode.h>
-#include <node3/CompShape.h>
-#include <node3/CompModel.h>
-#include <cga/EvalRule.h>
-#include <cga/Geometry.h>
-#include <cga/TopoPolyAdapter.h>
+#include <cgaeasy/CGAEasy.h>
 #include <cgaeasy/CompCGA.h>
-#include <geoshape/Polygon3D.h>
-#include <halfedge/Polygon.h>
-#include <polymesh3/Polytope.h>
+#include <node0/SceneNode.h>
 
 namespace cgav
 {
@@ -40,6 +34,8 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
     for (auto& msg : m_messages) {
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
+
+    cgae::CGAEasy::Init();
 }
 
 PreviewPage::~PreviewPage()
@@ -64,12 +60,9 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const ee0::GameObj* obj = static_cast<const ee0::GameObj*>(var.m_val.pv);
         GD_ASSERT(obj, "err scene obj");
 
-        auto& ccga = (*obj)->AddUniqueComp<cgae::CompCGA>();
-        if (m_graph_page) {
-            ccga.SetRule(m_graph_page->GetEval()->GetEval().ToRule());
+        if (!(*obj)->HasUniqueComp<cgae::CompCGA>()) {
+            (*obj)->AddUniqueComp<cgae::CompCGA>();
         }
-
-        BuildModel(**obj);
     }
         break;
 
@@ -86,10 +79,8 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
-            auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
-            ccga.SetRule(m_graph_page->GetEval()->GetEval().ToRule());
-
-            BuildModel(*obj);
+            // todo: update only changed
+            ModelAdapter::BuildModel(*obj);
 
             return true;
         });
@@ -132,51 +123,26 @@ void PreviewPage::InitEditOP()
     m_stage_page.GetImpl().SetEditOP(m_edit_op);
 }
 
-bool PreviewPage::BuildModel(n0::SceneNode& node)
+void PreviewPage::InitSceneNodeRule(const Scene& scene)
 {
-    if (!node.HasUniqueComp<cgae::CompCGA>() ||
-        !node.HasUniqueComp<n3::CompShape>()) {
-        return false;
-    }
-
-    auto& cshape = node.GetUniqueComp<n3::CompShape>();
-    auto& shapes = cshape.GetShapes();
-
-    auto& ccga = node.GetUniqueComp<cgae::CompCGA>();
-    auto rule = ccga.GetRule();
-    if (!rule) {
-        return false;
-    }
-
-    std::vector<cga::GeoPtr> in_geos;
-    for (auto& s : shapes)
+    m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
     {
-        if (s->get_type() != rttr::type::get<gs::Polygon3D>()) {
-            continue;
+        if (!obj->HasUniqueComp<cgae::CompCGA>()) {
+            return true;
         }
 
-        auto& verts = std::static_pointer_cast<gs::Polygon3D>(s)->GetVertices();
-        cga::TopoPolyAdapter adapter(verts);
-        std::vector<pm3::Polytope::PointPtr> dst_pts;
-        std::vector<pm3::Polytope::FacePtr> dst_faces;
-        adapter.TransToPolymesh(dst_pts, dst_faces);
-        auto poly = std::make_shared<pm3::Polytope>(dst_pts, dst_faces);
-        in_geos.push_back(std::make_shared<cga::Geometry>(poly));
-    }
-    if (in_geos.empty()) {
-        return false;
-    }
-    auto out_geos = rule->Eval(in_geos);
-
-    if (!out_geos.empty())
-    {
-        if (!node.HasSharedComp<n3::CompModel>()) {
-            ModelAdapter::SetupModel(node);
+        auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+        for (auto& rule : scene.GetAllRules()) {
+            if (rule->filepath == ccga.GetFilepath()) {
+                ccga.SetRule(rule->impl);
+                break;
+            }
         }
-        ModelAdapter::UpdateModel(*out_geos[0], node);
-    }
 
-    return true;
+        ModelAdapter::BuildModel(*obj);
+
+        return true;
+    });
 }
 
 }

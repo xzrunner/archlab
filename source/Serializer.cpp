@@ -24,34 +24,34 @@ namespace cgav
 
 void Serializer::Init()
 {
-    ns::CompSerializer::Instance()->AddFromJsonFunc(n0::CompComplex::TYPE_NAME,
-        [](n0::NodeComp& comp, const std::string& dir, const rapidjson::Value& val)
-    {
-        auto& ccomplex = static_cast<n0::CompComplex&>(comp);
-
-        ns::N0CompComplex seri;
-        mm::LinearAllocator alloc;
-        seri.LoadFromJson(alloc, dir, val);
-        seri.StoreToMem(ccomplex);
-
-        //// move to after node insert, as pins maybe changed
-        //bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), val["nodes"]);
-    }, true);
-
-    ns::CompSerializer::Instance()->AddToJsonFunc(n0::CompComplex::TYPE_NAME,
-        [](const n0::NodeComp& comp, const std::string& dir, rapidjson::Value& val,
-            rapidjson::MemoryPoolAllocator<>& alloc, bool skip_asset)->bool
-    {
-        auto& ccomplex = static_cast<const n0::CompComplex&>(comp);
-
-        ns::N0CompComplex seri;
-        seri.LoadFromMem(ccomplex);
-        seri.StoreToJson(dir, val, alloc);
-
-        bp::NSCompNode::StoreConnection(ccomplex.GetAllChildren(), val["nodes"], alloc);
-
-        return true;
-    }, true);
+//    ns::CompSerializer::Instance()->AddFromJsonFunc(n0::CompComplex::TYPE_NAME,
+//        [](n0::NodeComp& comp, const std::string& dir, const rapidjson::Value& val)
+//    {
+//        auto& ccomplex = static_cast<n0::CompComplex&>(comp);
+//
+//        ns::N0CompComplex seri;
+//        mm::LinearAllocator alloc;
+//        seri.LoadFromJson(alloc, dir, val);
+//        seri.StoreToMem(ccomplex);
+//
+//        //// move to after node insert, as pins maybe changed
+//        //bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), val["nodes"]);
+//    }, true);
+//
+//    ns::CompSerializer::Instance()->AddToJsonFunc(n0::CompComplex::TYPE_NAME,
+//        [](const n0::NodeComp& comp, const std::string& dir, rapidjson::Value& val,
+//            rapidjson::MemoryPoolAllocator<>& alloc, bool skip_asset)->bool
+//    {
+//        auto& ccomplex = static_cast<const n0::CompComplex&>(comp);
+//
+//        ns::N0CompComplex seri;
+//        seri.LoadFromMem(ccomplex);
+//        seri.StoreToJson(dir, val, alloc);
+//
+////        bp::NSCompNode::StoreConnection(ccomplex.GetAllChildren(), val["nodes"], alloc);
+//
+//        return true;
+//    }, true);
 }
 
 void Serializer::LoadFromJson(ee0::WxStagePage& stage, const n0::SceneNodePtr& root,
@@ -107,14 +107,10 @@ void Serializer::LoadFromJson(ee0::WxStagePage& stage, const n0::SceneNodePtr& r
 void Serializer::StoreToJson(const n0::SceneNodePtr& root, const std::string& dir,
                              rapidjson::Value& val, rapidjson::MemoryPoolAllocator<>& alloc)
 {
-    rapidjson::Value bp_val;
-
     assert(root->HasSharedComp<n0::CompComplex>());
     ns::CompSerializer::Instance()->ToJson(
-        root->GetSharedComp<n0::CompComplex>(), dir, bp_val, alloc, false
+        root->GetSharedComp<n0::CompComplex>(), dir, val, alloc, false
     );
-
-    val.AddMember("graph", bp_val, alloc);
 }
 
 }

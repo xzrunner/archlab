@@ -14,6 +14,8 @@ public:
     static void UpdateModel(const cga::Geometry& geo,
         const n0::SceneNode& node);
 
+    static bool BuildModel(n0::SceneNode& node);
+
 }; // ModelAdapter
 
 }

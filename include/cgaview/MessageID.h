@@ -11,6 +11,8 @@ enum MessageID
     MSG_SET_SELECT_OP,
 
     MSG_RULE_CHANGED,
+    MSG_RULE_INSERTED,
+    MSG_RULE_SELECTED,
 };
 
 }
