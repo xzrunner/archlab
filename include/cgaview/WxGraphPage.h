@@ -2,6 +2,8 @@
 
 #include <ee0/WxStagePage.h>
 
+namespace n0 { class CompComplex; }
+
 namespace cgav
 {
 
@@ -23,6 +25,8 @@ public:
     auto GetRootNode() const { return m_root; }
     void SetRootNode(const ee0::GameObj& root);
 
+    void LoadFromRoot(const ee0::GameObj& root);
+
 private:
     bool ClearAllSceneObjs();
     bool InsertSceneObj(const ee0::VariantSet& variants);
@@ -33,6 +37,9 @@ private:
     bool UpdateNodeProp(const ee0::VariantSet& variants);
 
     void UpdateAABB(const ee0::GameObj& obj);
+
+    void InsertScenNode(n0::CompComplex& root,
+        const n0::SceneNodePtr& node);
 
 private:
     n0::SceneNodePtr m_root = nullptr;

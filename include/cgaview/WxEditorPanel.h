@@ -2,6 +2,7 @@
 
 #include "cgaview/Scene.h"
 
+#include <ee0/Observer.h>
 #include <ee0/SubjectMgr.h>
 
 #include <cga/EvalContext.h>
@@ -16,11 +17,14 @@ namespace cgav
 class WxTextPage;
 class WxGraphPage;
 
-class WxEditorPanel : public wxPanel
+class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
     WxEditorPanel(wxWindow* parent,
         std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
+    virtual ~WxEditorPanel();
+
+    virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
 
     void SaveRuleToFile(const std::string& filepath);
     void LoadRuleFromFile(const std::string& filepath);
@@ -33,6 +37,8 @@ public:
 
 private:
     void InitLayout(std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
+
+    void ShowRule(const std::string& name);
 
 private:
     enum PageIndex

@@ -7,6 +7,7 @@
 
 namespace cga { class EvalRule; }
 namespace mm { class LinearAllocator; }
+namespace n0 { class SceneNode; }
 
 namespace cgav
 {
@@ -21,17 +22,22 @@ public:
         std::string filepath;
         std::string name;
         std::shared_ptr<cga::EvalRule> impl = nullptr;
+
+        std::shared_ptr<n0::SceneNode> root = nullptr;
+        std::string text;
     };
 
 public:
-    void AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule);
+    std::shared_ptr<Rule>
+        AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule);
 
     auto& GetAllRules() const { return m_rules; }
 
     void StoreToJson(const std::string& dir, rapidjson::Value& val, rapidjson::MemoryPoolAllocator<>& alloc) const;
     void LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir, const rapidjson::Value& val);
 
-    static std::shared_ptr<cga::EvalRule> CreateRule(const std::string& filepath);
+private:
+    static std::shared_ptr<Rule> CreateRule(const std::string& filepath);
 
 private:
     std::vector<std::shared_ptr<Rule>> m_rules;

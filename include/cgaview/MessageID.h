@@ -13,6 +13,8 @@ enum MessageID
     MSG_RULE_CHANGED,
     MSG_RULE_INSERTED,
     MSG_RULE_SELECTED,
+
+    MSG_RULE_SHOW,
 };
 
 }

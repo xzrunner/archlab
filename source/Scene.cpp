@@ -4,6 +4,8 @@
 
 #include <blueprint/CompNode.h>
 #include <blueprint/NSCompNode.h>
+#include <blueprint/Node.h>
+#include <blueprint/Pin.h>
 
 #include <ns/NodeFactory.h>
 #include <sx/ResFileHelper.h>
@@ -18,13 +20,17 @@
 namespace cgav
 {
 
-void Scene::AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule)
+std::shared_ptr<Scene::Rule>
+Scene::AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule)
 {
     auto r = std::make_shared<Rule>();
+
     r->filepath = filepath;
     r->name = boost::filesystem::path(filepath).filename().string();
     r->impl = rule;
     m_rules.push_back(r);
+
+    return r;
 }
 
 void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,
@@ -48,12 +54,17 @@ void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
         auto absolute = boost::filesystem::absolute(path_val.GetString(), dir).string();
         auto rule = CreateRule(absolute);
         assert(rule);
-        AddRule(absolute, rule);
+        m_rules.push_back(rule);
     }
 }
 
-std::shared_ptr<cga::EvalRule> Scene::CreateRule(const std::string& filepath)
+std::shared_ptr<Scene::Rule>
+Scene::CreateRule(const std::string& filepath)
 {
+    std::shared_ptr<Rule> rule = std::make_shared<Rule>();
+    rule->filepath = filepath;
+    rule->name = boost::filesystem::path(filepath).filename().string();
+
     auto type = sx::ResFileHelper::Type(filepath);
     if (type == sx::RES_FILE_JSON)
     {
@@ -77,10 +88,25 @@ std::shared_ptr<cga::EvalRule> Scene::CreateRule(const std::string& filepath)
             eval.OnAddNode(*bp_node, cnode);
         }
 
+        // setup conns
         bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), doc["nodes"]);
-        // todo: on connected
+        for (auto& cnode : ccomplex.GetAllChildren())
+        {
+            if (!cnode->HasUniqueComp<bp::CompNode>()) {
+                continue;
+            }
 
-        return eval.GetEval().ToRule();
+            auto& bp_node = cnode->GetUniqueComp<bp::CompNode>().GetNode();
+            for (auto& out : bp_node->GetAllOutput()) {
+                for (auto& conn : out->GetConnecting()) {
+                    eval.OnConnected(*conn);
+                }
+            }
+        }
+
+        rule->impl = eval.GetEval().ToRule();
+
+        rule->root = node;
     }
     else
     {
@@ -97,8 +123,12 @@ std::shared_ptr<cga::EvalRule> Scene::CreateRule(const std::string& filepath)
         auto eval = std::make_shared<cga::EvalRule>();
         loader.RunString(str, *eval/*, true*/);
 
-        return eval;
+        rule->impl = eval;
+
+        rule->text = str;
     }
+
+    return rule;
 }
 
 }

@@ -20,6 +20,27 @@ WxEditorPanel::WxEditorPanel(wxWindow* parent, std::function<WxGraphPage*(wxWind
     : wxPanel(parent)
 {
     InitLayout(graph_page_creator);
+
+    m_sub_mgr.RegisterObserver(MSG_RULE_SHOW, this);
+}
+
+WxEditorPanel::~WxEditorPanel()
+{
+    m_sub_mgr.UnregisterObserver(MSG_RULE_SHOW, this);
+}
+
+void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
+{
+    switch (msg)
+    {
+    case MSG_RULE_SHOW:
+    {
+        auto var = variants.GetVariant("name");
+        assert(var.m_type == ee0::VT_PCHAR);
+        ShowRule(var.m_val.pc);
+    }
+        break;
+    }
 }
 
 void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
@@ -122,6 +143,30 @@ void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, cga::EvalCo
     sizer->Add(m_nb, 1, wxEXPAND);
 
     SetSizer(sizer);
+}
+
+void WxEditorPanel::ShowRule(const std::string& name)
+{
+    for (auto& rule : m_scene.GetAllRules())
+    {
+        if (rule->name != name) {
+            continue;
+        }
+
+        if (rule->root)
+        {
+            m_text_page->SetText("");
+
+            m_graph_page->LoadFromRoot(rule->root);
+        }
+        else
+        {
+            assert(!rule->text.empty());
+            m_text_page->SetText(rule->text);
+
+            m_graph_page->LoadFromRoot(nullptr);
+        }
+    }
 }
 
 }

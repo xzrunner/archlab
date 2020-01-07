@@ -9,6 +9,7 @@
 #include <blueprint/CompNode.h>
 #include <blueprint/Node.h>
 #include <blueprint/Blueprint.h>
+#include <blueprint/Pin.h>
 
 #include <cga/EvalNode.h>
 #include <node0/SceneNode.h>
@@ -125,6 +126,43 @@ void WxGraphPage::SetRootNode(const ee0::GameObj& root)
     //m_eval->OnRebuildConnection();
 }
 
+void WxGraphPage::LoadFromRoot(const ee0::GameObj& root)
+{
+    if (m_root == root) {
+        return;
+    }
+
+    ClearAllSceneObjs();
+
+    if (!root) {
+        return;
+    }
+
+    assert(m_root->HasSharedComp<n0::CompComplex>());
+    auto& dst = m_root->GetSharedComp<n0::CompComplex>();
+    assert(root->HasSharedComp<n0::CompComplex>());
+    auto& src = root->GetSharedComp<n0::CompComplex>();
+    for (auto& csrc : src.GetAllChildren()) {
+        InsertScenNode(dst, csrc);
+    }
+
+    for (auto& csrc : src.GetAllChildren())
+    {
+        if (!csrc->HasUniqueComp<bp::CompNode>()) {
+            continue;
+        }
+
+        auto& bp_node = csrc->GetUniqueComp<bp::CompNode>().GetNode();
+        for (auto& out : bp_node->GetAllOutput()) {
+            for (auto& conn : out->GetConnecting()) {
+                m_eval->OnConnected(*conn);
+            }
+        }
+    }
+
+    m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+}
+
 bool WxGraphPage::ClearAllSceneObjs()
 {
     // update scene node
@@ -150,26 +188,7 @@ bool WxGraphPage::InsertSceneObj(const ee0::VariantSet& variants)
     // update scene node
     assert(m_root->HasSharedComp<n0::CompComplex>());
     auto& ccomplex = m_root->GetSharedComp<n0::CompComplex>();
-    ccomplex.AddChild(*obj);
-
-    if ((*obj)->HasUniqueComp<bp::CompNode>())
-    {
-        auto& bp_node = (*obj)->GetUniqueComp<bp::CompNode>().GetNode();
-
-        // front eval cb
-        m_eval->OnNodeSetup(*obj);
-        m_eval->OnAddNode(*bp_node, *obj);
-        UpdateAABB(*obj);
-
-        //// update flags
-        //auto type = bp_node->get_type();
-        //if (type.is_derived_from<Node>()) {
-        //    auto sopv_node = std::static_pointer_cast<Node>(bp_node);
-        //    if (m_enable_set_node_display) {
-        //        sopv_node->SetDisplay(true);
-        //    }
-        //}
-    }
+    InsertScenNode(ccomplex, *obj);
 
     return true;
 }
@@ -251,6 +270,32 @@ void WxGraphPage::UpdateAABB(const ee0::GameObj& obj)
     obj->GetUniqueComp<n2::CompBoundingBox>().SetSize(
         *obj, sm::rect(st.width, st.height)
     );
+}
+
+void WxGraphPage::InsertScenNode(n0::CompComplex& root,
+                                 const n0::SceneNodePtr& node)
+{
+    root.AddChild(node);
+
+    if (!node->HasUniqueComp<bp::CompNode>()) {
+        return;
+    }
+
+    auto& bp_node = node->GetUniqueComp<bp::CompNode>().GetNode();
+
+    // front eval cb
+    m_eval->OnNodeSetup(node);
+    m_eval->OnAddNode(*bp_node, node);
+    UpdateAABB(node);
+
+    //// update flags
+    //auto type = bp_node->get_type();
+    //if (type.is_derived_from<Node>()) {
+    //    auto sopv_node = std::static_pointer_cast<Node>(bp_node);
+    //    if (m_enable_set_node_display) {
+    //        sopv_node->SetDisplay(true);
+    //    }
+    //}
 }
 
 }

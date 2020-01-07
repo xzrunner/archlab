@@ -83,6 +83,8 @@ void WxSceneProp::InitLayout()
 
     m_rule_list = new wxListBox(this, wxID_ANY, wxDefaultPosition,
         wxDefaultSize, 0, 0, wxLB_SINGLE);
+    Connect(m_rule_list->GetId(), wxEVT_LISTBOX_DCLICK, wxCommandEventHandler(
+        WxSceneProp::OnDClickRule));
     sizer->Add(m_rule_list, 1, wxEXPAND);
 
     m_node_prop = new wxPropertyGrid(this, -1, wxDefaultPosition, wxSize(500, -1),
@@ -129,6 +131,23 @@ void WxSceneProp::OnNodePropChanged(wxPropertyGridEvent& event)
     ModelAdapter::BuildModel(*m_selected_node);
 
     m_preview_sub_mgr.NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+}
+
+void WxSceneProp::OnDClickRule(wxCommandEvent& event)
+{
+    int idx = event.GetSelection();
+    auto name = m_rule_list->GetString(idx).ToStdString();
+
+    ee0::VariantSet vars;
+
+    ee0::Variant var_name;
+    var_name.m_type = ee0::VT_PCHAR;
+    char* tmp = new char[name.size() + 1];
+    strcpy(tmp, name.c_str());
+    var_name.m_val.pc = tmp;
+    vars.SetVariant("name", var_name);
+
+    m_editor_panel_sub_mgr.NotifyObservers(MSG_RULE_SHOW, vars);
 }
 
 void WxSceneProp::LoadFromNode(const n0::SceneNodePtr& node)

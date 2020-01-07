@@ -33,6 +33,8 @@ private:
     void OnNodePropChanging(wxPropertyGridEvent& event);
     void OnNodePropChanged(wxPropertyGridEvent& event);
 
+    void OnDClickRule(wxCommandEvent& event);
+
     void LoadFromNode(const n0::SceneNodePtr& node);
 
 private:
