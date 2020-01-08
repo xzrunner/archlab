@@ -10,17 +10,21 @@
 
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
+#include <node3/CompModel.h>
 
 #include <queue>
 
 namespace
 {
 
-void update_model(const cga::GeoPtr& geo, void* ud)
+void update_model(const std::vector<cga::GeoPtr>& geos, void* ud)
 {
     auto snode = static_cast<n0::SceneNode*>(ud);
-    if (geo && snode) {
-        cgav::ModelAdapter::UpdateModel(*geo, *snode);
+    if (snode) {
+        if (!snode->HasSharedComp<n3::CompModel>()) {
+            cgav::ModelAdapter::SetupModel(*snode);
+        }
+        cgav::ModelAdapter::UpdateModel(geos, *snode);
     }
 }
 
@@ -32,13 +36,6 @@ namespace cgav
 Evaluator::Evaluator()
     : m_eval(update_model)
 {
-}
-
-void Evaluator::OnNodeSetup(const n0::SceneNodePtr& node)
-{
-    if (node) {
-        ModelAdapter::SetupModel(*node);
-    }
 }
 
 void Evaluator::OnAddNode(const bp::Node& front, const n0::SceneNodePtr& snode, bool need_update)

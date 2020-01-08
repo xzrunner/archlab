@@ -36,9 +36,10 @@ const uint32_t MESSAGES[] =
 namespace cgav
 {
 
-WxGraphPage::WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr,
+WxGraphPage::WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
                          const ee0::GameObj& root)
-    : ee0::WxStagePage(parent, sub_mgr)
+    : ee0::WxStagePage(parent)
+    , m_preview_sub_mgr(preview_sub_mgr)
     , m_root(root)
 {
     bp::Blueprint::Instance();
@@ -91,8 +92,8 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
 	if (dirty)
     {
-        m_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
 		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+        m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
 	}
 }
 
@@ -100,30 +101,6 @@ void WxGraphPage::Traverse(std::function<bool(const ee0::GameObj&)> func,
                            const ee0::VariantSet& variants , bool inverse) const
 {
     m_root->GetSharedComp<n0::CompComplex>().Traverse(func, inverse);
-}
-
-void WxGraphPage::SetRootNode(const ee0::GameObj& root)
-{
-    m_root = root;
-
-    //eval->ClearAllNodes();
-    //m_eval = std::make_shared<Evaluator>(eval);
-
-    //if (root && root->HasSharedComp<n0::CompComplex>())
-    //{
-    //    auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
-    //    for (auto& c : ccomplex.GetAllChildren())
-    //    {
-    //        if (c->HasUniqueComp<bp::CompNode>()) {
-    //            auto& cnode = c->GetUniqueComp<bp::CompNode>();
-    //            auto bp_node = cnode.GetNode();
-    //            if (bp_node) {
-    //                m_eval->OnAddNode(*bp_node, c);
-    //            }
-    //        }
-    //    }
-    //}
-    //m_eval->OnRebuildConnection();
 }
 
 void WxGraphPage::LoadFromRoot(const ee0::GameObj& root)
@@ -282,20 +259,8 @@ void WxGraphPage::InsertScenNode(n0::CompComplex& root,
     }
 
     auto& bp_node = node->GetUniqueComp<bp::CompNode>().GetNode();
-
-    // front eval cb
-    m_eval->OnNodeSetup(node);
     m_eval->OnAddNode(*bp_node, node);
     UpdateAABB(node);
-
-    //// update flags
-    //auto type = bp_node->get_type();
-    //if (type.is_derived_from<Node>()) {
-    //    auto sopv_node = std::static_pointer_cast<Node>(bp_node);
-    //    if (m_enable_set_node_display) {
-    //        sopv_node->SetDisplay(true);
-    //    }
-    //}
 }
 
 }

@@ -31,6 +31,7 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
     m_messages.push_back(ee0::MSG_SCENE_NODE_INSERT);
     m_messages.push_back(MSG_SET_EDIT_OP);
     m_messages.push_back(MSG_SET_SELECT_OP);
+    m_messages.push_back(MSG_RULE_CHANGED);
     for (auto& msg : m_messages) {
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
@@ -42,10 +43,6 @@ PreviewPage::~PreviewPage()
 {
     for (auto& msg : m_messages) {
         m_stage_page.GetSubjectMgr()->UnregisterObserver(msg, this);
-    }
-
-    if (m_graph_page) {
-        m_graph_page->GetSubjectMgr()->UnregisterObserver(MSG_RULE_CHANGED, this);
     }
 }
 
@@ -91,13 +88,7 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
 void PreviewPage::SetGraphPage(WxGraphPage* page)
 {
-    if (page) {
-        page->GetSubjectMgr()->UnregisterObserver(MSG_RULE_CHANGED, this);
-    }
-
     m_graph_page = page;
-
-    page->GetSubjectMgr()->RegisterObserver(MSG_RULE_CHANGED, this);
 }
 
 void PreviewPage::InitEditOP()

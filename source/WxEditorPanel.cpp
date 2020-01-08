@@ -16,10 +16,11 @@
 namespace cgav
 {
 
-WxEditorPanel::WxEditorPanel(wxWindow* parent, std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
+WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+                             std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
 {
-    InitLayout(graph_page_creator);
+    InitLayout(preview_sub_mgr, graph_page_creator);
 
     m_sub_mgr.RegisterObserver(MSG_RULE_SHOW, this);
 }
@@ -76,6 +77,12 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
 
 void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
 {
+    for (auto& rule : m_scene.GetAllRules()) {
+        if (rule->filepath == filepath) {
+            return;
+        }
+    }
+
     auto filename = boost::filesystem::path(filepath).filename();
     std::shared_ptr<cga::EvalRule> rule = nullptr;
 
@@ -132,14 +139,15 @@ bool WxEditorPanel::IsCurrGraphPage() const
     return m_nb->GetSelection() == 0;
 }
 
-void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
+void WxEditorPanel::InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
+                               std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
 
     // property
     m_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
     m_nb->AddPage(m_graph_page = graph_page_creator(m_nb, m_ctx), "Graph");
-    m_nb->AddPage(m_text_page = new WxTextPage(m_nb), "Text");
+    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, preview_sub_mgr), "Text");
     sizer->Add(m_nb, 1, wxEXPAND);
 
     SetSizer(sizer);

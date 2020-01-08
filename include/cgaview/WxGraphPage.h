@@ -12,7 +12,8 @@ class Evaluator;
 class WxGraphPage : public ee0::WxStagePage
 {
 public:
-	WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr, const ee0::GameObj& root);
+	WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+        const ee0::GameObj& root);
     virtual ~WxGraphPage();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -23,7 +24,6 @@ public:
     auto GetEval() const { return m_eval; }
 
     auto GetRootNode() const { return m_root; }
-    void SetRootNode(const ee0::GameObj& root);
 
     void LoadFromRoot(const ee0::GameObj& root);
 
@@ -42,6 +42,8 @@ private:
         const n0::SceneNodePtr& node);
 
 private:
+    ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
+
     n0::SceneNodePtr m_root = nullptr;
 
     std::shared_ptr<Evaluator> m_eval = nullptr;

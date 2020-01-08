@@ -53,51 +53,53 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
     cmodel_inst.GetModel()->SetModelExt(model_ext);
 }
 
-void ModelAdapter::UpdateModel(const cga::Geometry& geo, const n0::SceneNode& node)
+void ModelAdapter::UpdateModel(const std::vector<cga::GeoPtr>& geos, const n0::SceneNode& node)
 {
-    auto poly = geo.GetPoly();
-    if (!poly) {
+    if (geos.empty()) {
         return;
     }
 
-    model::BrushModel::Brush brush;
+    std::vector<std::vector<std::vector<sm::vec3>>> colors;
 
-    auto& faces = poly->Faces();
-
-    brush.desc.mesh_begin = 0;
-    brush.desc.mesh_end   = 1;
-    const size_t face_num = faces.size();
-    brush.desc.meshes.push_back({ 0, 0, 0, static_cast<int>(face_num) });
-
-    brush.impl = poly;
-
-    auto brush_model = std::make_unique<model::BrushModel>();
     std::vector<model::BrushModel::Brush> brushes;
-    brushes.push_back(brush);
-    brush_model->SetBrushes(brushes);
-
-    std::shared_ptr<model::Model> model = nullptr;
-    auto& color = geo.GetColor();
-    if (color.IsValid())
+    for (auto& geo : geos)
     {
-        std::vector<std::vector<std::vector<sm::vec3>>> colors;
-        auto& brushes = brush_model->GetBrushes();
-        colors.resize(brushes.size());
-        for (size_t i = 0, n = brushes.size(); i < n; ++i)
-        {
-            auto& faces = brushes[i].impl->Faces();
-            auto& pts = brushes[i].impl->Points();
-            for (auto& face : faces) {
-                colors[i].push_back(std::vector<sm::vec3>(pts.size(), color));
-            }
+        if (!geo) {
+            continue;
+        }
+        auto poly = geo->GetPoly();
+        if (!poly) {
+            continue;
         }
 
-        model = model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
+        model::BrushModel::Brush brush;
+
+        auto& faces = poly->Faces();
+
+        brush.desc.mesh_begin = 0;
+        brush.desc.mesh_end = 1;
+        const size_t face_num = faces.size();
+        brush.desc.meshes.push_back({ 0, 0, 0, static_cast<int>(face_num) });
+
+        brush.impl = poly;
+
+        brushes.push_back(brush);
+
+        std::vector<std::vector<sm::vec3>> b_colors;
+        auto color = geo->GetColor();
+        if (!color.IsValid()) {
+            color.Set(1, 1, 1);
+        }
+        auto& pts = poly->Points();
+        for (auto& face : poly->Faces()) {
+            b_colors.push_back(std::vector<sm::vec3>(pts.size(), color));
+        }
+        colors.push_back(b_colors);
     }
-    else
-    {
-        model = model::BrushBuilder::PolymeshFromBrushPN(*brush_model);
-    }
+
+    auto brush_model = std::make_unique<model::BrushModel>();
+    brush_model->SetBrushes(brushes);
+    std::shared_ptr<model::Model> model = model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
 
     auto& cmodel = node.GetSharedComp<n3::CompModel>();
     cmodel.SetModel(model);
@@ -150,7 +152,7 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
         if (!node.HasSharedComp<n3::CompModel>()) {
             SetupModel(node);
         }
-        UpdateModel(*out_geos[0], node);
+        UpdateModel(out_geos, node);
     }
 
     return true;

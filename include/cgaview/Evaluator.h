@@ -21,9 +21,6 @@ class Evaluator : boost::noncopyable
 public:
     Evaluator();
 
-    // init
-    void OnNodeSetup(const n0::SceneNodePtr& node);
-
     // update nodes
     void OnAddNode(const bp::Node& node, const n0::SceneNodePtr& snode,
         bool need_update = true);

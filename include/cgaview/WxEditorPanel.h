@@ -4,6 +4,7 @@
 
 #include <ee0/Observer.h>
 #include <ee0/SubjectMgr.h>
+#include <ee0/typedef.h>
 
 #include <cga/EvalContext.h>
 
@@ -20,7 +21,7 @@ class WxGraphPage;
 class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
-    WxEditorPanel(wxWindow* parent,
+    WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
         std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
     virtual ~WxEditorPanel();
 
@@ -36,7 +37,8 @@ public:
     auto& GetScene() const { return m_scene; }
 
 private:
-    void InitLayout(std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
+    void InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
+        std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
 
     void ShowRule(const std::string& name);
 

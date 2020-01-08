@@ -1,6 +1,9 @@
 #include "cgaview/WxTextPage.h"
+#include "cgaview/MessageID.h"
 
 #include <ee0/WxCodeCtrl.h>
+#include <ee0/SubjectMgr.h>
+#include <ee0/MessageID.h>
 
 #include <cga/EvalRule.h>
 #include <cga/RuleLoader.h>
@@ -11,8 +14,9 @@
 namespace cgav
 {
 
-WxTextPage::WxTextPage(wxWindow* parent)
+WxTextPage::WxTextPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr)
     : wxPanel(parent)
+    , m_preview_sub_mgr(preview_sub_mgr)
 {
     InitLayout();
 }
@@ -53,8 +57,14 @@ void WxTextPage::RebuildEval()
     auto str = m_code->GetText().ToStdString();
 
     cga::RuleLoader loader;
-    m_eval = std::make_shared<cga::EvalRule>();
+    if (!m_eval) {
+        m_eval = std::make_shared<cga::EvalRule>();
+    } else {
+        m_eval->Clear();
+    }
     loader.RunString(str, *m_eval/*, true*/);
+
+    m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
 }
 
 }
