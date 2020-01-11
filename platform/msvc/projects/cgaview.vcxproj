@@ -16,6 +16,7 @@
     <ClInclude Include="..\..\..\include\cgaview\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cgaview\MessageID.h" />
     <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h" />
+    <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h" />
     <ClInclude Include="..\..\..\include\cgaview\Node.h" />
     <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\PinCallback.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\..\..\source\CGAView.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\ModelAdapter.cpp" />
+    <ClCompile Include="..\..\..\source\MsgHelper.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
     <ClCompile Include="..\..\..\source\PinCallback.cpp" />
     <ClCompile Include="..\..\..\source\PreviewPage.cpp" />

@@ -1,9 +1,7 @@
 #include "cgaview/WxTextPage.h"
-#include "cgaview/MessageID.h"
+#include "cgaview/MsgHelper.h"
 
 #include <ee0/WxCodeCtrl.h>
-#include <ee0/SubjectMgr.h>
-#include <ee0/MessageID.h>
 
 #include <cga/EvalRule.h>
 #include <cga/RuleLoader.h>
@@ -66,21 +64,7 @@ void WxTextPage::RebuildEval()
     }
     loader.RunString(str, *m_eval/*, true*/);
 
-    ee0::VariantSet vars;
-
-    ee0::Variant var_filepath;
-    var_filepath.m_type = ee0::VT_PCHAR;
-    char* tmp = new char[m_rule_path.size() + 1];
-    strcpy(tmp, m_rule_path.c_str());
-    var_filepath.m_val.pc = tmp;
-    vars.SetVariant("filepath", var_filepath);
-
-    ee0::Variant var_rule;
-    var_rule.m_type = ee0::VT_PVOID;
-    var_rule.m_val.pv = &m_eval;
-    vars.SetVariant("rule", var_rule);
-
-    m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED, vars);
+    MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, m_eval);
 }
 
 }

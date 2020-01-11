@@ -49,6 +49,9 @@
     <Filter Include="dataset\scene">
       <UniqueIdentifier>{64a0b54e-8905-4e8d-9653-eed4724605d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools\msg">
+      <UniqueIdentifier>{84852f8c-7a93-4c3a-acbe-29e3cfb78735}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cgaview\Node.h">
@@ -118,6 +121,9 @@
     <ClInclude Include="..\..\..\include\cgaview\Scene.h">
       <Filter>dataset\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h">
+      <Filter>tools\msg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">
@@ -177,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\Scene.cpp">
       <Filter>dataset\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MsgHelper.cpp">
+      <Filter>tools\msg</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

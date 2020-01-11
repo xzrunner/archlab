@@ -3,6 +3,7 @@
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
 #include "cgaview/Scene.h"
+#include "cgaview/MsgHelper.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -100,21 +101,7 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 
-        ee0::VariantSet vars;
-
-        ee0::Variant var_filepath;
-        var_filepath.m_type = ee0::VT_PCHAR;
-        char* tmp = new char[m_rule_path.size() + 1];
-        strcpy(tmp, m_rule_path.c_str());
-        var_filepath.m_val.pc = tmp;
-        vars.SetVariant("filepath", var_filepath);
-
-        ee0::Variant var_rule;
-        var_rule.m_type = ee0::VT_PVOID;
-        var_rule.m_val.pv = &rule;
-        vars.SetVariant("rule", var_rule);
-
-        m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED, vars);
+        MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, rule);
 	}
 }
 
