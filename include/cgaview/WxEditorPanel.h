@@ -22,7 +22,7 @@ class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
     WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-        std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
+        std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
     virtual ~WxEditorPanel();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -38,7 +38,7 @@ public:
 
 private:
     void InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
-        std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator);
+        std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
 
     void ShowRule(const std::string& name);
 

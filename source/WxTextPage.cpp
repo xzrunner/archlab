@@ -14,8 +14,10 @@
 namespace cgav
 {
 
-WxTextPage::WxTextPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr)
+WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
+                       const ee0::SubjectMgrPtr& preview_sub_mgr)
     : wxPanel(parent)
+    , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
     InitLayout();
@@ -64,7 +66,21 @@ void WxTextPage::RebuildEval()
     }
     loader.RunString(str, *m_eval/*, true*/);
 
-    m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
+    ee0::VariantSet vars;
+
+    ee0::Variant var_filepath;
+    var_filepath.m_type = ee0::VT_PCHAR;
+    char* tmp = new char[m_rule_path.size() + 1];
+    strcpy(tmp, m_rule_path.c_str());
+    var_filepath.m_val.pc = tmp;
+    vars.SetVariant("filepath", var_filepath);
+
+    ee0::Variant var_rule;
+    var_rule.m_type = ee0::VT_PVOID;
+    var_rule.m_val.pv = &m_eval;
+    vars.SetVariant("rule", var_rule);
+
+    m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED, vars);
 }
 
 }

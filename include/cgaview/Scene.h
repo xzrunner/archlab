@@ -30,6 +30,7 @@ public:
 public:
     std::shared_ptr<Rule>
         AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule);
+    bool ChangeRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule);
 
     auto& GetAllRules() const { return m_rules; }
 

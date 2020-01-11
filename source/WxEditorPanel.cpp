@@ -17,7 +17,7 @@ namespace cgav
 {
 
 WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-                             std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
+                             std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
 {
     InitLayout(preview_sub_mgr, graph_page_creator);
@@ -98,6 +98,8 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         cgav::Serializer::LoadFromJson(*m_graph_page, m_graph_page->GetRootNode(), doc, dir);
 
         rule = m_graph_page->GetEval()->GetEval().ToRule();
+
+        m_graph_page->SetRulePath(filepath);
     }
         break;
     case TEXT_PAGE_IDX:
@@ -109,6 +111,8 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         m_text_page->SetText(str);
 
         rule = m_text_page->GetEval();
+
+        m_text_page->SetRulePath(filepath);
     }
         break;
     default:
@@ -140,14 +144,14 @@ bool WxEditorPanel::IsCurrGraphPage() const
 }
 
 void WxEditorPanel::InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
-                               std::function<WxGraphPage*(wxWindow*, cga::EvalContext&)> graph_page_creator)
+                               std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
 
     // property
     m_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    m_nb->AddPage(m_graph_page = graph_page_creator(m_nb, m_ctx), "Graph");
-    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, preview_sub_mgr), "Text");
+    m_nb->AddPage(m_graph_page = graph_page_creator(m_nb, m_scene, m_ctx), "Graph");
+    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, m_scene, preview_sub_mgr), "Text");
     sizer->Add(m_nb, 1, wxEXPAND);
 
     SetSizer(sizer);

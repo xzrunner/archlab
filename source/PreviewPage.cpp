@@ -76,7 +76,27 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
-            // todo: update only changed
+            if (!obj->HasUniqueComp<cgae::CompCGA>()) {
+                return true;
+            }
+
+            auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+            ccga.GetFilepath();
+
+            auto var_filepath = variants.GetVariant("filepath");
+            GD_ASSERT(var_filepath.m_type == ee0::VT_PCHAR, "err var");
+            if (ccga.GetFilepath() != static_cast<const char*>(var_filepath.m_val.pc)) {
+                return true;
+            }
+
+            auto var_rule = variants.GetVariant("rule");
+            GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
+            const std::shared_ptr<cga::EvalRule>* rule
+                = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
+
+            if (ccga.GetRule() != *rule) {
+                ccga.SetRule(*rule);
+            }
             ModelAdapter::BuildModel(*obj);
 
             return true;

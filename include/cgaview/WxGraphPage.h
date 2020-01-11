@@ -8,12 +8,13 @@ namespace cgav
 {
 
 class Evaluator;
+class Scene;
 
 class WxGraphPage : public ee0::WxStagePage
 {
 public:
-	WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-        const ee0::GameObj& root);
+	WxGraphPage(wxWindow* parent, Scene& scene,
+        const ee0::SubjectMgrPtr& preview_sub_mgr, const ee0::GameObj& root);
     virtual ~WxGraphPage();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -26,6 +27,8 @@ public:
     auto GetRootNode() const { return m_root; }
 
     void LoadFromRoot(const ee0::GameObj& root);
+
+    void SetRulePath(const std::string& path) { m_rule_path = path; }
 
 private:
     bool ClearAllSceneObjs();
@@ -42,11 +45,15 @@ private:
         const n0::SceneNodePtr& node);
 
 private:
+    Scene& m_scene;
+
     ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
 
     n0::SceneNodePtr m_root = nullptr;
 
     std::shared_ptr<Evaluator> m_eval = nullptr;
+
+    std::string m_rule_path;
 
 }; // WxGraphPage
 

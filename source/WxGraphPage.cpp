@@ -2,6 +2,7 @@
 #include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
+#include "cgaview/Scene.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -36,9 +37,11 @@ const uint32_t MESSAGES[] =
 namespace cgav
 {
 
-WxGraphPage::WxGraphPage(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
+                         const ee0::SubjectMgrPtr& preview_sub_mgr,
                          const ee0::GameObj& root)
     : ee0::WxStagePage(parent)
+    , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
     , m_root(root)
 {
@@ -92,8 +95,26 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
 	if (dirty)
     {
-		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
-        m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED);
+        auto rule = m_eval->GetEval().ToRule();
+        m_scene.ChangeRule(m_rule_path, rule);
+
+        m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+
+        ee0::VariantSet vars;
+
+        ee0::Variant var_filepath;
+        var_filepath.m_type = ee0::VT_PCHAR;
+        char* tmp = new char[m_rule_path.size() + 1];
+        strcpy(tmp, m_rule_path.c_str());
+        var_filepath.m_val.pc = tmp;
+        vars.SetVariant("filepath", var_filepath);
+
+        ee0::Variant var_rule;
+        var_rule.m_type = ee0::VT_PVOID;
+        var_rule.m_val.pv = &rule;
+        vars.SetVariant("rule", var_rule);
+
+        m_preview_sub_mgr->NotifyObservers(MSG_RULE_CHANGED, vars);
 	}
 }
 
