@@ -82,10 +82,19 @@ rttr::registration::class_<cgav::node::Split>("cgav::split")
 
 // transformations
 
-rttr::registration::class_<cgav::node::SetSize>("cgav::s")
+rttr::registration::class_<cgav::node::Scale>("cgav::s")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/SetSize.parm.h"
-#define PARM_NODE_CLASS SetSize
+#define PARM_FILEPATH "cga/node/Scale.parm.h"
+#define PARM_NODE_CLASS Scale
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+rttr::registration::class_<cgav::node::TransScope>("cgav::t")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/TransScope.parm.h"
+#define PARM_NODE_CLASS TransScope
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH

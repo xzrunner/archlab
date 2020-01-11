@@ -6,7 +6,7 @@
 #include <cga/node/Extrude.h>
 #include <cga/node/Offset.h>
 #include <cga/node/Split.h>
-#include <cga/node/SetSize.h>
+#include <cga/RelativeFloat.h>
 
 namespace cgav
 {
@@ -106,17 +106,30 @@ namespace node
 
 // transformations
 
-#define SizeValue cga::node::SetSize::SizeValue
-#define PARM_FILEPATH "cga/node/SetSize.parm.h"
-#define PARM_NODE_CLASS SetSize
-#define PARM_NODE_CLASS_STR "SetSize"
+#define RelativeFloat cga::RelativeFloat
+#define PARM_FILEPATH "cga/node/Scale.parm.h"
+#define PARM_NODE_CLASS Scale
+#define PARM_NODE_CLASS_STR "Scale"
 #define PARM_NODE_NAME "s"
 #include "cgaview/node_def_gen.h"
 #undef PARM_NODE_NAME
 #undef PARM_NODE_CLASS
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
-#undef SizeValue
+#undef RelativeFloat
+;
+
+#define RelativeFloat cga::RelativeFloat
+#define PARM_FILEPATH "cga/node/TransScope.parm.h"
+#define PARM_NODE_CLASS TransScope
+#define PARM_NODE_CLASS_STR "TransScope"
+#define PARM_NODE_NAME "t"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+#undef RelativeFloat
 ;
 
 // attributes
