@@ -100,7 +100,6 @@ void Node::InitPinsImpl(const std::vector<PinDesc>& pins, bool is_input)
 
 	dst.clear();
 	dst.reserve(pins.size());
-	int idx = 0;
 	for (auto& d : pins)
 	{
         std::shared_ptr<bp::Pin> p = nullptr;
@@ -112,7 +111,7 @@ void Node::InitPinsImpl(const std::vector<PinDesc>& pins, bool is_input)
             }
         }
         if (!p) {
-            p = std::make_shared<bp::Pin>(is_input, idx++, d.type, d.name, *this);
+            p = std::make_shared<bp::Pin>(is_input, dst.size(), d.type, d.name, *this);
         }
 		if (!CheckPinName(*p, dst)) {
 			assert(0);
