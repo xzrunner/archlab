@@ -195,14 +195,22 @@ void Evaluator::Update()
 {
     m_eval.Eval();
 
-    for (auto& itr : m_nodes_map) {
-        if (itr.second->IsPortChanged()) {
-            if (itr.first->get_type().is_derived_from<Node>()) {
-                auto front = static_cast<const Node*>(itr.first);
-                const_cast<Node*>(front)->UpdatePins(*itr.second);
-            }
-            itr.second->SetPortChanged(false);
+    bool conn_changed = false;
+    for (auto& itr : m_nodes_map)
+    {
+        if (!itr.second->IsPortChanged()) {
+            continue;
         }
+
+        if (itr.first->get_type().is_derived_from<Node>()) {
+            auto front = static_cast<const Node*>(itr.first);
+            const_cast<Node*>(front)->UpdatePins(*itr.second);
+            conn_changed = true;
+        }
+        itr.second->SetPortChanged(false);
+    }
+    if (conn_changed) {
+        OnRebuildConnection();
     }
 }
 
