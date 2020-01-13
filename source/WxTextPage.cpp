@@ -1,10 +1,14 @@
 #include "cgaview/WxTextPage.h"
 #include "cgaview/MsgHelper.h"
+#include "cgaview/ModelAdapter.h"
 
 #include <ee0/WxCodeCtrl.h>
 
 #include <cga/EvalRule.h>
 #include <cga/RuleLoader.h>
+#include <cgaeasy/CompCGA.h>
+#include <node0/SceneNode.h>
+#include <ns/NodeFactory.h>
 
 #include <wx/sizer.h>
 #include <wx/button.h>
@@ -17,8 +21,11 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
     : wxPanel(parent)
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
-    , m_rule_path(FILEPATH)
 {
+    m_preview_obj = ns::NodeFactory::Create3D();
+    ModelAdapter::SetupModel(*m_preview_obj);
+    m_preview_obj->AddUniqueComp<cgae::CompCGA>();
+
     InitLayout();
 }
 

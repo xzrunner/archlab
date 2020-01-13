@@ -6,13 +6,12 @@ namespace cgav
 {
 
 class WxEditorPanel;
-class PreviewPage;
 
 class WxPreviewCanvas : public ee3::WxStageCanvas
 {
 public:
     WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
-        const ee0::RenderContext& rc, const PreviewPage& ppage);
+        const ee0::RenderContext& rc);
     virtual ~WxPreviewCanvas();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -37,8 +36,6 @@ private:
     OpType m_op_type = OpType::Edit;
 
     WxEditorPanel* m_editor_panel = nullptr;
-
-    const PreviewPage& m_ppage;
 
 }; // WxPreviewCanvas
 

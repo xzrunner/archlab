@@ -7,6 +7,7 @@
 #include <ee0/typedef.h>
 
 #include <cga/EvalContext.h>
+#include <node0/typedef.h>
 
 #include <wx/panel.h>
 
@@ -31,14 +32,14 @@ public:
     void LoadRuleFromFile(const std::string& filepath);
 
     bool IsCurrGraphPage() const;
+    n0::SceneNodePtr GetCurrPagePreviewObj() const;
 
     auto& GetSubMgr() { return m_sub_mgr; }
 
     auto& GetScene() const { return m_scene; }
 
 private:
-    void InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
-        std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
+    void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
 
     void ShowRule(const std::string& name);
 
@@ -51,6 +52,7 @@ private:
 
 private:
     ee0::SubjectMgr m_sub_mgr;
+    ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
 
     wxNotebook* m_nb;
 

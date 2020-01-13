@@ -32,9 +32,8 @@ namespace cgav
 {
 
 WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
-                                 const ee0::RenderContext& rc, const PreviewPage& ppage)
+                                 const ee0::RenderContext& rc)
     : ee3::WxStageCanvas(stage, ECS_WORLD_VAR &rc, nullptr, true)
-    , m_ppage(ppage)
 {
     stage->GetSubjectMgr()->RegisterObserver(MSG_SET_EDIT_OP, this);
     stage->GetSubjectMgr()->RegisterObserver(MSG_SET_SELECT_OP, this);
@@ -118,14 +117,8 @@ void WxPreviewCanvas::DrawForeground3D() const
 
     if (m_editor_panel)
     {
-        auto& scene = m_editor_panel->GetScene();
-        auto& rule_path = m_editor_panel->IsCurrGraphPage() ?
-            WxGraphPage::FILEPATH : WxTextPage::FILEPATH;
-        auto rule = scene.QueryRule(rule_path);
-        if (rule)
-        {
-            auto obj = m_editor_panel->IsCurrGraphPage() ?
-                m_ppage.GetGraphObj() : m_ppage.GetTextObj();
+        auto obj = m_editor_panel->GetCurrPagePreviewObj();
+        if (obj) {
             pr.DrawNode3D(rc, *obj, true, false);
         }
     }

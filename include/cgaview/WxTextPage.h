@@ -2,6 +2,8 @@
 
 #include <ee0/typedef.h>
 
+#include <node0/typedef.h>
+
 #include <wx/panel.h>
 
 namespace ee0 { class WxCodeCtrl; }
@@ -24,8 +26,9 @@ public:
     auto GetEval() const { return m_eval; }
 
     void SetRulePath(const std::string& path) { m_rule_path = path; }
+    auto& GetRulePath() const { return m_rule_path; }
 
-    static constexpr char* const FILEPATH = "default_text_rule";
+    auto GetPreviewObj() const { return m_preview_obj; }
 
 private:
     void InitLayout();
@@ -42,7 +45,9 @@ private:
 
     std::shared_ptr<cga::EvalRule> m_eval = nullptr;
 
-    std::string m_rule_path;
+    std::string m_rule_path = "default_text_rule";
+
+    n0::SceneNodePtr m_preview_obj = nullptr;
 
 }; // WxTextPage
 

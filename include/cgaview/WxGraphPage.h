@@ -29,8 +29,9 @@ public:
     void LoadFromRoot(const ee0::GameObj& root);
 
     void SetRulePath(const std::string& path) { m_rule_path = path; }
+    auto& GetRulePath() const { return m_rule_path; }
 
-    static constexpr char* const FILEPATH = "default_graph_rule";
+    auto GetPreviewObj() const { return m_preview_obj; }
 
 private:
     bool ClearAllSceneObjs();
@@ -55,7 +56,9 @@ private:
 
     std::shared_ptr<Evaluator> m_eval = nullptr;
 
-    std::string m_rule_path;
+    std::string m_rule_path = "default_graph_rule";
+
+    n0::SceneNodePtr m_preview_obj = nullptr;
 
 }; // WxGraphPage
 

@@ -22,7 +22,6 @@
 #include <cgaeasy/CGAEasy.h>
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
-#include <ns/NodeFactory.h>
 
 namespace cgav
 {
@@ -37,14 +36,6 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
     for (auto& msg : m_messages) {
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
-
-    m_graph_obj = ns::NodeFactory::Create3D();
-    cgav::ModelAdapter::SetupModel(*m_graph_obj);
-    m_graph_obj->AddUniqueComp<cgae::CompCGA>();
-
-    m_text_obj = ns::NodeFactory::Create3D();
-    cgav::ModelAdapter::SetupModel(*m_text_obj);
-    m_text_obj->AddUniqueComp<cgae::CompCGA>();
 
     cgae::CGAEasy::Init();
 }
@@ -93,15 +84,6 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const std::shared_ptr<cga::EvalRule>* rule
             = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
 
-        auto update_rule = [](const n0::SceneNodePtr& node, const std::shared_ptr<cga::EvalRule>& rule)
-        {
-            auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
-            if (ccga.GetRule() != rule) {
-                ccga.SetRule(rule);
-            }
-            ModelAdapter::BuildModel(*node);
-        };
-
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
             if (!obj->HasUniqueComp<cgae::CompCGA>()) {
@@ -109,18 +91,17 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
             }
 
             auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
-            if (ccga.GetFilepath() == rule_path) {
-                update_rule(obj, *rule);
+            if (ccga.GetFilepath() == rule_path)
+            {
+                auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+                if (ccga.GetRule() != *rule) {
+                    ccga.SetRule(*rule);
+                }
+                ModelAdapter::BuildModel(*obj);
             }
 
             return true;
         });
-
-        if (rule_path == WxGraphPage::FILEPATH) {
-            update_rule(m_graph_obj, *rule);
-        } else if(rule_path == WxTextPage::FILEPATH) {
-            update_rule(m_text_obj, *rule);
-        }
     }
         break;
     }

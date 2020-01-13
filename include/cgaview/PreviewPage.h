@@ -3,8 +3,6 @@
 #include <ee0/typedef.h>
 #include <ee0/Observer.h>
 
-#include <node0/typedef.h>
-
 #include <vector>
 
 namespace ee0 { class WxStagePage; }
@@ -27,9 +25,6 @@ public:
 
     void InitSceneNodeRule(const Scene& scene);
 
-    auto GetGraphObj() const { return m_graph_obj; }
-    auto GetTextObj() const { return m_text_obj; }
-
 private:
     ee0::WxStagePage& m_stage_page;
 
@@ -37,9 +32,6 @@ private:
 
     ee0::EditOPPtr m_select_op = nullptr;
     ee0::EditOPPtr m_edit_op = nullptr;
-
-    n0::SceneNodePtr m_graph_obj = nullptr;
-    n0::SceneNodePtr m_text_obj  = nullptr;
 
 }; // PreviewPage
 

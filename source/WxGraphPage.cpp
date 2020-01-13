@@ -3,6 +3,7 @@
 #include "cgaview/MessageID.h"
 #include "cgaview/Scene.h"
 #include "cgaview/MsgHelper.h"
+#include "cgaview/ModelAdapter.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -13,9 +14,11 @@
 #include <blueprint/Pin.h>
 
 #include <cga/EvalOp.h>
+#include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <node2/CompBoundingBox.h>
+#include <ns/NodeFactory.h>
 
 namespace
 {
@@ -44,11 +47,14 @@ WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
     , m_root(root)
-    , m_rule_path(FILEPATH)
 {
     bp::Blueprint::Instance();
 
     m_eval = std::make_shared<Evaluator>();
+
+    m_preview_obj = ns::NodeFactory::Create3D();
+    ModelAdapter::SetupModel(*m_preview_obj);
+    m_preview_obj->AddUniqueComp<cgae::CompCGA>();
 
     for (auto& msg : MESSAGES) {
         m_sub_mgr->RegisterObserver(msg, this);
@@ -97,13 +103,7 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 	if (dirty)
     {
         auto rule = m_eval->GetEval().ToRule();
-        auto find = m_scene.QueryRule(m_rule_path);
-        if (find) {
-            find->impl = rule;
-        } else {
-            m_scene.AddRule(m_rule_path, rule);
-        }
-
+        m_scene.AddRule(m_rule_path, rule);
         m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 
         MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, rule);

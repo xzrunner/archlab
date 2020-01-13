@@ -23,14 +23,23 @@ namespace cgav
 std::shared_ptr<Scene::Rule>
 Scene::AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule)
 {
-    auto r = std::make_shared<Rule>();
+    auto find = QueryRule(filepath);
+    if (find)
+    {
+        find->impl = rule;
+        return find;
+    }
+    else
+    {
+        auto r = std::make_shared<Rule>();
 
-    r->filepath = filepath;
-    r->name = boost::filesystem::path(filepath).filename().string();
-    r->impl = rule;
-    m_rules.push_back(r);
+        r->filepath = filepath;
+        r->name = boost::filesystem::path(filepath).filename().string();
+        r->impl = rule;
+        m_rules.push_back(r);
 
-    return r;
+        return r;
+    }
 }
 
 std::shared_ptr<Scene::Rule>

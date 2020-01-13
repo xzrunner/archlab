@@ -4,6 +4,7 @@
 #include "cgaview/Serializer.h"
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
+#include "cgaview/ModelAdapter.h"
 
 #include <blueprint/NSCompNode.h>
 
@@ -11,6 +12,7 @@
 #include <sx/ResFileHelper.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
+#include <cgaeasy/CompCGA.h>
 
 #include <wx/notebook.h>
 #include <wx/sizer.h>
@@ -23,15 +25,18 @@ namespace cgav
 WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
                              std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
+    , m_preview_sub_mgr(preview_sub_mgr)
 {
-    InitLayout(preview_sub_mgr, graph_page_creator);
+    InitLayout(graph_page_creator);
 
     m_sub_mgr.RegisterObserver(MSG_RULE_SHOW, this);
+    m_preview_sub_mgr->RegisterObserver(MSG_RULE_CHANGED, this);
 }
 
 WxEditorPanel::~WxEditorPanel()
 {
     m_sub_mgr.UnregisterObserver(MSG_RULE_SHOW, this);
+    m_preview_sub_mgr->UnregisterObserver(MSG_RULE_CHANGED, this);
 }
 
 void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
@@ -43,6 +48,21 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         auto var = variants.GetVariant("name");
         assert(var.m_type == ee0::VT_PCHAR);
         ShowRule(var.m_val.pc);
+    }
+        break;
+    case MSG_RULE_CHANGED:
+    {
+        auto var_rule = variants.GetVariant("rule");
+        GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
+        const std::shared_ptr<cga::EvalRule>* rule
+            = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
+
+        auto node = GetCurrPagePreviewObj();
+        auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
+        if (ccga.GetRule() != *rule) {
+            ccga.SetRule(*rule);
+        }
+        ModelAdapter::BuildModel(*node);
     }
         break;
     }
@@ -99,6 +119,9 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
     case GRAPH_PAGE_IDX:
     {
         assert(sx::ResFileHelper::Type(filepath) == sx::RES_FILE_JSON);
+
+        m_graph_page->SetRulePath(filepath);
+
         rapidjson::Document doc;
         js::RapidJsonHelper::ReadFromFile(filepath.c_str(), doc);
 
@@ -111,8 +134,6 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), doc["nodes"]);
 
         rule = m_graph_page->GetEval()->GetEval().ToRule();
-
-        m_graph_page->SetRulePath(filepath);
     }
         break;
     case TEXT_PAGE_IDX:
@@ -121,11 +142,12 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         std::string str((std::istreambuf_iterator<char>(fin)),
             std::istreambuf_iterator<char>());
         fin.close();
+
+        m_text_page->SetRulePath(filepath);
+
         m_text_page->SetText(str);
 
         rule = m_text_page->GetEval();
-
-        m_text_page->SetRulePath(filepath);
     }
         break;
     default:
@@ -156,15 +178,29 @@ bool WxEditorPanel::IsCurrGraphPage() const
     return m_nb->GetSelection() == 0;
 }
 
-void WxEditorPanel::InitLayout(const ee0::SubjectMgrPtr& preview_sub_mgr,
-                               std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
+n0::SceneNodePtr
+WxEditorPanel::GetCurrPagePreviewObj() const
+{
+    auto id = m_nb->GetSelection();
+    assert(id == 0 || id == 1);
+    n0::SceneNodePtr node = nullptr;
+    if (id == 0) {
+        node = m_graph_page->GetPreviewObj();
+    } else {
+        node = m_text_page->GetPreviewObj();
+    }
+    assert(node);
+    return node;
+}
+
+void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
 
     // property
     m_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
     m_nb->AddPage(m_graph_page = graph_page_creator(m_nb, m_scene, m_ctx), "Graph");
-    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, m_scene, preview_sub_mgr), "Text");
+    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, m_scene, m_preview_sub_mgr), "Text");
     sizer->Add(m_nb, 1, wxEXPAND);
 
     SetSizer(sizer);
