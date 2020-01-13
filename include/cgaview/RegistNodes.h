@@ -4,6 +4,7 @@
 
 #include <cga/op/Comp.h>
 #include <cga/op/Extrude.h>
+#include <cga/op/Insert.h>
 #include <cga/op/Offset.h>
 #include <cga/op/Split.h>
 #include <cga/RelativeFloat.h>
@@ -29,6 +30,20 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 #undef ExtrusionType
+;
+#define UpAxisOfGeo cga::op::Insert::UpAxisOfGeo
+#define InsertMode cga::op::Insert::InsertMode
+#define PARM_FILEPATH "cga/op/Insert.parm.h"
+#define PARM_NODE_CLASS Insert
+#define PARM_NODE_CLASS_STR "Insert"
+#define PARM_NODE_NAME "insert"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+#undef UpAxisOfGeo
+#undef InsertMode
 ;
 #define PARM_FILEPATH "cga/op/PrimCube.parm.h"
 #define PARM_NODE_CLASS PrimCube
@@ -130,6 +145,19 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 #undef RelativeFloat
+;
+
+// flow control
+
+#define PARM_FILEPATH "cga/op/NIL.parm.h"
+#define PARM_NODE_CLASS NIL
+#define PARM_NODE_CLASS_STR "NIL"
+#define PARM_NODE_NAME "NIL"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
 ;
 
 // attributes

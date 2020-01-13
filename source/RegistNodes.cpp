@@ -28,6 +28,14 @@ rttr::registration::class_<cgav::node::Extrude>("cgav::extrude")
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
 ;
+rttr::registration::class_<cgav::node::Insert>("cgav::i")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/Insert.parm.h"
+#define PARM_NODE_CLASS Insert
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
 .constructor<>()
 #define PARM_FILEPATH "cga/op/PrimCube.parm.h"
@@ -95,6 +103,17 @@ rttr::registration::class_<cgav::node::TransScope>("cgav::t")
 .constructor<>()
 #define PARM_FILEPATH "cga/op/TransScope.parm.h"
 #define PARM_NODE_CLASS TransScope
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// flow control
+
+rttr::registration::class_<cgav::node::NIL>("cgav::NIL")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/NIL.parm.h"
+#define PARM_NODE_CLASS NIL
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
