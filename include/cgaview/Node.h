@@ -2,7 +2,7 @@
 
 #include <blueprint/Node.h>
 
-#include <cga/Node.h>
+#include <cga/Operation.h>
 
 namespace cgav
 {
@@ -23,7 +23,7 @@ public:
     bool GetDisplay() const { return m_display; }
     void SetDisplay(bool display) { m_display = display; }
 
-    void UpdatePins(const cga::Node& node);
+    void UpdatePins(const cga::Operation& node);
 
 protected:
     struct PinDesc
@@ -49,7 +49,7 @@ private:
         bool is_input);
 
     static void PortBack2Front(std::vector<PinDesc>& dst,
-        const std::vector<cga::Node::Port>& src);
+        const std::vector<cga::Operation::Port>& src);
 
 private:
     std::string m_name;

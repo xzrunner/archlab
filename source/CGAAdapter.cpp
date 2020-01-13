@@ -6,18 +6,18 @@
 #include <blueprint/Node.h>
 #include <blueprint/Pin.h>
 
-#include <cga/Node.h>
+#include <cga/Operation.h>
 
 namespace cgav
 {
 
-void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front, cga::Node& back,
+void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front, cga::Operation& back,
                                          const Evaluator& eval)
 {
     auto f_type = front.get_type();
     auto b_type = back.get_type();
     if (f_type.is_derived_from<Node>() &&
-        b_type.is_derived_from<cga::Node>())
+        b_type.is_derived_from<cga::Operation>())
     {
         for (auto& dst_prop : b_type.get_properties())
         {
@@ -25,15 +25,15 @@ void CGAAdapter::UpdatePropBackFromFront(const bp::Node& front, cga::Node& back,
             assert(src_prop.is_valid());
             dst_prop.set_value(back, src_prop.get_value(front));
 
-            if (b_type == rttr::type::get<cga::node::Comp>() &&
-                dst_prop.get_type() == rttr::type::get<std::vector<cga::node::Comp::Selector>>()) {
-                static_cast<cga::node::Comp&>(back).SetupExports();
+            if (b_type == rttr::type::get<cga::op::Comp>() &&
+                dst_prop.get_type() == rttr::type::get<std::vector<cga::op::Comp::Selector>>()) {
+                static_cast<cga::op::Comp&>(back).SetupExports();
             }
         }
     }
 }
 
-cga::NodePtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
+cga::OpPtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
 {
     auto type = node.get_type();
     auto src_type = type.get_name().to_string();
@@ -44,7 +44,7 @@ cga::NodePtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
         dst_type = lib_str + "::" + src_type.substr(find_lib + strlen("cgav::"));
     }
 
-    cga::NodePtr dst = nullptr;
+    cga::OpPtr dst = nullptr;
 
     if (!dst_type.empty())
     {
@@ -59,7 +59,7 @@ cga::NodePtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
             rttr::variant var = t.create();
             assert(var.is_valid());
 
-            dst = var.get_value<std::shared_ptr<cga::Node>>();
+            dst = var.get_value<std::shared_ptr<cga::Operation>>();
             assert(dst);
         }
     }
@@ -72,16 +72,16 @@ cga::NodePtr CGAAdapter::CreateBackFromFront(const bp::Node& node)
 }
 
 
-int CGAAdapter::TypeBackToFront(cga::NodeVarType type)
+int CGAAdapter::TypeBackToFront(cga::OpVarType type)
 {
     int ret = -1;
 
     switch (type)
     {
-    case cga::NodeVarType::Any:
+    case cga::OpVarType::Any:
         ret = bp::PIN_ANY_VAR;
         break;
-    case cga::NodeVarType::Primitive:
+    case cga::OpVarType::Primitive:
         ret = PIN_PRIMITIVE;
         break;
     }

@@ -2,10 +2,10 @@
 
 #include "cgaview/Node.h"
 
-#include <cga/node/Comp.h>
-#include <cga/node/Extrude.h>
-#include <cga/node/Offset.h>
-#include <cga/node/Split.h>
+#include <cga/op/Comp.h>
+#include <cga/op/Extrude.h>
+#include <cga/op/Offset.h>
+#include <cga/op/Split.h>
 #include <cga/RelativeFloat.h>
 
 namespace cgav
@@ -18,8 +18,8 @@ namespace node
 
 // creation
 
-#define ExtrusionType cga::node::Extrude::ExtrusionType
-#define PARM_FILEPATH "cga/node/Extrude.parm.h"
+#define ExtrusionType cga::op::Extrude::ExtrusionType
+#define PARM_FILEPATH "cga/op/Extrude.parm.h"
 #define PARM_NODE_CLASS Extrude
 #define PARM_NODE_CLASS_STR "Extrude"
 #define PARM_NODE_NAME "extrude"
@@ -30,7 +30,7 @@ namespace node
 #undef PARM_FILEPATH
 #undef ExtrusionType
 ;
-#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#define PARM_FILEPATH "cga/op/PrimCube.parm.h"
 #define PARM_NODE_CLASS PrimCube
 #define PARM_NODE_CLASS_STR "PrimCube"
 #define PARM_NODE_NAME "prim_cube"
@@ -40,7 +40,7 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
-#define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
+#define PARM_FILEPATH "cga/op/PrimQuad.parm.h"
 #define PARM_NODE_CLASS PrimQuad
 #define PARM_NODE_CLASS_STR "PrimQuad"
 #define PARM_NODE_NAME "prim_quad"
@@ -53,9 +53,9 @@ namespace node
 
 // subdivision
 
-#define Type cga::node::Comp::Type
-#define Selector cga::node::Comp::Selector
-#define PARM_FILEPATH "cga/node/Comp.parm.h"
+#define Type cga::op::Comp::Type
+#define Selector cga::op::Comp::Selector
+#define PARM_FILEPATH "cga/op/Comp.parm.h"
 #define PARM_NODE_CLASS Comp
 #define PARM_NODE_CLASS_STR "Comp"
 #define PARM_NODE_NAME "comp"
@@ -67,8 +67,8 @@ namespace node
 #undef Type
 #undef Selector
 ;
-#define Selector cga::node::Offset::Selector
-#define PARM_FILEPATH "cga/node/Offset.parm.h"
+#define Selector cga::op::Offset::Selector
+#define PARM_FILEPATH "cga/op/Offset.parm.h"
 #define PARM_NODE_CLASS Offset
 #define PARM_NODE_CLASS_STR "Offset"
 #define PARM_NODE_NAME "offset"
@@ -79,7 +79,7 @@ namespace node
 #undef PARM_FILEPATH
 #undef Selector
 ;
-#define PARM_FILEPATH "cga/node/ShapeO.parm.h"
+#define PARM_FILEPATH "cga/op/ShapeO.parm.h"
 #define PARM_NODE_CLASS ShapeO
 #define PARM_NODE_CLASS_STR "ShapeO"
 #define PARM_NODE_NAME "shapeo"
@@ -89,9 +89,9 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
-#define Axis cga::node::Split::Axis
-#define Part cga::node::Split::Part
-#define PARM_FILEPATH "cga/node/Split.parm.h"
+#define Axis cga::op::Split::Axis
+#define Part cga::op::Split::Part
+#define PARM_FILEPATH "cga/op/Split.parm.h"
 #define PARM_NODE_CLASS Split
 #define PARM_NODE_CLASS_STR "Split"
 #define PARM_NODE_NAME "split"
@@ -107,7 +107,7 @@ namespace node
 // transformations
 
 #define RelativeFloat cga::RelativeFloat
-#define PARM_FILEPATH "cga/node/Scale.parm.h"
+#define PARM_FILEPATH "cga/op/Scale.parm.h"
 #define PARM_NODE_CLASS Scale
 #define PARM_NODE_CLASS_STR "Scale"
 #define PARM_NODE_NAME "s"
@@ -120,7 +120,7 @@ namespace node
 ;
 
 #define RelativeFloat cga::RelativeFloat
-#define PARM_FILEPATH "cga/node/TransScope.parm.h"
+#define PARM_FILEPATH "cga/op/TransScope.parm.h"
 #define PARM_NODE_CLASS TransScope
 #define PARM_NODE_CLASS_STR "TransScope"
 #define PARM_NODE_NAME "t"
@@ -134,7 +134,7 @@ namespace node
 
 // attributes
 
-#define PARM_FILEPATH "cga/node/Color.parm.h"
+#define PARM_FILEPATH "cga/op/Color.parm.h"
 #define PARM_NODE_CLASS Color
 #define PARM_NODE_CLASS_STR "Color"
 #define PARM_NODE_NAME "color"

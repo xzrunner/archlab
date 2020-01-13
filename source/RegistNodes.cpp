@@ -22,7 +22,7 @@ rttr::registration::class_<cgav::Node>("cgav::node")
 
 rttr::registration::class_<cgav::node::Extrude>("cgav::extrude")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Extrude.parm.h"
+#define PARM_FILEPATH "cga/op/Extrude.parm.h"
 #define PARM_NODE_CLASS Extrude
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -30,7 +30,7 @@ rttr::registration::class_<cgav::node::Extrude>("cgav::extrude")
 ;
 rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#define PARM_FILEPATH "cga/op/PrimCube.parm.h"
 #define PARM_NODE_CLASS PrimCube
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -38,7 +38,7 @@ rttr::registration::class_<cgav::node::PrimCube>("cgav::prim_cube")
 ;
 rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
+#define PARM_FILEPATH "cga/op/PrimQuad.parm.h"
 #define PARM_NODE_CLASS PrimQuad
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -49,7 +49,7 @@ rttr::registration::class_<cgav::node::PrimQuad>("cgav::prim_quad")
 
 rttr::registration::class_<cgav::node::Comp>("cgav::comp")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Comp.parm.h"
+#define PARM_FILEPATH "cga/op/Comp.parm.h"
 #define PARM_NODE_CLASS Comp
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -57,7 +57,7 @@ rttr::registration::class_<cgav::node::Comp>("cgav::comp")
 ;
 rttr::registration::class_<cgav::node::Offset>("cgav::offset")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Offset.parm.h"
+#define PARM_FILEPATH "cga/op/Offset.parm.h"
 #define PARM_NODE_CLASS Offset
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -65,7 +65,7 @@ rttr::registration::class_<cgav::node::Offset>("cgav::offset")
 ;
 rttr::registration::class_<cgav::node::ShapeO>("cgav::shapeo")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/ShapeO.parm.h"
+#define PARM_FILEPATH "cga/op/ShapeO.parm.h"
 #define PARM_NODE_CLASS ShapeO
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -73,7 +73,7 @@ rttr::registration::class_<cgav::node::ShapeO>("cgav::shapeo")
 ;
 rttr::registration::class_<cgav::node::Split>("cgav::split")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Split.parm.h"
+#define PARM_FILEPATH "cga/op/Split.parm.h"
 #define PARM_NODE_CLASS Split
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -84,7 +84,7 @@ rttr::registration::class_<cgav::node::Split>("cgav::split")
 
 rttr::registration::class_<cgav::node::Scale>("cgav::s")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Scale.parm.h"
+#define PARM_FILEPATH "cga/op/Scale.parm.h"
 #define PARM_NODE_CLASS Scale
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -93,7 +93,7 @@ rttr::registration::class_<cgav::node::Scale>("cgav::s")
 
 rttr::registration::class_<cgav::node::TransScope>("cgav::t")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/TransScope.parm.h"
+#define PARM_FILEPATH "cga/op/TransScope.parm.h"
 #define PARM_NODE_CLASS TransScope
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS
@@ -104,7 +104,7 @@ rttr::registration::class_<cgav::node::TransScope>("cgav::t")
 
 rttr::registration::class_<cgav::node::Color>("cgav::color")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/Color.parm.h"
+#define PARM_FILEPATH "cga/op/Color.parm.h"
 #define PARM_NODE_CLASS Color
 #include "cgaview/node_rttr_gen.h"
 #undef PARM_NODE_CLASS

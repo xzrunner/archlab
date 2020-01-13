@@ -45,7 +45,7 @@ void Evaluator::OnAddNode(const bp::Node& front, const n0::SceneNodePtr& snode, 
         return;
     }
 
-    m_eval.AddNode(back, snode.get());
+    m_eval.AddOp(back, snode.get());
     m_nodes_map.insert({ &front, back });
 
     if (front.get_type().is_derived_from<Node>()) {
@@ -65,7 +65,7 @@ void Evaluator::OnRemoveNode(const bp::Node& node)
         return;
     }
 
-    m_eval.RemoveNode(itr->second);
+    m_eval.RemoveOp(itr->second);
     m_nodes_map.erase(itr);
 
     Update();
@@ -73,7 +73,7 @@ void Evaluator::OnRemoveNode(const bp::Node& node)
 
 void Evaluator::OnClearAllNodes()
 {
-    m_eval.ClearAllNodes();
+    m_eval.ClearAllOps();
     m_nodes_map.clear();
 
     Update();
@@ -150,7 +150,7 @@ void Evaluator::OnDisconnecting(const bp::Connecting& conn)
 
 void Evaluator::OnRebuildConnection()
 {
-    std::vector<std::pair<cga::Node::PortAddr, cga::Node::PortAddr>> conns;
+    std::vector<std::pair<cga::Operation::PortAddr, cga::Operation::PortAddr>> conns;
     for (auto& itr : m_nodes_map)
     {
         auto& front = itr.first;
@@ -185,7 +185,7 @@ void Evaluator::OnRebuildConnection()
     Update();
 }
 
-cga::NodePtr Evaluator::QueryBackNode(const bp::Node& front_node) const
+cga::OpPtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 {
     auto itr = m_nodes_map.find(&front_node);
     return itr == m_nodes_map.end() ? nullptr : itr->second;

@@ -12,7 +12,7 @@
 #include <blueprint/Blueprint.h>
 #include <blueprint/Pin.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <node2/CompBoundingBox.h>

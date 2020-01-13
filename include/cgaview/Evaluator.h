@@ -2,7 +2,7 @@
 
 #include <blueprint/typedef.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/typedef.h>
 #include <node0/typedef.h>
 
@@ -36,22 +36,22 @@ public:
     void OnRebuildConnection();
 
     // calc
-    float CalcFloat(const std::string& expr, const cga::Node& node, float expect = 0.0f) const;
-    int CalcInt(const std::string& expr, const cga::Node& node, int expect = 0) const;
+    float CalcFloat(const std::string& expr, const cga::Operation& node, float expect = 0.0f) const;
+    int CalcInt(const std::string& expr, const cga::Operation& node, int expect = 0) const;
 
     auto& GetEval() const { return m_eval; }
 
     auto& GetAllNodes() const { return m_nodes_map; }
 
-    cga::NodePtr QueryBackNode(const bp::Node& front_node) const;
+    cga::OpPtr QueryBackNode(const bp::Node& front_node) const;
 
 private:
     void Update();
 
 private:
-    cga::EvalNode m_eval;
+    cga::EvalOp m_eval;
 
-    std::unordered_map<const bp::Node*, cga::NodePtr> m_nodes_map;
+    std::unordered_map<const bp::Node*, cga::OpPtr> m_nodes_map;
 
 }; // Evaluator
 
