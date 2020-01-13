@@ -33,15 +33,15 @@ Scene::AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>
     return r;
 }
 
-bool Scene::ChangeRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& eval_rule)
+std::shared_ptr<Scene::Rule>
+Scene::QueryRule(const std::string& filepath) const
 {
     for (auto& rule : m_rules) {
         if (rule->filepath == filepath) {
-            rule->impl = eval_rule;
-            return true;
+            return rule;
         }
     }
-    return false;
+    return nullptr;
 }
 
 void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,

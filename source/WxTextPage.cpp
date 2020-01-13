@@ -17,6 +17,7 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
     : wxPanel(parent)
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
+    , m_rule_path(FILEPATH)
 {
     InitLayout();
 }

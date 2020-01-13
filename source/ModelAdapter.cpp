@@ -4,6 +4,7 @@
 #include <cga/TopoPolyAdapter.h>
 #include <cga/EvalRule.h>
 #include <cgaeasy/CompCGA.h>
+#include <model/AssimpHelper.h>
 #include <model/Model.h>
 #include <model/BrushModel.h>
 #include <model/BrushBuilder.h>
@@ -59,6 +60,94 @@ void ModelAdapter::UpdateModel(const std::vector<cga::GeoPtr>& geos, const n0::S
         return;
     }
 
+    std::shared_ptr<model::Model> model = CreateModelFromFilepath(geos);
+    if (!model) {
+        model = CreateBrushModel(geos);
+    }
+    assert(model);
+
+    auto& cmodel = node.GetSharedComp<n3::CompModel>();
+    cmodel.SetModel(model);
+
+    auto& cmodel_inst = node.GetUniqueComp<n3::CompModelInst>();
+    cmodel_inst.SetModel(model, 0);
+
+    auto& caabb = node.GetUniqueComp<n3::CompAABB>();
+    caabb.SetAABB(model->aabb);
+}
+
+bool ModelAdapter::BuildModel(n0::SceneNode& node)
+{
+    if (!node.HasUniqueComp<cgae::CompCGA>()) {
+        return false;
+    }
+
+    auto& ccga = node.GetUniqueComp<cgae::CompCGA>();
+    auto rule = ccga.GetRule();
+    if (!rule) {
+        return false;
+    }
+
+    std::vector<cga::GeoPtr> in_geos;
+    if (node.HasUniqueComp<n3::CompShape>())
+    {
+        auto& cshape = node.GetUniqueComp<n3::CompShape>();
+        auto& shapes = cshape.GetShapes();
+        for (auto& s : shapes)
+        {
+            if (s->get_type() != rttr::type::get<gs::Polygon3D>()) {
+                continue;
+            }
+
+            auto& verts = std::static_pointer_cast<gs::Polygon3D>(s)->GetVertices();
+            cga::TopoPolyAdapter adapter(verts);
+            std::vector<pm3::Polytope::PointPtr> dst_pts;
+            std::vector<pm3::Polytope::FacePtr> dst_faces;
+            adapter.TransToPolymesh(dst_pts, dst_faces);
+            auto poly = std::make_shared<pm3::Polytope>(dst_pts, dst_faces);
+            in_geos.push_back(std::make_shared<cga::Geometry>(poly));
+        }
+    }
+
+    auto out_geos = rule->Eval(in_geos);
+
+    if (!out_geos.empty())
+    {
+        if (!node.HasSharedComp<n3::CompModel>()) {
+            SetupModel(node);
+        }
+        UpdateModel(out_geos, node);
+    }
+
+    return true;
+}
+
+std::unique_ptr<model::Model>
+ModelAdapter::CreateModelFromFilepath(const std::vector<cga::GeoPtr>& geos)
+{
+    for (auto& geo : geos)
+    {
+        if (!geo) {
+            continue;
+        }
+        auto& geo_path = geo->GetFilepath();
+        if (geo_path.empty()) {
+            continue;
+        }
+
+        auto model = std::make_unique<model::Model>();
+        if (model::AssimpHelper::Load(*model, geo_path)) {
+            return model;
+        }
+    }
+    return nullptr;
+}
+
+std::unique_ptr<model::Model>
+ModelAdapter::CreateBrushModel(const std::vector<cga::GeoPtr>& geos)
+{
+    assert(!geos.empty());
+
     std::vector<std::vector<std::vector<sm::vec3>>> colors;
 
     std::vector<model::BrushModel::Brush> brushes;
@@ -99,63 +188,7 @@ void ModelAdapter::UpdateModel(const std::vector<cga::GeoPtr>& geos, const n0::S
 
     auto brush_model = std::make_unique<model::BrushModel>();
     brush_model->SetBrushes(brushes);
-    std::shared_ptr<model::Model> model = model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
-
-    auto& cmodel = node.GetSharedComp<n3::CompModel>();
-    cmodel.SetModel(model);
-
-    auto& cmodel_inst = node.GetUniqueComp<n3::CompModelInst>();
-    cmodel_inst.SetModel(model, 0);
-
-    auto& caabb = node.GetUniqueComp<n3::CompAABB>();
-    caabb.SetAABB(model->aabb);
-}
-
-bool ModelAdapter::BuildModel(n0::SceneNode& node)
-{
-    if (!node.HasUniqueComp<cgae::CompCGA>() ||
-        !node.HasUniqueComp<n3::CompShape>()) {
-        return false;
-    }
-
-    auto& cshape = node.GetUniqueComp<n3::CompShape>();
-    auto& shapes = cshape.GetShapes();
-
-    auto& ccga = node.GetUniqueComp<cgae::CompCGA>();
-    auto rule = ccga.GetRule();
-    if (!rule) {
-        return false;
-    }
-
-    std::vector<cga::GeoPtr> in_geos;
-    for (auto& s : shapes)
-    {
-        if (s->get_type() != rttr::type::get<gs::Polygon3D>()) {
-            continue;
-        }
-
-        auto& verts = std::static_pointer_cast<gs::Polygon3D>(s)->GetVertices();
-        cga::TopoPolyAdapter adapter(verts);
-        std::vector<pm3::Polytope::PointPtr> dst_pts;
-        std::vector<pm3::Polytope::FacePtr> dst_faces;
-        adapter.TransToPolymesh(dst_pts, dst_faces);
-        auto poly = std::make_shared<pm3::Polytope>(dst_pts, dst_faces);
-        in_geos.push_back(std::make_shared<cga::Geometry>(poly));
-    }
-    if (in_geos.empty()) {
-        return false;
-    }
-    auto out_geos = rule->Eval(in_geos);
-
-    if (!out_geos.empty())
-    {
-        if (!node.HasSharedComp<n3::CompModel>()) {
-            SetupModel(node);
-        }
-        UpdateModel(out_geos, node);
-    }
-
-    return true;
+    return model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
 }
 
 }

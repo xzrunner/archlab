@@ -25,6 +25,8 @@ public:
 
     void SetRulePath(const std::string& path) { m_rule_path = path; }
 
+    static constexpr char* const FILEPATH = "default_text_rule";
+
 private:
     void InitLayout();
 

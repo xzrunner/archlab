@@ -30,6 +30,8 @@ public:
 
     void SetRulePath(const std::string& path) { m_rule_path = path; }
 
+    static constexpr char* const FILEPATH = "default_graph_rule";
+
 private:
     bool ClearAllSceneObjs();
     bool InsertSceneObj(const ee0::VariantSet& variants);

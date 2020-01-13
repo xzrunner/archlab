@@ -5,14 +5,21 @@
 namespace cgav
 {
 
+class WxEditorPanel;
+class PreviewPage;
+
 class WxPreviewCanvas : public ee3::WxStageCanvas
 {
 public:
     WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
-        const ee0::RenderContext& rc);
+        const ee0::RenderContext& rc, const PreviewPage& ppage);
     virtual ~WxPreviewCanvas();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
+
+    void SetEditorPanel(WxEditorPanel* editor_panel) {
+        m_editor_panel = editor_panel;
+    }
 
 protected:
     virtual void DrawBackground3D() const override;
@@ -28,6 +35,10 @@ private:
 
 private:
     OpType m_op_type = OpType::Edit;
+
+    WxEditorPanel* m_editor_panel = nullptr;
+
+    const PreviewPage& m_ppage;
 
 }; // WxPreviewCanvas
 

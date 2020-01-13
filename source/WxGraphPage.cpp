@@ -1,5 +1,4 @@
 #include "cgaview/WxGraphPage.h"
-#include "cgaview/WxPreviewCanvas.h"
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
 #include "cgaview/Scene.h"
@@ -45,6 +44,7 @@ WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
     , m_root(root)
+    , m_rule_path(FILEPATH)
 {
     bp::Blueprint::Instance();
 
@@ -97,7 +97,12 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 	if (dirty)
     {
         auto rule = m_eval->GetEval().ToRule();
-        m_scene.ChangeRule(m_rule_path, rule);
+        auto find = m_scene.QueryRule(m_rule_path);
+        if (find) {
+            find->impl = rule;
+        } else {
+            m_scene.AddRule(m_rule_path, rule);
+        }
 
         m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 
