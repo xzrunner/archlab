@@ -5,8 +5,12 @@
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
 
+#include <blueprint/NSCompNode.h>
+
 #include <js/RapidJsonHelper.h>
 #include <sx/ResFileHelper.h>
+#include <node0/SceneNode.h>
+#include <node0/CompComplex.h>
 
 #include <wx/notebook.h>
 #include <wx/sizer.h>
@@ -56,7 +60,11 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
         auto dir = boost::filesystem::path(filepath).parent_path().string();
         auto& alloc = doc.GetAllocator();
 
-        Serializer::StoreToJson(m_graph_page->GetRootNode(), dir, doc, alloc);
+        auto root = m_graph_page->GetRootNode();
+        Serializer::StoreToJson(root, dir, doc, alloc);
+        assert(root->HasSharedComp<n0::CompComplex>());
+        auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
+        bp::NSCompNode::StoreConnection(ccomplex.GetAllChildren(), doc["nodes"], alloc);
 
         js::RapidJsonHelper::WriteToFile(filepath.c_str(), doc);
     }
@@ -95,7 +103,12 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         js::RapidJsonHelper::ReadFromFile(filepath.c_str(), doc);
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
-        cgav::Serializer::LoadFromJson(*m_graph_page, m_graph_page->GetRootNode(), doc, dir);
+        auto root = m_graph_page->GetRootNode();
+        cgav::Serializer::LoadFromJson(*m_graph_page, root, doc, dir);
+
+        assert(root->HasSharedComp<n0::CompComplex>());
+        auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
+        bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), doc["nodes"]);
 
         rule = m_graph_page->GetEval()->GetEval().ToRule();
 
