@@ -138,17 +138,17 @@ void WxRuleProperty::OnAddPress(wxCommandEvent& event)
     switch (dlg.GetSelectIdx())
     {
     case 0:
-        p.val = dag::Variable(0.0f);
+        p.value = dag::Variable(0.0f);
         break;
     case 1:
-        p.val = dag::Variable(std::string());
+        p.value = dag::Variable(std::string());
         break;
     default:
         assert(0);
     }
     AddParmToProp(p);
 
-    m_ctx.AddGlobalParm(p);
+    m_ctx.AddVar(p);
 }
 
 void WxRuleProperty::OnDelPress(wxCommandEvent& event)
@@ -156,7 +156,7 @@ void WxRuleProperty::OnDelPress(wxCommandEvent& event)
     auto prop = m_pg->GetSelectedProperty();
     auto name = prop->GetName().ToStdString();
     m_pg->DeleteProperty(prop);
-    m_ctx.RemoveGlobalParm(name);
+    m_ctx.DeleteVar(name);
 }
 
 void WxRuleProperty::OnPropertyGridChange(wxPropertyGridEvent& event)
@@ -167,20 +167,20 @@ void WxRuleProperty::ReloadParmProps()
 {
     m_pg->Clear();
 
-    for (auto& p : m_ctx.GetGlobalParms()) {
-        AddParmToProp(p);
+    for (auto& v : m_ctx.GetVars()) {
+        AddParmToProp(v);
     }
 }
 
 void WxRuleProperty::AddParmToProp(const cga::EvalContext::Parm& p)
 {
-    switch (p.val.type)
+    switch (p.value.type)
     {
     case dag::VarType::Float:
-        m_pg->Append(new wxFloatProperty(p.name, wxPG_LABEL, p.val.f));
+        m_pg->Append(new wxFloatProperty(p.name, wxPG_LABEL, p.value.f));
         break;
     case dag::VarType::String:
-        m_pg->Append(new wxStringProperty(p.name, wxPG_LABEL, static_cast<const char*>(p.val.p)));
+        m_pg->Append(new wxStringProperty(p.name, wxPG_LABEL, static_cast<const char*>(p.value.p)));
         break;
     default:
         assert(0);
