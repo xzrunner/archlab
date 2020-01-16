@@ -6,6 +6,7 @@
 
 #include <cga/EvalRule.h>
 #include <cga/RuleLoader.h>
+#include <cgac/StringPool.h>
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
 #include <ns/NodeFactory.h>
@@ -21,6 +22,7 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
     : wxPanel(parent)
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
+    , m_str_pool(std::make_shared<cgac::StringPool>())
 {
     m_preview_obj = ns::NodeFactory::Create3D();
     ModelAdapter::SetupModel(*m_preview_obj);
@@ -64,7 +66,7 @@ void WxTextPage::RebuildEval()
 {
     auto str = m_code->GetText().ToStdString();
 
-    cga::RuleLoader loader;
+    cga::RuleLoader loader(m_str_pool);
     if (!m_eval) {
         m_eval = std::make_shared<cga::EvalRule>();
     } else {

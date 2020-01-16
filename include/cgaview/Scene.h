@@ -8,6 +8,7 @@
 namespace cga { class EvalRule; }
 namespace mm { class LinearAllocator; }
 namespace n0 { class SceneNode; }
+namespace cgac { class StringPool; }
 
 namespace cgav
 {
@@ -34,11 +35,14 @@ public:
 
     auto& GetAllRules() const { return m_rules; }
 
-    void StoreToJson(const std::string& dir, rapidjson::Value& val, rapidjson::MemoryPoolAllocator<>& alloc) const;
-    void LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir, const rapidjson::Value& val);
+    void StoreToJson(const std::string& dir, rapidjson::Value& val,
+        rapidjson::MemoryPoolAllocator<>& alloc) const;
+    void LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
+        const rapidjson::Value& val, const std::shared_ptr<cgac::StringPool>& str_pool);
 
 private:
-    static std::shared_ptr<Rule> CreateRule(const std::string& filepath);
+    static std::shared_ptr<Rule>
+        CreateRule(const std::string& filepath, const std::shared_ptr<cgac::StringPool>& str_pool);
 
 private:
     std::vector<std::shared_ptr<Rule>> m_rules;

@@ -193,6 +193,12 @@ WxEditorPanel::GetCurrPagePreviewObj() const
     return node;
 }
 
+std::shared_ptr<cgac::StringPool>
+WxEditorPanel::GetTextPageStrPool() const
+{
+    return m_text_page->GetStringPool();
+}
+
 void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);

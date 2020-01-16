@@ -38,6 +38,8 @@ public:
 
     auto& GetScene() const { return m_scene; }
 
+    std::shared_ptr<cgac::StringPool> GetTextPageStrPool() const;
+
 private:
     void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
 

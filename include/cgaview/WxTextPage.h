@@ -8,6 +8,7 @@
 
 namespace ee0 { class WxCodeCtrl; }
 namespace cga { class EvalRule; }
+namespace cgac { class StringPool; }
 
 namespace cgav
 {
@@ -30,6 +31,8 @@ public:
 
     auto GetPreviewObj() const { return m_preview_obj; }
 
+    auto GetStringPool() const { return m_str_pool; }
+
 private:
     void InitLayout();
 
@@ -37,6 +40,8 @@ private:
     void RebuildEval();
 
 private:
+    std::shared_ptr<cgac::StringPool> m_str_pool = nullptr;
+
     Scene& m_scene;
 
     ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;

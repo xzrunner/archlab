@@ -65,21 +65,21 @@ void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,
 }
 
 void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
-                         const rapidjson::Value& val)
+                         const rapidjson::Value& val, const std::shared_ptr<cgac::StringPool>& str_pool)
 {
     m_rules.clear();
 
     for (auto& path_val : val.GetArray())
     {
         auto absolute = boost::filesystem::absolute(path_val.GetString(), dir).string();
-        auto rule = CreateRule(absolute);
+        auto rule = CreateRule(absolute, str_pool);
         assert(rule);
         m_rules.push_back(rule);
     }
 }
 
 std::shared_ptr<Scene::Rule>
-Scene::CreateRule(const std::string& filepath)
+Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::StringPool>& str_pool)
 {
     std::shared_ptr<Rule> rule = std::make_shared<Rule>();
     rule->filepath = filepath;
@@ -139,7 +139,7 @@ Scene::CreateRule(const std::string& filepath)
             std::istreambuf_iterator<char>());
         fin.close();
 
-        cga::RuleLoader loader;
+        cga::RuleLoader loader(str_pool);
         auto eval = std::make_shared<cga::EvalRule>();
         loader.RunString(str, *eval/*, true*/);
 
