@@ -118,6 +118,14 @@ rttr::registration::class_<cgav::node::NIL>("cgav::NIL")
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
 ;
+rttr::registration::class_<cgav::node::Switch>("cgav::switch")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/Switch.parm.h"
+#define PARM_NODE_CLASS Switch
+#include "cgaview/node_rttr_gen.h"
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 
 // attributes
 

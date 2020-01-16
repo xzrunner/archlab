@@ -159,6 +159,16 @@ namespace node
 #undef PARM_NODE_CLASS_STR
 #undef PARM_FILEPATH
 ;
+#define PARM_FILEPATH "cga/op/Switch.parm.h"
+#define PARM_NODE_CLASS Switch
+#define PARM_NODE_CLASS_STR "Switch"
+#define PARM_NODE_NAME "switch"
+#include "cgaview/node_def_gen.h"
+#undef PARM_NODE_NAME
+#undef PARM_NODE_CLASS
+#undef PARM_NODE_CLASS_STR
+#undef PARM_FILEPATH
+;
 
 // attributes
 
