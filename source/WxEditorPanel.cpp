@@ -57,10 +57,15 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const std::shared_ptr<cga::EvalRule>* rule
             = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
 
+        auto var_ctx = variants.GetVariant("ctx");
+        GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
+        const std::shared_ptr<cga::EvalContext>* rule_ctx
+            = static_cast<const std::shared_ptr<cga::EvalContext>*>(var_ctx.m_val.pv);
+
         auto node = GetCurrPagePreviewObj();
         auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
         if (ccga.GetRule() != *rule) {
-            ccga.SetRule(*rule);
+            ccga.SetRule(*rule, *rule_ctx);
         }
         ModelAdapter::BuildModel(*node);
     }
@@ -133,7 +138,8 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
         bp::NSCompNode::LoadConnection(ccomplex.GetAllChildren(), doc["nodes"]);
 
-        rule = m_graph_page->GetEval()->GetEval().ToRule();
+        auto eval = m_graph_page->GetEval();
+        rule = eval->GetEval().ToRule(*eval->GetEvalCtx());
     }
         break;
     case TEXT_PAGE_IDX:

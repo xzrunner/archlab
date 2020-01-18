@@ -6,6 +6,7 @@
 
 #include <cga/EvalRule.h>
 #include <cga/RuleLoader.h>
+#include <cga/EvalContext.h>
 #include <cgac/StringPool.h>
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
@@ -66,15 +67,17 @@ void WxTextPage::RebuildEval()
 {
     auto str = m_code->GetText().ToStdString();
 
+    m_eval_ctx = std::make_shared<cga::EvalContext>();
+
     cga::RuleLoader loader(m_str_pool);
     if (!m_eval) {
         m_eval = std::make_shared<cga::EvalRule>();
     } else {
         m_eval->Clear();
     }
-    loader.RunString(str, *m_eval/*, true*/);
+    loader.RunString(*m_eval_ctx, str, *m_eval/*, true*/);
 
-    MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, m_eval);
+    MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, m_eval, m_eval_ctx);
 }
 
 }

@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-namespace cga { class EvalRule; }
+namespace cga { class EvalContext; class EvalRule; }
 namespace mm { class LinearAllocator; }
 namespace n0 { class SceneNode; }
 namespace cgac { class StringPool; }
@@ -22,7 +22,9 @@ public:
     {
         std::string filepath;
         std::string name;
-        std::shared_ptr<cga::EvalRule> impl = nullptr;
+
+        std::shared_ptr<cga::EvalContext> ctx  = nullptr;
+        std::shared_ptr<cga::EvalRule>    impl = nullptr;
 
         std::shared_ptr<n0::SceneNode> root = nullptr;
         std::string text;

@@ -102,11 +102,11 @@ void WxGraphPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
 	if (dirty)
     {
-        auto rule = m_eval->GetEval().ToRule();
+        auto rule = m_eval->GetEval().ToRule(*m_eval->GetEvalCtx());
         m_scene.AddRule(m_rule_path, rule);
         m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 
-        MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, rule);
+        MsgHelper::RuleChanged(*m_preview_sub_mgr, m_rule_path, rule, m_eval->GetEvalCtx());
 	}
 }
 

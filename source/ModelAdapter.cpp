@@ -109,8 +109,7 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
         }
     }
 
-    cga::EvalContext ctx;
-    auto out_geos = rule->Eval(in_geos, ctx);
+    auto out_geos = rule->Eval(in_geos, *ccga.GetRuleCtx());
 
     if (!out_geos.empty())
     {

@@ -8,7 +8,8 @@ namespace cgav
 {
 
 void MsgHelper::RuleChanged(ee0::SubjectMgr& sub_mgr, const std::string& filepath,
-                            const std::shared_ptr<cga::EvalRule>& rule)
+                            const std::shared_ptr<cga::EvalRule>& rule,
+                            const std::shared_ptr<cga::EvalContext>& rule_ctx)
 {
     if (filepath.empty()) {
         return;
@@ -27,6 +28,11 @@ void MsgHelper::RuleChanged(ee0::SubjectMgr& sub_mgr, const std::string& filepat
     var_rule.m_type = ee0::VT_PVOID;
     var_rule.m_val.pv = &rule;
     vars.SetVariant("rule", var_rule);
+
+    ee0::Variant var_ctx;
+    var_ctx.m_type = ee0::VT_PVOID;
+    var_ctx.m_val.pv = &rule_ctx;
+    vars.SetVariant("ctx", var_ctx);
 
     sub_mgr.NotifyObservers(MSG_RULE_CHANGED, vars);
 }

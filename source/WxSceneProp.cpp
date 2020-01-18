@@ -117,14 +117,14 @@ void WxSceneProp::OnNodePropChanged(wxPropertyGridEvent& event)
     auto& ccga = m_selected_node->GetUniqueComp<cgae::CompCGA>();
     if (idx == 0)
     {
-        ccga.SetRule(nullptr);
+        ccga.SetRule(nullptr, nullptr);
         ccga.SetFilepath("");
     }
     else
     {
         assert(idx >= 1 && idx < static_cast<int>(m_scene.GetAllRules().size()) + 1);
         auto& rule = m_scene.GetAllRules()[idx - 1];
-        ccga.SetRule(rule->impl);
+        ccga.SetRule(rule->impl, rule->ctx);
         ccga.SetFilepath(rule->filepath);
     }
 

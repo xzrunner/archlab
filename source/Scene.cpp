@@ -124,7 +124,7 @@ Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::Strin
             }
         }
 
-        rule->impl = eval.GetEval().ToRule();
+        rule->impl = eval.GetEval().ToRule(*eval.GetEvalCtx());
 
         rule->root = node;
     }
@@ -140,8 +140,9 @@ Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::Strin
         fin.close();
 
         cga::RuleLoader loader(str_pool);
+        auto eval_ctx = std::make_shared<cga::EvalContext>();
         auto eval = std::make_shared<cga::EvalRule>();
-        loader.RunString(str, *eval/*, true*/);
+        loader.RunString(*eval_ctx, str, *eval/*, true*/);
 
         rule->impl = eval;
 

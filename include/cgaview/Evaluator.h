@@ -39,6 +39,7 @@ public:
     float CalcFloat(const std::string& expr, const cga::Operation& node, float expect = 0.0f) const;
     int CalcInt(const std::string& expr, const cga::Operation& node, int expect = 0) const;
 
+    auto& GetEvalCtx() const { return m_eval_ctx; }
     auto& GetEval() const { return m_eval; }
 
     auto& GetAllNodes() const { return m_nodes_map; }
@@ -49,6 +50,7 @@ private:
     void Update();
 
 private:
+    std::shared_ptr<cga::EvalContext> m_eval_ctx = nullptr;
     cga::EvalOp m_eval;
 
     std::unordered_map<const bp::Node*, cga::OpPtr> m_nodes_map;

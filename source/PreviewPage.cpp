@@ -84,6 +84,11 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const std::shared_ptr<cga::EvalRule>* rule
             = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
 
+        auto var_ctx = variants.GetVariant("ctx");
+        GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
+        const std::shared_ptr<cga::EvalContext>* ctx
+            = static_cast<const std::shared_ptr<cga::EvalContext>*>(var_rule.m_val.pv);
+
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
             if (!obj->HasUniqueComp<cgae::CompCGA>()) {
@@ -95,7 +100,7 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
             {
                 auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
                 if (ccga.GetRule() != *rule) {
-                    ccga.SetRule(*rule);
+                    ccga.SetRule(*rule, *ctx);
                 }
                 ModelAdapter::BuildModel(*obj);
             }
@@ -141,7 +146,7 @@ void PreviewPage::InitSceneNodeRule(const Scene& scene)
         auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
         for (auto& rule : scene.GetAllRules()) {
             if (rule->filepath == ccga.GetFilepath()) {
-                ccga.SetRule(rule->impl);
+                ccga.SetRule(rule->impl, rule->ctx);
                 break;
             }
         }

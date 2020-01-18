@@ -34,7 +34,8 @@ namespace cgav
 {
 
 Evaluator::Evaluator()
-    : m_eval(update_model)
+    : m_eval_ctx(std::make_shared<cga::EvalContext>())
+    , m_eval(update_model)
 {
 }
 
@@ -193,7 +194,7 @@ cga::OpPtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 
 void Evaluator::Update()
 {
-    m_eval.Eval();
+    m_eval.Eval(*m_eval_ctx);
 
     bool conn_changed = false;
     for (auto& itr : m_nodes_map)
