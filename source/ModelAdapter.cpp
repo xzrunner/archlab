@@ -6,7 +6,6 @@
 #include <cgaeasy/CompCGA.h>
 #include <model/AssimpHelper.h>
 #include <model/Model.h>
-#include <model/BrushModel.h>
 #include <model/BrushBuilder.h>
 #include <node0/SceneNode.h>
 #include <node0/CompMaterial.h>
@@ -151,44 +150,56 @@ ModelAdapter::CreateBrushModel(const std::vector<cga::GeoPtr>& geos)
     std::vector<std::vector<std::vector<sm::vec3>>> colors;
 
     std::vector<model::BrushModel::Brush> brushes;
-    for (auto& geo : geos)
-    {
-        if (!geo) {
-            continue;
-        }
-        auto poly = geo->GetPoly();
-        if (!poly) {
-            continue;
-        }
-
-        model::BrushModel::Brush brush;
-
-        auto& faces = poly->Faces();
-
-        brush.desc.mesh_begin = 0;
-        brush.desc.mesh_end = 1;
-        const size_t face_num = faces.size();
-        brush.desc.meshes.push_back({ 0, 0, 0, static_cast<int>(face_num) });
-
-        brush.impl = poly;
-
-        brushes.push_back(brush);
-
-        std::vector<std::vector<sm::vec3>> b_colors;
-        auto color = geo->GetColor();
-        if (!color.IsValid()) {
-            color.Set(1, 1, 1);
-        }
-        auto& pts = poly->Points();
-        for (auto& face : poly->Faces()) {
-            b_colors.push_back(std::vector<sm::vec3>(pts.size(), color));
-        }
-        colors.push_back(b_colors);
+    for (auto& geo : geos) {
+        GeoToBrush(geo, colors, brushes);
     }
 
     auto brush_model = std::make_unique<model::BrushModel>();
     brush_model->SetBrushes(brushes);
     return model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
+}
+
+void ModelAdapter::GeoToBrush(const cga::GeoPtr& geo,
+                              std::vector<std::vector<std::vector<sm::vec3>>>& colors,
+                              std::vector<model::BrushModel::Brush>& brushes)
+{
+    if (!geo) {
+        return;
+    }
+    auto poly = geo->GetPoly();
+    if (!poly)
+    {
+        assert(!geo->GetChildren().empty());
+        for (auto& c : geo->GetChildren()) {
+            GeoToBrush(c, colors, brushes);
+        }
+        return;
+    }
+
+    model::BrushModel::Brush brush;
+
+    assert(geo->GetChildren().empty());
+    auto& faces = poly->Faces();
+
+    brush.desc.mesh_begin = 0;
+    brush.desc.mesh_end = 1;
+    const size_t face_num = faces.size();
+    brush.desc.meshes.push_back({ 0, 0, 0, static_cast<int>(face_num) });
+
+    brush.impl = poly;
+
+    brushes.push_back(brush);
+
+    std::vector<std::vector<sm::vec3>> b_colors;
+    auto color = geo->GetColor();
+    if (!color.IsValid()) {
+        color.Set(1, 1, 1);
+    }
+    auto& pts = poly->Points();
+    for (auto& face : poly->Faces()) {
+        b_colors.push_back(std::vector<sm::vec3>(pts.size(), color));
+    }
+    colors.push_back(b_colors);
 }
 
 }
