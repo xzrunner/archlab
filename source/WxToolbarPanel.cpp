@@ -25,12 +25,19 @@ WxToolbarPanel::WxToolbarPanel(wxWindow* parent, cga::EvalContext& ctx,
                                const ee0::SubjectMgrPtr& graph_sub_mgr,
                                const ee0::SubjectMgrPtr& preview_sub_mgr)
 	: wxPanel(parent)
+    , m_graph_sub_mgr(graph_sub_mgr)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
 	InitLayout(ctx, graph_sub_mgr);
 
     graph_sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_INSERT, this);
     graph_sub_mgr->RegisterObserver(ee0::MSG_NODE_SELECTION_CLEAR, this);
+}
+
+WxToolbarPanel::~WxToolbarPanel()
+{
+    m_graph_sub_mgr->UnregisterObserver(ee0::MSG_NODE_SELECTION_INSERT, this);
+    m_graph_sub_mgr->UnregisterObserver(ee0::MSG_NODE_SELECTION_CLEAR, this);
 }
 
 void WxToolbarPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)

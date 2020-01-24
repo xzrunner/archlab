@@ -23,6 +23,7 @@ class WxToolbarPanel : public wxPanel, public ee0::Observer
 public:
 	WxToolbarPanel(wxWindow* parent, cga::EvalContext& ctx,
         const ee0::SubjectMgrPtr& graph_sub_mgr, const ee0::SubjectMgrPtr& preview_sub_mgr);
+    virtual ~WxToolbarPanel();
 
 	virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
 
@@ -47,6 +48,7 @@ private:
     void OnLoadRule(wxCommandEvent& event);
 
 private:
+    ee0::SubjectMgrPtr m_graph_sub_mgr   = nullptr;
     ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
 
     wxNotebook* m_prop_nb = nullptr;
