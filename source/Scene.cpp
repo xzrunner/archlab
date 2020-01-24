@@ -1,5 +1,4 @@
 #include "cgaview/Scene.h"
-#include "cgaview/Serializer.h"
 #include "cgaview/Evaluator.h"
 
 #include <blueprint/CompNode.h>

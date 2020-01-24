@@ -1,12 +1,12 @@
 #include "cgaview/WxEditorPanel.h"
 #include "cgaview/WxTextPage.h"
 #include "cgaview/WxGraphPage.h"
-#include "cgaview/Serializer.h"
 #include "cgaview/Evaluator.h"
 #include "cgaview/MessageID.h"
 #include "cgaview/ModelAdapter.h"
 
 #include <blueprint/NSCompNode.h>
+#include <blueprint/Serializer.h>
 
 #include <js/RapidJsonHelper.h>
 #include <sx/ResFileHelper.h>
@@ -86,7 +86,7 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
         auto& alloc = doc.GetAllocator();
 
         auto root = m_graph_page->GetRootNode();
-        Serializer::StoreToJson(root, dir, doc, alloc);
+        bp::Serializer::StoreToJson(root, dir, doc, alloc);
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
         bp::NSCompNode::StoreConnection(ccomplex.GetAllChildren(), doc["nodes"], alloc);
@@ -132,7 +132,7 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
         auto root = m_graph_page->GetRootNode();
-        cgav::Serializer::LoadFromJson(*m_graph_page, root, doc, dir);
+        bp::Serializer::LoadFromJson(*m_graph_page, root, doc, dir);
 
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();

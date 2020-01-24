@@ -1,6 +1,5 @@
 #include "cgaview/PreviewPage.h"
 #include "cgaview/MessageID.h"
-#include "cgaview/Serializer.h"
 #include "cgaview/ModelAdapter.h"
 #include "cgaview/MessageID.h"
 #include "cgaview/WxGraphPage.h"

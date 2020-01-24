@@ -26,7 +26,6 @@
     <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\PreviewRender.h" />
     <ClInclude Include="..\..\..\include\cgaview\Scene.h" />
-    <ClInclude Include="..\..\..\include\cgaview\Serializer.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxEditorPanel.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxRuleProperty.h" />
     <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h" />
@@ -49,7 +48,6 @@
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp" />
     <ClCompile Include="..\..\..\source\PreviewRender.cpp" />
     <ClCompile Include="..\..\..\source\Scene.cpp" />
-    <ClCompile Include="..\..\..\source\Serializer.cpp" />
     <ClCompile Include="..\..\..\source\WxEditorPanel.cpp" />
     <ClCompile Include="..\..\..\source\WxRuleProperty.cpp" />
     <ClCompile Include="..\..\..\source\WxGraphPage.cpp" />
