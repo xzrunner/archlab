@@ -1,4 +1,5 @@
 #include "cgaview/Node.h"
+#include "cgaview/CGAAdapter.h"
 
 #include <blueprint/Pin.h>
 #include <blueprint/Connecting.h>
@@ -130,6 +131,7 @@ void Node::PortBack2Front(std::vector<PinDesc>& dst,
         PinDesc d;
 
 		auto& s = src[i];
+        d.type = CGAAdapter::TypeBackToFront(s.var.type);
         d.name = s.var.full_name;
 
         dst.push_back(d);
