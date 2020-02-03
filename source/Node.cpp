@@ -130,7 +130,7 @@ void Node::PortBack2Front(std::vector<PinDesc>& dst,
         PinDesc d;
 
 		auto& s = src[i];
-        d.name = s.var.name;
+        d.name = s.var.full_name;
 
         dst.push_back(d);
 	}
