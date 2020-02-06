@@ -118,6 +118,9 @@
     <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h">
       <Filter>tools\msg</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cgaview\node_regist_cfg.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">

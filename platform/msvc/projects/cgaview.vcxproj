@@ -18,6 +18,7 @@
     <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h" />
     <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h" />
     <ClInclude Include="..\..\..\include\cgaview\Node.h" />
+    <ClInclude Include="..\..\..\include\cgaview\node_regist_cfg.h" />
     <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h" />
     <ClInclude Include="..\..\..\include\cgaview\PinCallback.h" />
     <ClInclude Include="..\..\..\include\cgaview\PinType.h" />
