@@ -1,9 +1,9 @@
-#include "cgaview/WxGraphPage.h"
-#include "cgaview/Evaluator.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/Scene.h"
-#include "cgaview/MsgHelper.h"
-#include "cgaview/ModelAdapter.h"
+#include "cev/WxGraphPage.h"
+#include "cev/Evaluator.h"
+#include "cev/MessageID.h"
+#include "cev/Scene.h"
+#include "cev/MsgHelper.h"
+#include "cev/ModelAdapter.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -13,7 +13,7 @@
 #include <blueprint/Blueprint.h>
 #include <blueprint/Pin.h>
 
-#include <cga/EvalOp.h>
+#include <ce/EvalOp.h>
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
@@ -37,7 +37,7 @@ const uint32_t MESSAGES[] =
 
 }
 
-namespace cgav
+namespace cev
 {
 
 WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,

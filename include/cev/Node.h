@@ -2,9 +2,9 @@
 
 #include <blueprint/Node.h>
 
-#include <cga/Operation.h>
+#include <ce/Operation.h>
 
-namespace cgav
+namespace cev
 {
 
 class Node : public bp::Node
@@ -23,7 +23,7 @@ public:
     bool GetDisplay() const { return m_display; }
     void SetDisplay(bool display) { m_display = display; }
 
-    void UpdatePins(const cga::Operation& node);
+    void UpdatePins(const ce::Operation& node);
 
 protected:
     struct PinDesc
@@ -49,7 +49,7 @@ private:
         bool is_input);
 
     static void PortBack2Front(std::vector<PinDesc>& dst,
-        const std::vector<cga::Operation::Port>& src);
+        const std::vector<ce::Operation::Port>& src);
 
 private:
     std::string m_name;

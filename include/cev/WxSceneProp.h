@@ -11,7 +11,7 @@
 class wxPropertyGrid;
 class wxPropertyGridEvent;
 
-namespace cgav
+namespace cev
 {
 
 class Scene;

@@ -2,7 +2,7 @@
 
 #include <blueprint/WxNodeProperty.h>
 
-namespace cgav
+namespace cev
 {
 
 class WxRuleNodeProp : public bp::WxNodeProperty

@@ -1,5 +1,5 @@
-cgaview/
+cev/
 projects/*
 
-!projects/cgaview.vcxproj
-!projects/cgaview.vcxproj.filters
+!projects/cev.vcxproj
+!projects/cev.vcxproj.filters

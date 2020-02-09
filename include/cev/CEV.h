@@ -7,10 +7,10 @@
 #include <vector>
 #include <memory>
 
-namespace cgav
+namespace cev
 {
 
-class CGAView
+class CEV
 {
 public:
     auto& GetAllNodes() { return m_nodes; }
@@ -21,8 +21,8 @@ private:
 private:
     std::vector<bp::NodePtr> m_nodes;
 
-    CU_SINGLETON_DECLARATION(CGAView)
+    CU_SINGLETON_DECLARATION(CEV)
 
-}; // CGAView
+}; // CEV
 
 }

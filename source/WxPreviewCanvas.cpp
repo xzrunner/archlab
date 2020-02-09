@@ -1,11 +1,11 @@
-#include "cgaview/WxPreviewCanvas.h"
-#include "cgaview/PreviewRender.h"
-#include "cgaview/PreviewPage.h"
-#include "cgaview/Node.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/WxEditorPanel.h"
-#include "cgaview/WxGraphPage.h"
-#include "cgaview/WxTextPage.h"
+#include "cev/WxPreviewCanvas.h"
+#include "cev/PreviewRender.h"
+#include "cev/PreviewPage.h"
+#include "cev/Node.h"
+#include "cev/MessageID.h"
+#include "cev/WxEditorPanel.h"
+#include "cev/WxGraphPage.h"
+#include "cev/WxTextPage.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -28,7 +28,7 @@ const uint32_t LIGHT_SELECT_COLOR = 0x88000088;
 
 }
 
-namespace cgav
+namespace cev
 {
 
 WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM

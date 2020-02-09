@@ -1,7 +1,7 @@
-#include "cgaview/WxSceneProp.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/Scene.h"
-#include "cgaview/ModelAdapter.h"
+#include "cev/WxSceneProp.h"
+#include "cev/MessageID.h"
+#include "cev/Scene.h"
+#include "cev/ModelAdapter.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/GameObj.h>
@@ -12,7 +12,7 @@
 #include <wx/sizer.h>
 #include <wx/propgrid/propgrid.h>
 
-namespace cgav
+namespace cev
 {
 
 WxSceneProp::WxSceneProp(wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,

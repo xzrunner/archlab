@@ -1,8 +1,8 @@
-#include "cgaview/ModelAdapter.h"
+#include "cev/ModelAdapter.h"
 
-#include <cga/Geometry.h>
-#include <cga/TopoPolyAdapter.h>
-#include <cga/EvalRule.h>
+#include <ce/Geometry.h>
+#include <ce/TopoPolyAdapter.h>
+#include <ce/EvalRule.h>
 #include <cgaeasy/CompCGA.h>
 #include <model/AssimpHelper.h>
 #include <model/Model.h>
@@ -18,7 +18,7 @@
 #include <geoshape/Polygon3D.h>
 #include <polymesh3/Polytope.h>
 
-namespace cgav
+namespace cev
 {
 
 // todo: copy from sop::GeoAdaptor::Init
@@ -53,7 +53,7 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
     cmodel_inst.GetModel()->SetModelExt(model_ext);
 }
 
-void ModelAdapter::UpdateModel(const std::vector<cga::GeoPtr>& geos, const n0::SceneNode& node)
+void ModelAdapter::UpdateModel(const std::vector<ce::GeoPtr>& geos, const n0::SceneNode& node)
 {
     if (geos.empty()) {
         return;
@@ -87,7 +87,7 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
         return false;
     }
 
-    std::vector<cga::GeoPtr> in_geos;
+    std::vector<ce::GeoPtr> in_geos;
     if (node.HasUniqueComp<n3::CompShape>())
     {
         auto& cshape = node.GetUniqueComp<n3::CompShape>();
@@ -99,12 +99,12 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
             }
 
             auto& verts = std::static_pointer_cast<gs::Polygon3D>(s)->GetVertices();
-            cga::TopoPolyAdapter adapter(verts);
+            ce::TopoPolyAdapter adapter(verts);
             std::vector<pm3::Polytope::PointPtr> dst_pts;
             std::vector<pm3::Polytope::FacePtr> dst_faces;
             adapter.TransToPolymesh(dst_pts, dst_faces);
             auto poly = std::make_shared<pm3::Polytope>(dst_pts, dst_faces);
-            in_geos.push_back(std::make_shared<cga::Geometry>(poly));
+            in_geos.push_back(std::make_shared<ce::Geometry>(poly));
         }
     }
 
@@ -122,7 +122,7 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateModelFromFilepath(const std::vector<cga::GeoPtr>& geos)
+ModelAdapter::CreateModelFromFilepath(const std::vector<ce::GeoPtr>& geos)
 {
     for (auto& geo : geos)
     {
@@ -143,7 +143,7 @@ ModelAdapter::CreateModelFromFilepath(const std::vector<cga::GeoPtr>& geos)
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateBrushModel(const std::vector<cga::GeoPtr>& geos)
+ModelAdapter::CreateBrushModel(const std::vector<ce::GeoPtr>& geos)
 {
     assert(!geos.empty());
 
@@ -159,7 +159,7 @@ ModelAdapter::CreateBrushModel(const std::vector<cga::GeoPtr>& geos)
     return model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
 }
 
-void ModelAdapter::GeoToBrush(const cga::GeoPtr& geo,
+void ModelAdapter::GeoToBrush(const ce::GeoPtr& geo,
                               std::vector<std::vector<std::vector<sm::vec3>>>& colors,
                               std::vector<model::BrushModel::Brush>& brushes)
 {

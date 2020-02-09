@@ -1,12 +1,12 @@
-#include "cgaview/PreviewPage.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/ModelAdapter.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/WxGraphPage.h"
-#include "cgaview/WxTextPage.h"
-#include "cgaview/Evaluator.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/Scene.h"
+#include "cev/PreviewPage.h"
+#include "cev/MessageID.h"
+#include "cev/ModelAdapter.h"
+#include "cev/MessageID.h"
+#include "cev/WxGraphPage.h"
+#include "cev/WxTextPage.h"
+#include "cev/Evaluator.h"
+#include "cev/MessageID.h"
+#include "cev/Scene.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/GameObj.h>
@@ -22,7 +22,7 @@
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
 
-namespace cgav
+namespace cev
 {
 
 PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
@@ -80,13 +80,13 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         auto var_rule = variants.GetVariant("rule");
         GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<cga::EvalRule>* rule
-            = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
+        const std::shared_ptr<ce::EvalRule>* rule
+            = static_cast<const std::shared_ptr<ce::EvalRule>*>(var_rule.m_val.pv);
 
         auto var_ctx = variants.GetVariant("ctx");
         GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<cga::EvalContext>* ctx
-            = static_cast<const std::shared_ptr<cga::EvalContext>*>(var_rule.m_val.pv);
+        const std::shared_ptr<ce::EvalContext>* ctx
+            = static_cast<const std::shared_ptr<ce::EvalContext>*>(var_rule.m_val.pv);
 
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {

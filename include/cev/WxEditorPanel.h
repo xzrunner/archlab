@@ -1,19 +1,19 @@
 #pragma once
 
-#include "cgaview/Scene.h"
+#include "cev/Scene.h"
 
 #include <ee0/Observer.h>
 #include <ee0/SubjectMgr.h>
 #include <ee0/typedef.h>
 
-#include <cga/EvalContext.h>
+#include <ce/EvalContext.h>
 #include <node0/typedef.h>
 
 #include <wx/panel.h>
 
 class wxNotebook;
 
-namespace cgav
+namespace cev
 {
 
 class WxTextPage;
@@ -23,7 +23,7 @@ class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
     WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-        std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
+        std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator);
     virtual ~WxEditorPanel();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -41,7 +41,7 @@ public:
     std::shared_ptr<cgac::StringPool> GetTextPageStrPool() const;
 
 private:
-    void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator);
+    void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator);
 
     void ShowRule(const std::string& name);
 
@@ -61,7 +61,7 @@ private:
     WxGraphPage* m_graph_page;
     WxTextPage*  m_text_page;
 
-    cga::EvalContext m_ctx;
+    ce::EvalContext m_ctx;
 
     Scene m_scene;
 

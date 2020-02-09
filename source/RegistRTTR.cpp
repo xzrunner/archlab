@@ -1,4 +1,4 @@
-#include "cgaview/RegistNodes.h"
+#include "cev/RegistNodes.h"
 
 #include <ee0/ReflectPropTypes.h>
 
@@ -8,7 +8,7 @@ extern void regist_sm_rttr();
 extern void regist_pt0_rttr();
 }
 
-namespace cgav
+namespace cev
 {
 
 void regist_rttr()

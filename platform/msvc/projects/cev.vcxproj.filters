@@ -51,82 +51,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\cgaview\Node.h">
+    <ClInclude Include="..\..\..\include\cev\Node.h">
       <Filter>dataset\node</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\CGAView.h" />
-    <ClInclude Include="..\..\..\include\cgaview\PinCallback.h">
+    <ClInclude Include="..\..\..\include\cev\PinCallback.h">
       <Filter>dataset\pin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\PinType.h">
+    <ClInclude Include="..\..\..\include\cev\PinType.h">
       <Filter>dataset\pin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h">
+    <ClInclude Include="..\..\..\include\cev\WxToolbarPanel.h">
       <Filter>view\toolbar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\Evaluator.h">
+    <ClInclude Include="..\..\..\include\cev\Evaluator.h">
       <Filter>tools\eval</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\RegistNodes.h">
+    <ClInclude Include="..\..\..\include\cev\RegistNodes.h">
       <Filter>tools\rtti</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\MessageID.h">
+    <ClInclude Include="..\..\..\include\cev\MessageID.h">
       <Filter>dataset</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\CGAAdapter.h">
+    <ClInclude Include="..\..\..\include\cev\CGAAdapter.h">
       <Filter>tools\trans</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h">
+    <ClInclude Include="..\..\..\include\cev\ModelAdapter.h">
       <Filter>tools\trans</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h">
+    <ClInclude Include="..\..\..\include\cev\node_def_gen.h">
       <Filter>tools\rtti</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h">
+    <ClInclude Include="..\..\..\include\cev\node_rttr_gen.h">
       <Filter>tools\rtti</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxEditorPanel.h">
+    <ClInclude Include="..\..\..\include\cev\WxEditorPanel.h">
       <Filter>view\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h">
+    <ClInclude Include="..\..\..\include\cev\WxGraphPage.h">
       <Filter>view\editor\pages</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxTextPage.h">
+    <ClInclude Include="..\..\..\include\cev\WxTextPage.h">
       <Filter>view\editor\pages</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxPreviewCanvas.h">
+    <ClInclude Include="..\..\..\include\cev\WxPreviewCanvas.h">
       <Filter>view\preview</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\PreviewRender.h">
+    <ClInclude Include="..\..\..\include\cev\PreviewRender.h">
       <Filter>view\preview</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\PreviewPage.h">
+    <ClInclude Include="..\..\..\include\cev\PreviewPage.h">
       <Filter>view\preview</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxRuleProperty.h">
+    <ClInclude Include="..\..\..\include\cev\WxRuleProperty.h">
       <Filter>view\toolbar\rule</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxRuleNodeProp.h">
+    <ClInclude Include="..\..\..\include\cev\WxRuleNodeProp.h">
       <Filter>view\toolbar\rule</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\WxSceneProp.h">
+    <ClInclude Include="..\..\..\include\cev\WxSceneProp.h">
       <Filter>view\toolbar\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\Scene.h">
+    <ClInclude Include="..\..\..\include\cev\Scene.h">
       <Filter>dataset\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h">
+    <ClInclude Include="..\..\..\include\cev\MsgHelper.h">
       <Filter>tools\msg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cgaview\node_regist_cfg.h">
+    <ClInclude Include="..\..\..\include\cev\node_regist_cfg.h">
       <Filter>tools\rtti</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cev\CEV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Node.cpp">
       <Filter>dataset\node</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\CGAView.cpp" />
     <ClCompile Include="..\..\..\source\PinCallback.cpp">
       <Filter>dataset\pin</Filter>
     </ClCompile>
@@ -181,5 +180,6 @@
     <ClCompile Include="..\..\..\source\MsgHelper.cpp">
       <Filter>tools\msg</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\CEV.cpp" />
   </ItemGroup>
 </Project>

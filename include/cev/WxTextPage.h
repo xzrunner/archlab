@@ -7,10 +7,10 @@
 #include <wx/panel.h>
 
 namespace ee0 { class WxCodeCtrl; }
-namespace cga { class EvalContext; class EvalRule; }
+namespace ce { class EvalContext; class EvalRule; }
 namespace cgac { class StringPool; }
 
-namespace cgav
+namespace cev
 {
 
 class Scene;
@@ -48,8 +48,8 @@ private:
 
     ee0::WxCodeCtrl* m_code;
 
-    std::shared_ptr<cga::EvalContext> m_eval_ctx = nullptr;
-    std::shared_ptr<cga::EvalRule>    m_eval     = nullptr;
+    std::shared_ptr<ce::EvalContext> m_eval_ctx = nullptr;
+    std::shared_ptr<ce::EvalRule>    m_eval     = nullptr;
 
     std::string m_rule_path = "default_text_rule";
 

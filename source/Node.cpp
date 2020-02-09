@@ -1,10 +1,10 @@
-#include "cgaview/Node.h"
-#include "cgaview/CGAAdapter.h"
+#include "cev/Node.h"
+#include "cev/CGAAdapter.h"
 
 #include <blueprint/Pin.h>
 #include <blueprint/Connecting.h>
 
-namespace cgav
+namespace cev
 {
 
 const char* Node::STR_PROP_DISPLAY = "Display";
@@ -46,7 +46,7 @@ void Node::Draw(const n2::RenderParams& rp) const
     //}
 }
 
-void Node::UpdatePins(const cga::Operation& node)
+void Node::UpdatePins(const ce::Operation& node)
 {
     std::vector<PinDesc> input, output;
     PortBack2Front(input, node.GetImports());
@@ -65,7 +65,7 @@ void Node::InitPins(const std::vector<PinDesc>& input,
 
 void Node::InitPins(const std::string& name)
 {
-	rttr::type t = rttr::type::get_by_name("cga::" + name);
+	rttr::type t = rttr::type::get_by_name("ce::" + name);
     if (!t.is_valid()) {
         return;
     }
@@ -77,15 +77,15 @@ void Node::InitPins(const std::string& name)
 	assert(method_imports.is_valid());
 	auto var_imports = method_imports.invoke(var);
 	assert(var_imports.is_valid()
-		&& var_imports.is_type<std::vector<cga::Operation::Port>>());
-	auto& imports = var_imports.get_value<std::vector<cga::Operation::Port>>();
+		&& var_imports.is_type<std::vector<ce::Operation::Port>>());
+	auto& imports = var_imports.get_value<std::vector<ce::Operation::Port>>();
 
 	auto method_exports = t.get_method("GetExports");
 	assert(method_exports.is_valid());
 	auto var_exports = method_exports.invoke(var);
 	assert(var_exports.is_valid()
-		&& var_exports.is_type<std::vector<cga::Operation::Port>>());
-	auto& exports = var_exports.get_value<std::vector<cga::Operation::Port>>();
+		&& var_exports.is_type<std::vector<ce::Operation::Port>>());
+	auto& exports = var_exports.get_value<std::vector<ce::Operation::Port>>();
 
 	std::vector<PinDesc> input, output;
     PortBack2Front(input, imports);
@@ -123,7 +123,7 @@ void Node::InitPinsImpl(const std::vector<PinDesc>& pins, bool is_input)
 }
 
 void Node::PortBack2Front(std::vector<PinDesc>& dst,
-                          const std::vector<cga::Operation::Port>& src)
+                          const std::vector<ce::Operation::Port>& src)
 {
 	dst.reserve(dst.size() + src.size());
 	for (int i = 0, n = src.size(); i < n; ++i)

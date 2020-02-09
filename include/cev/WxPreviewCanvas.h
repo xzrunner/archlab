@@ -2,7 +2,7 @@
 
 #include <ee3/WxStageCanvas.h>
 
-namespace cgav
+namespace cev
 {
 
 class WxEditorPanel;

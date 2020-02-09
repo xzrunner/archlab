@@ -1,3 +1,3 @@
-# cgaview
+# cev
 
-CGA front-end.
+CityEngine front-end.

@@ -1,5 +1,5 @@
-#include "cgaview/Scene.h"
-#include "cgaview/Evaluator.h"
+#include "cev/Scene.h"
+#include "cev/Evaluator.h"
 
 #include <blueprint/CompNode.h>
 #include <blueprint/NSCompNode.h>
@@ -9,18 +9,18 @@
 #include <ns/NodeFactory.h>
 #include <sx/ResFileHelper.h>
 #include <js/RapidJsonHelper.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 
 #include <boost/filesystem.hpp>
 
-namespace cgav
+namespace cev
 {
 
 std::shared_ptr<Scene::Rule>
-Scene::AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule)
+Scene::AddRule(const std::string& filepath, const std::shared_ptr<ce::EvalRule>& rule)
 {
     auto find = QueryRule(filepath);
     if (find)
@@ -131,16 +131,16 @@ Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::Strin
     {
         auto ext = boost::filesystem::extension(filepath);
         std::transform(ext.begin(), ext.end(), ext.begin(), tolower);
-        assert(ext == ".cga");
+        assert(ext == ".ce");
 
         std::ifstream fin(filepath);
         std::string str((std::istreambuf_iterator<char>(fin)),
             std::istreambuf_iterator<char>());
         fin.close();
 
-        cga::RuleLoader loader(str_pool);
-        auto eval_ctx = std::make_shared<cga::EvalContext>();
-        auto eval = std::make_shared<cga::EvalRule>();
+        ce::RuleLoader loader(str_pool);
+        auto eval_ctx = std::make_shared<ce::EvalContext>();
+        auto eval = std::make_shared<ce::EvalRule>();
         loader.RunString(*eval_ctx, str, *eval/*, true*/);
 
         rule->impl = eval;

@@ -1,22 +1,22 @@
-#include "cgaview/CGAView.h"
-#include "cgaview/PinCallback.h"
-#include "cgaview/Node.h"
+#include "cev/CEV.h"
+#include "cev/PinCallback.h"
+#include "cev/Node.h"
 
 #include <blueprint/NodeBuilder.h>
 #include <blueprint/node/Commentary.h>
 
-#include <cga/CGA.h>
+#include <ce/CE.h>
 
-namespace cgav
+namespace cev
 {
 
-CU_SINGLETON_DEFINITION(CGAView);
+CU_SINGLETON_DEFINITION(CEV);
 
 extern void regist_rttr();
 
-CGAView::CGAView()
+CEV::CEV()
 {
-	cga::CGA::Instance();
+	ce::CE::Instance();
 
 	regist_rttr();
 
@@ -25,7 +25,7 @@ CGAView::CGAView()
     InitPinCallback();
 }
 
-void CGAView::InitNodes()
+void CEV::InitNodes()
 {
     const int bp_count = 1;
 

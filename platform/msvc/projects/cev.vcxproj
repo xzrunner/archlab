@@ -11,34 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\cgaview\CGAAdapter.h" />
-    <ClInclude Include="..\..\..\include\cgaview\CGAView.h" />
-    <ClInclude Include="..\..\..\include\cgaview\Evaluator.h" />
-    <ClInclude Include="..\..\..\include\cgaview\MessageID.h" />
-    <ClInclude Include="..\..\..\include\cgaview\ModelAdapter.h" />
-    <ClInclude Include="..\..\..\include\cgaview\MsgHelper.h" />
-    <ClInclude Include="..\..\..\include\cgaview\Node.h" />
-    <ClInclude Include="..\..\..\include\cgaview\node_regist_cfg.h" />
-    <ClInclude Include="..\..\..\include\cgaview\node_rttr_gen.h" />
-    <ClInclude Include="..\..\..\include\cgaview\PinCallback.h" />
-    <ClInclude Include="..\..\..\include\cgaview\PinType.h" />
-    <ClInclude Include="..\..\..\include\cgaview\PreviewPage.h" />
-    <ClInclude Include="..\..\..\include\cgaview\RegistNodes.h" />
-    <ClInclude Include="..\..\..\include\cgaview\node_def_gen.h" />
-    <ClInclude Include="..\..\..\include\cgaview\PreviewRender.h" />
-    <ClInclude Include="..\..\..\include\cgaview\Scene.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxEditorPanel.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxRuleProperty.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxGraphPage.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxRuleNodeProp.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxPreviewCanvas.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxSceneProp.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxTextPage.h" />
-    <ClInclude Include="..\..\..\include\cgaview\WxToolbarPanel.h" />
+    <ClInclude Include="..\..\..\include\cev\CGAAdapter.h" />
+    <ClInclude Include="..\..\..\include\cev\CEV.h" />
+    <ClInclude Include="..\..\..\include\cev\Evaluator.h" />
+    <ClInclude Include="..\..\..\include\cev\MessageID.h" />
+    <ClInclude Include="..\..\..\include\cev\ModelAdapter.h" />
+    <ClInclude Include="..\..\..\include\cev\MsgHelper.h" />
+    <ClInclude Include="..\..\..\include\cev\Node.h" />
+    <ClInclude Include="..\..\..\include\cev\node_regist_cfg.h" />
+    <ClInclude Include="..\..\..\include\cev\node_rttr_gen.h" />
+    <ClInclude Include="..\..\..\include\cev\PinCallback.h" />
+    <ClInclude Include="..\..\..\include\cev\PinType.h" />
+    <ClInclude Include="..\..\..\include\cev\PreviewPage.h" />
+    <ClInclude Include="..\..\..\include\cev\RegistNodes.h" />
+    <ClInclude Include="..\..\..\include\cev\node_def_gen.h" />
+    <ClInclude Include="..\..\..\include\cev\PreviewRender.h" />
+    <ClInclude Include="..\..\..\include\cev\Scene.h" />
+    <ClInclude Include="..\..\..\include\cev\WxEditorPanel.h" />
+    <ClInclude Include="..\..\..\include\cev\WxRuleProperty.h" />
+    <ClInclude Include="..\..\..\include\cev\WxGraphPage.h" />
+    <ClInclude Include="..\..\..\include\cev\WxRuleNodeProp.h" />
+    <ClInclude Include="..\..\..\include\cev\WxPreviewCanvas.h" />
+    <ClInclude Include="..\..\..\include\cev\WxSceneProp.h" />
+    <ClInclude Include="..\..\..\include\cev\WxTextPage.h" />
+    <ClInclude Include="..\..\..\include\cev\WxToolbarPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGAAdapter.cpp" />
-    <ClCompile Include="..\..\..\source\CGAView.cpp" />
+    <ClCompile Include="..\..\..\source\CEV.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\ModelAdapter.cpp" />
     <ClCompile Include="..\..\..\source\MsgHelper.cpp" />
@@ -59,9 +59,9 @@
     <ClCompile Include="..\..\..\source\WxToolbarPanel.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>7.cgaview</ProjectName>
+    <ProjectName>7.cev</ProjectName>
     <ProjectGuid>{9B8ADC4D-126B-4569-B374-AC81FB76D05C}</ProjectGuid>
-    <RootNamespace>cgaview</RootNamespace>
+    <RootNamespace>cev</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -91,17 +91,17 @@
     <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\cgaview\x86\Debug\</OutDir>
-    <IntDir>..\cgaview\x86\Debug\obj\</IntDir>
+    <OutDir>..\cev\x86\Debug\</OutDir>
+    <IntDir>..\cev\x86\Debug\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\cgaview\x86\Release\</OutDir>
-    <IntDir>..\cgaview\x86\Release\obj\</IntDir>
+    <OutDir>..\cev\x86\Release\</OutDir>
+    <IntDir>..\cev\x86\Release\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\memmgr\include;..\..\..\..\serializerx\include;..\..\..\..\halfedge\include;..\..\..\..\primitive\include;..\..\..\..\tessellation\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\unirender\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\dag\include;..\..\..\..\cga\include;..\..\..\..\cgac\include;..\..\..\..\cgaeasy\include;..\..\..\..\renderpipeline\include;..\..\..\..\node0\include;..\..\..\..\node2\include;..\..\..\..\node3\include;..\..\..\..\nserializer\include;..\..\..\..\easygui\include;..\..\..\..\moon\include;..\..\..\..\facade\include;..\..\..\..\js\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\blueprint\include;..\..\..\..\draft2\include;..\..\..\..\draft3\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\python27\include\python27;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\memmgr\include;..\..\..\..\serializerx\include;..\..\..\..\halfedge\include;..\..\..\..\primitive\include;..\..\..\..\tessellation\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\unirender\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\dag\include;..\..\..\..\ce\include;..\..\..\..\cgac\include;..\..\..\..\cgaeasy\include;..\..\..\..\renderpipeline\include;..\..\..\..\node0\include;..\..\..\..\node2\include;..\..\..\..\node3\include;..\..\..\..\nserializer\include;..\..\..\..\easygui\include;..\..\..\..\moon\include;..\..\..\..\facade\include;..\..\..\..\js\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\blueprint\include;..\..\..\..\draft2\include;..\..\..\..\draft3\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\python27\include\python27;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -116,7 +116,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\memmgr\include;..\..\..\..\serializerx\include;..\..\..\..\halfedge\include;..\..\..\..\primitive\include;..\..\..\..\tessellation\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\unirender\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\dag\include;..\..\..\..\cga\include;..\..\..\..\cgac\include;..\..\..\..\cgaeasy\include;..\..\..\..\renderpipeline\include;..\..\..\..\node0\include;..\..\..\..\node2\include;..\..\..\..\node3\include;..\..\..\..\nserializer\include;..\..\..\..\easygui\include;..\..\..\..\moon\include;..\..\..\..\facade\include;..\..\..\..\js\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\blueprint\include;..\..\..\..\draft2\include;..\..\..\..\draft3\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\python27\include\python27;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\memmgr\include;..\..\..\..\serializerx\include;..\..\..\..\halfedge\include;..\..\..\..\primitive\include;..\..\..\..\tessellation\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\unirender\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\dag\include;..\..\..\..\ce\include;..\..\..\..\cgac\include;..\..\..\..\cgaeasy\include;..\..\..\..\renderpipeline\include;..\..\..\..\node0\include;..\..\..\..\node2\include;..\..\..\..\node3\include;..\..\..\..\nserializer\include;..\..\..\..\easygui\include;..\..\..\..\moon\include;..\..\..\..\facade\include;..\..\..\..\js\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\blueprint\include;..\..\..\..\draft2\include;..\..\..\..\draft3\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\python27\include\python27;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

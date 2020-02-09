@@ -1,9 +1,9 @@
-#include "cgaview/WxEditorPanel.h"
-#include "cgaview/WxTextPage.h"
-#include "cgaview/WxGraphPage.h"
-#include "cgaview/Evaluator.h"
-#include "cgaview/MessageID.h"
-#include "cgaview/ModelAdapter.h"
+#include "cev/WxEditorPanel.h"
+#include "cev/WxTextPage.h"
+#include "cev/WxGraphPage.h"
+#include "cev/Evaluator.h"
+#include "cev/MessageID.h"
+#include "cev/ModelAdapter.h"
 
 #include <blueprint/NSCompNode.h>
 #include <blueprint/Serializer.h>
@@ -19,11 +19,11 @@
 
 #include <boost/filesystem.hpp>
 
-namespace cgav
+namespace cev
 {
 
 WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-                             std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
+                             std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
@@ -54,13 +54,13 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
     {
         auto var_rule = variants.GetVariant("rule");
         GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<cga::EvalRule>* rule
-            = static_cast<const std::shared_ptr<cga::EvalRule>*>(var_rule.m_val.pv);
+        const std::shared_ptr<ce::EvalRule>* rule
+            = static_cast<const std::shared_ptr<ce::EvalRule>*>(var_rule.m_val.pv);
 
         auto var_ctx = variants.GetVariant("ctx");
         GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<cga::EvalContext>* rule_ctx
-            = static_cast<const std::shared_ptr<cga::EvalContext>*>(var_ctx.m_val.pv);
+        const std::shared_ptr<ce::EvalContext>* rule_ctx
+            = static_cast<const std::shared_ptr<ce::EvalContext>*>(var_ctx.m_val.pv);
 
         auto node = GetCurrPagePreviewObj();
         auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
@@ -117,7 +117,7 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
     }
 
     auto filename = boost::filesystem::path(filepath).filename();
-    std::shared_ptr<cga::EvalRule> rule = nullptr;
+    std::shared_ptr<ce::EvalRule> rule = nullptr;
 
     switch (m_nb->GetSelection())
     {
@@ -205,7 +205,7 @@ WxEditorPanel::GetTextPageStrPool() const
     return m_text_page->GetStringPool();
 }
 
-void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, cga::EvalContext&)> graph_page_creator)
+void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
 

@@ -1,11 +1,11 @@
-#include "cgaview/PreviewRender.h"
-#include "cgaview/Evaluator.h"
+#include "cev/PreviewRender.h"
+#include "cev/Evaluator.h"
 
 #include <painting3/RenderSystem.h>
 #include <node0/SceneNode.h>
 #include <node3/RenderSystem.h>
 
-namespace cgav
+namespace cev
 {
 
 PreviewRender::PreviewRender(const pt3::Viewport& vp,

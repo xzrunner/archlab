@@ -10,16 +10,16 @@
 #endif
 
 #ifndef PARM_FILEPATH
-#define PARM_FILEPATH cga/op/##PARM_NODE_CLASS##.parm.h
+#define PARM_FILEPATH ce/op/##PARM_NODE_CLASS##.parm.h
 #endif
 
-#define RTTR_NAME cgav::##PARM_NODE_NAME
+#define RTTR_NAME cev::##PARM_NODE_NAME
 
-rttr::registration::class_<cgav::node::PARM_NODE_CLASS>(XSTR(RTTR_NAME))
+rttr::registration::class_<cev::node::PARM_NODE_CLASS>(XSTR(RTTR_NAME))
 .constructor<>()
 
 #define PARAM_INFO(id, type, name, member, default_val)        \
-.property(#name, &cgav::node::##PARM_NODE_CLASS::member)       \
+.property(#name, &cev::node::##PARM_NODE_CLASS::member)       \
 (                                                              \
 	rttr::metadata(ee0::UIMetaInfoTag(), ee0::UIMetaInfo(#id)) \
 )

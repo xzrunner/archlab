@@ -2,8 +2,8 @@
 
 #include <blueprint/typedef.h>
 
-#include <cga/EvalOp.h>
-#include <cga/typedef.h>
+#include <ce/EvalOp.h>
+#include <ce/typedef.h>
 #include <node0/typedef.h>
 
 #include <boost/noncopyable.hpp>
@@ -13,7 +13,7 @@
 
 namespace bp { class Connecting; }
 
-namespace cgav
+namespace cev
 {
 
 class Evaluator : boost::noncopyable
@@ -36,24 +36,24 @@ public:
     void OnRebuildConnection();
 
     // calc
-    float CalcFloat(const std::string& expr, const cga::Operation& node, float expect = 0.0f) const;
-    int CalcInt(const std::string& expr, const cga::Operation& node, int expect = 0) const;
+    float CalcFloat(const std::string& expr, const ce::Operation& node, float expect = 0.0f) const;
+    int CalcInt(const std::string& expr, const ce::Operation& node, int expect = 0) const;
 
     auto& GetEvalCtx() const { return m_eval_ctx; }
     auto& GetEval() const { return m_eval; }
 
     auto& GetAllNodes() const { return m_nodes_map; }
 
-    cga::OpPtr QueryBackNode(const bp::Node& front_node) const;
+    ce::OpPtr QueryBackNode(const bp::Node& front_node) const;
 
 private:
     void Update();
 
 private:
-    std::shared_ptr<cga::EvalContext> m_eval_ctx = nullptr;
-    cga::EvalOp m_eval;
+    std::shared_ptr<ce::EvalContext> m_eval_ctx = nullptr;
+    ce::EvalOp m_eval;
 
-    std::unordered_map<const bp::Node*, cga::OpPtr> m_nodes_map;
+    std::unordered_map<const bp::Node*, ce::OpPtr> m_nodes_map;
 
 }; // Evaluator
 

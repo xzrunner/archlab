@@ -7,11 +7,11 @@
 
 namespace ee0 { class WxStageCanvas; class WxNavigationBar; }
 namespace bp { class WxNodeProperty; }
-namespace cga { class EvalContext; }
+namespace ce { class EvalContext; }
 
 class wxNotebook;
 
-namespace cgav
+namespace cev
 {
 
 class WxRuleProperty;
@@ -21,7 +21,7 @@ class WxSceneProp;
 class WxToolbarPanel : public wxPanel, public ee0::Observer
 {
 public:
-	WxToolbarPanel(wxWindow* parent, cga::EvalContext& ctx,
+	WxToolbarPanel(wxWindow* parent, ce::EvalContext& ctx,
         const ee0::SubjectMgrPtr& graph_sub_mgr, const ee0::SubjectMgrPtr& preview_sub_mgr);
     virtual ~WxToolbarPanel();
 
@@ -32,11 +32,11 @@ public:
     void ReloadRulesList();
 
 private:
-	void InitLayout(cga::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr);
+	void InitLayout(ce::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr);
 
     void InitOperatorPanel(wxSizer* sizer);
     void InitButtonsPanel(wxSizer* sizer);
-    void InitPropsPanel(wxSizer* sizer, cga::EvalContext& ctx,
+    void InitPropsPanel(wxSizer* sizer, ce::EvalContext& ctx,
         const ee0::SubjectMgrPtr& graph_sub_mgr);
 
     void OnChangeEditType(wxCommandEvent& event);

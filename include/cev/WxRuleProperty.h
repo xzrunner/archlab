@@ -1,19 +1,19 @@
 #pragma once
 
-#include <cga/EvalContext.h>
+#include <ce/EvalContext.h>
 
 #include <wx/panel.h>
 
 class wxPropertyGrid;
 class wxPropertyGridEvent;
 
-namespace cgav
+namespace cev
 {
 
 class WxRuleProperty : public wxPanel
 {
 public:
-    WxRuleProperty(wxWindow* parent, cga::EvalContext& ctx);
+    WxRuleProperty(wxWindow* parent, ce::EvalContext& ctx);
 
 private:
     void InitLayout();
@@ -27,7 +27,7 @@ private:
     void OnPropertyGridChange(wxPropertyGridEvent& event);
 
     void ReloadParmProps();
-    void AddParmToProp(const cga::EvalContext::Parm& parm);
+    void AddParmToProp(const ce::EvalContext::Parm& parm);
 
 private:
     wxPropertyGrid* m_pg;
@@ -35,7 +35,7 @@ private:
     wxButton* m_add_btn;
     wxButton* m_del_btn;
 
-    cga::EvalContext& m_ctx;
+    ce::EvalContext& m_ctx;
 
 }; // WxRuleProperty
 

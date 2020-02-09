@@ -1,4 +1,4 @@
-#include "cgaview/WxRuleProperty.h"
+#include "cev/WxRuleProperty.h"
 
 #include <wx/wx.h>
 #include <wx/propgrid/propgrid.h>
@@ -80,10 +80,10 @@ private:
 
 }
 
-namespace cgav
+namespace cev
 {
 
-WxRuleProperty::WxRuleProperty(wxWindow* parent, cga::EvalContext& ctx)
+WxRuleProperty::WxRuleProperty(wxWindow* parent, ce::EvalContext& ctx)
     : wxPanel(parent)
     , m_ctx(ctx)
 {
@@ -133,7 +133,7 @@ void WxRuleProperty::OnAddPress(wxCommandEvent& event)
         return;
     }
 
-    cga::EvalContext::Parm p;
+    ce::EvalContext::Parm p;
     p.name = dlg.GetKey();
     switch (dlg.GetSelectIdx())
     {
@@ -172,7 +172,7 @@ void WxRuleProperty::ReloadParmProps()
     }
 }
 
-void WxRuleProperty::AddParmToProp(const cga::EvalContext::Parm& p)
+void WxRuleProperty::AddParmToProp(const ce::EvalContext::Parm& p)
 {
     switch (p.value.type)
     {

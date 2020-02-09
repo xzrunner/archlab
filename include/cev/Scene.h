@@ -5,12 +5,12 @@
 #include <vector>
 #include <memory>
 
-namespace cga { class EvalContext; class EvalRule; }
+namespace ce { class EvalContext; class EvalRule; }
 namespace mm { class LinearAllocator; }
 namespace n0 { class SceneNode; }
 namespace cgac { class StringPool; }
 
-namespace cgav
+namespace cev
 {
 
 class Rule;
@@ -23,8 +23,8 @@ public:
         std::string filepath;
         std::string name;
 
-        std::shared_ptr<cga::EvalContext> ctx  = nullptr;
-        std::shared_ptr<cga::EvalRule>    impl = nullptr;
+        std::shared_ptr<ce::EvalContext> ctx  = nullptr;
+        std::shared_ptr<ce::EvalRule>    impl = nullptr;
 
         std::shared_ptr<n0::SceneNode> root = nullptr;
         std::string text;
@@ -32,7 +32,7 @@ public:
 
 public:
     std::shared_ptr<Rule>
-        AddRule(const std::string& filepath, const std::shared_ptr<cga::EvalRule>& rule);
+        AddRule(const std::string& filepath, const std::shared_ptr<ce::EvalRule>& rule);
     std::shared_ptr<Rule> QueryRule(const std::string& filepath) const;
 
     auto& GetAllRules() const { return m_rules; }

@@ -1,12 +1,12 @@
-#include "cgaview/WxTextPage.h"
-#include "cgaview/MsgHelper.h"
-#include "cgaview/ModelAdapter.h"
+#include "cev/WxTextPage.h"
+#include "cev/MsgHelper.h"
+#include "cev/ModelAdapter.h"
 
 #include <ee0/WxCodeCtrl.h>
 
-#include <cga/EvalRule.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalContext.h>
+#include <ce/EvalRule.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalContext.h>
 #include <cgac/StringPool.h>
 #include <cgaeasy/CompCGA.h>
 #include <node0/SceneNode.h>
@@ -15,7 +15,7 @@
 #include <wx/sizer.h>
 #include <wx/button.h>
 
-namespace cgav
+namespace cev
 {
 
 WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
@@ -67,11 +67,11 @@ void WxTextPage::RebuildEval()
 {
     auto str = m_code->GetText().ToStdString();
 
-    m_eval_ctx = std::make_shared<cga::EvalContext>();
+    m_eval_ctx = std::make_shared<ce::EvalContext>();
 
-    cga::RuleLoader loader(m_str_pool);
+    ce::RuleLoader loader(m_str_pool);
     if (!m_eval) {
-        m_eval = std::make_shared<cga::EvalRule>();
+        m_eval = std::make_shared<ce::EvalRule>();
     } else {
         m_eval->Clear();
     }
