@@ -7,7 +7,7 @@
 #include <ee0/GameObj.h>
 
 #include <node0/SceneNode.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CompCE.h>
 
 #include <wx/sizer.h>
 #include <wx/propgrid/propgrid.h>
@@ -113,8 +113,8 @@ void WxSceneProp::OnNodePropChanged(wxPropertyGridEvent& event)
     wxAny val = property->GetValue();
     auto idx = wxANY_AS(val, int);
 
-    assert(m_selected_node && m_selected_node->HasUniqueComp<cgae::CompCGA>());
-    auto& ccga = m_selected_node->GetUniqueComp<cgae::CompCGA>();
+    assert(m_selected_node && m_selected_node->HasUniqueComp<cep::CompCE>());
+    auto& ccga = m_selected_node->GetUniqueComp<cep::CompCE>();
     if (idx == 0)
     {
         ccga.SetRule(nullptr, nullptr);
@@ -154,11 +154,11 @@ void WxSceneProp::LoadFromNode(const n0::SceneNodePtr& node)
 {
     m_node_prop->Clear();
 
-    if (!node->HasUniqueComp<cgae::CompCGA>()) {
+    if (!node->HasUniqueComp<cep::CompCE>()) {
         return;
     }
 
-    auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
+    auto& ccga = node->GetUniqueComp<cep::CompCE>();
     auto& rule = ccga.GetRule();
 
     wxArrayString rule_choices;

@@ -8,7 +8,7 @@
 #include <ce/RuleLoader.h>
 #include <ce/EvalContext.h>
 #include <cgac/StringPool.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CompCE.h>
 #include <node0/SceneNode.h>
 #include <ns/NodeFactory.h>
 
@@ -27,7 +27,7 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
 {
     m_preview_obj = ns::NodeFactory::Create3D();
     ModelAdapter::SetupModel(*m_preview_obj);
-    m_preview_obj->AddUniqueComp<cgae::CompCGA>();
+    m_preview_obj->AddUniqueComp<cep::CompCE>();
 
     InitLayout();
 }

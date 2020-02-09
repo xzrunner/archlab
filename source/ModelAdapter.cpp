@@ -3,7 +3,7 @@
 #include <ce/Geometry.h>
 #include <ce/TopoPolyAdapter.h>
 #include <ce/EvalRule.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CompCE.h>
 #include <model/AssimpHelper.h>
 #include <model/Model.h>
 #include <model/BrushBuilder.h>
@@ -77,11 +77,11 @@ void ModelAdapter::UpdateModel(const std::vector<ce::GeoPtr>& geos, const n0::Sc
 
 bool ModelAdapter::BuildModel(n0::SceneNode& node)
 {
-    if (!node.HasUniqueComp<cgae::CompCGA>()) {
+    if (!node.HasUniqueComp<cep::CompCE>()) {
         return false;
     }
 
-    auto& ccga = node.GetUniqueComp<cgae::CompCGA>();
+    auto& ccga = node.GetUniqueComp<cep::CompCE>();
     auto rule = ccga.GetRule();
     if (!rule) {
         return false;

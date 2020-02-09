@@ -12,7 +12,7 @@
 #include <sx/ResFileHelper.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CompCE.h>
 
 #include <wx/notebook.h>
 #include <wx/sizer.h>
@@ -63,7 +63,7 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
             = static_cast<const std::shared_ptr<ce::EvalContext>*>(var_ctx.m_val.pv);
 
         auto node = GetCurrPagePreviewObj();
-        auto& ccga = node->GetUniqueComp<cgae::CompCGA>();
+        auto& ccga = node->GetUniqueComp<cep::CompCE>();
         if (ccga.GetRule() != *rule) {
             ccga.SetRule(*rule, *rule_ctx);
         }

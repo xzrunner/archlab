@@ -14,7 +14,7 @@
 #include <blueprint/Pin.h>
 
 #include <ce/EvalOp.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CompCE.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <node2/CompBoundingBox.h>
@@ -54,7 +54,7 @@ WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
 
     m_preview_obj = ns::NodeFactory::Create3D();
     ModelAdapter::SetupModel(*m_preview_obj);
-    m_preview_obj->AddUniqueComp<cgae::CompCGA>();
+    m_preview_obj->AddUniqueComp<cep::CompCE>();
 
     for (auto& msg : MESSAGES) {
         m_sub_mgr->RegisterObserver(msg, this);

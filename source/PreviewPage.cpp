@@ -18,8 +18,8 @@
 #include <draft3/PolygonSelectOP.h>
 
 #include <guard/check.h>
-#include <cgaeasy/CGAEasy.h>
-#include <cgaeasy/CompCGA.h>
+#include <cep/CEP.h>
+#include <cep/CompCE.h>
 #include <node0/SceneNode.h>
 
 namespace cev
@@ -36,7 +36,7 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
 
-    cgae::CGAEasy::Init();
+    cep::CEP::Init();
 }
 
 PreviewPage::~PreviewPage()
@@ -57,8 +57,8 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const ee0::GameObj* obj = static_cast<const ee0::GameObj*>(var.m_val.pv);
         GD_ASSERT(obj, "err scene obj");
 
-        if (!(*obj)->HasUniqueComp<cgae::CompCGA>()) {
-            (*obj)->AddUniqueComp<cgae::CompCGA>();
+        if (!(*obj)->HasUniqueComp<cep::CompCE>()) {
+            (*obj)->AddUniqueComp<cep::CompCE>();
         }
     }
         break;
@@ -90,14 +90,14 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
-            if (!obj->HasUniqueComp<cgae::CompCGA>()) {
+            if (!obj->HasUniqueComp<cep::CompCE>()) {
                 return true;
             }
 
-            auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+            auto& ccga = obj->GetUniqueComp<cep::CompCE>();
             if (ccga.GetFilepath() == rule_path)
             {
-                auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+                auto& ccga = obj->GetUniqueComp<cep::CompCE>();
                 if (ccga.GetRule() != *rule) {
                     ccga.SetRule(*rule, *ctx);
                 }
@@ -138,11 +138,11 @@ void PreviewPage::InitSceneNodeRule(const Scene& scene)
 {
     m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
     {
-        if (!obj->HasUniqueComp<cgae::CompCGA>()) {
+        if (!obj->HasUniqueComp<cep::CompCE>()) {
             return true;
         }
 
-        auto& ccga = obj->GetUniqueComp<cgae::CompCGA>();
+        auto& ccga = obj->GetUniqueComp<cep::CompCE>();
         for (auto& rule : scene.GetAllRules()) {
             if (rule->filepath == ccga.GetFilepath()) {
                 ccga.SetRule(rule->impl, rule->ctx);
