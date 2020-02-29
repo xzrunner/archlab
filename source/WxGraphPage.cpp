@@ -1,9 +1,9 @@
-#include "cev/WxGraphPage.h"
-#include "cev/Evaluator.h"
-#include "cev/MessageID.h"
-#include "cev/Scene.h"
-#include "cev/MsgHelper.h"
-#include "cev/ModelAdapter.h"
+#include "archlab/WxGraphPage.h"
+#include "archlab/Evaluator.h"
+#include "archlab/MessageID.h"
+#include "archlab/Scene.h"
+#include "archlab/MsgHelper.h"
+#include "archlab/ModelAdapter.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/WxStageCanvas.h>
@@ -13,8 +13,8 @@
 #include <blueprint/Blueprint.h>
 #include <blueprint/Pin.h>
 
-#include <ce/EvalOp.h>
-#include <cep/CompCE.h>
+#include <archgraph/EvalOp.h>
+#include <easyarchgraph/CompArchGraph.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <node2/CompBoundingBox.h>
@@ -37,7 +37,7 @@ const uint32_t MESSAGES[] =
 
 }
 
-namespace cev
+namespace archlab
 {
 
 WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
@@ -54,7 +54,7 @@ WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
 
     m_preview_obj = ns::NodeFactory::Create3D();
     ModelAdapter::SetupModel(*m_preview_obj);
-    m_preview_obj->AddUniqueComp<cep::CompCE>();
+    m_preview_obj->AddUniqueComp<easyarchgraph::CompArchGraph>();
 
     for (auto& msg : MESSAGES) {
         m_sub_mgr->RegisterObserver(msg, this);

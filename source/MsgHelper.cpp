@@ -1,15 +1,15 @@
-#include "cev/MsgHelper.h"
-#include "cev/MessageID.h"
+#include "archlab/MsgHelper.h"
+#include "archlab/MessageID.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/MessageID.h>
 
-namespace cev
+namespace archlab
 {
 
 void MsgHelper::RuleChanged(ee0::SubjectMgr& sub_mgr, const std::string& filepath,
-                            const std::shared_ptr<ce::EvalRule>& rule,
-                            const std::shared_ptr<ce::EvalContext>& rule_ctx)
+                            const std::shared_ptr<archgraph::EvalRule>& rule,
+                            const std::shared_ptr<archgraph::EvalContext>& rule_ctx)
 {
     if (filepath.empty()) {
         return;

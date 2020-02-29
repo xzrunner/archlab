@@ -1,7 +1,7 @@
-#include "cev/Evaluator.h"
-#include "cev/CGAAdapter.h"
-#include "cev/RegistNodes.h"
-#include "cev/ModelAdapter.h"
+#include "archlab/Evaluator.h"
+#include "archlab/CGAAdapter.h"
+#include "archlab/RegistNodes.h"
+#include "archlab/ModelAdapter.h"
 
 #include <blueprint/Node.h>
 #include <blueprint/Pin.h>
@@ -17,24 +17,24 @@
 namespace
 {
 
-void update_model(const std::vector<ce::GeoPtr>& geos, void* ud)
+void update_model(const std::vector<archgraph::GeoPtr>& geos, void* ud)
 {
     auto snode = static_cast<n0::SceneNode*>(ud);
     if (snode) {
         if (!snode->HasSharedComp<n3::CompModel>()) {
-            cev::ModelAdapter::SetupModel(*snode);
+            archlab::ModelAdapter::SetupModel(*snode);
         }
-        cev::ModelAdapter::UpdateModel(geos, *snode);
+        archlab::ModelAdapter::UpdateModel(geos, *snode);
     }
 }
 
 }
 
-namespace cev
+namespace archlab
 {
 
 Evaluator::Evaluator()
-    : m_eval_ctx(std::make_shared<ce::EvalContext>())
+    : m_eval_ctx(std::make_shared<archgraph::EvalContext>())
     , m_eval(update_model)
 {
 }
@@ -83,7 +83,7 @@ void Evaluator::OnClearAllNodes()
 void Evaluator::OnNodePropChanged(const bp::NodePtr& node)
 {
     auto itr = m_nodes_map.find(node.get());
-    // not ce node
+    // not archgraph node
     if (itr == m_nodes_map.end()) {
         return;
     }
@@ -151,7 +151,7 @@ void Evaluator::OnDisconnecting(const bp::Connecting& conn)
 
 void Evaluator::OnRebuildConnection()
 {
-    std::vector<std::pair<ce::Operation::PortAddr, ce::Operation::PortAddr>> conns;
+    std::vector<std::pair<archgraph::Operation::PortAddr, archgraph::Operation::PortAddr>> conns;
     for (auto& itr : m_nodes_map)
     {
         auto& front = itr.first;
@@ -186,7 +186,7 @@ void Evaluator::OnRebuildConnection()
     Update();
 }
 
-ce::OpPtr Evaluator::QueryBackNode(const bp::Node& front_node) const
+archgraph::OpPtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 {
     auto itr = m_nodes_map.find(&front_node);
     return itr == m_nodes_map.end() ? nullptr : itr->second;

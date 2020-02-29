@@ -7,10 +7,10 @@
 #include <wx/panel.h>
 
 namespace ee0 { class WxCodeCtrl; }
-namespace ce { class EvalContext; class EvalRule; }
-namespace cgac { class StringPool; }
+namespace archgraph { class EvalContext; class EvalRule; }
+namespace cga { class StringPool; }
 
-namespace cev
+namespace archlab
 {
 
 class Scene;
@@ -40,7 +40,7 @@ private:
     void RebuildEval();
 
 private:
-    std::shared_ptr<cgac::StringPool> m_str_pool = nullptr;
+    std::shared_ptr<cga::StringPool> m_str_pool = nullptr;
 
     Scene& m_scene;
 
@@ -48,8 +48,8 @@ private:
 
     ee0::WxCodeCtrl* m_code;
 
-    std::shared_ptr<ce::EvalContext> m_eval_ctx = nullptr;
-    std::shared_ptr<ce::EvalRule>    m_eval     = nullptr;
+    std::shared_ptr<archgraph::EvalContext> m_eval_ctx = nullptr;
+    std::shared_ptr<archgraph::EvalRule>    m_eval     = nullptr;
 
     std::string m_rule_path = "default_text_rule";
 

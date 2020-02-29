@@ -2,7 +2,7 @@
 
 #include <ee3/WxStageCanvas.h>
 
-namespace cev
+namespace archlab
 {
 
 class WxEditorPanel;

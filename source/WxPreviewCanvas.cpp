@@ -1,11 +1,11 @@
-#include "cev/WxPreviewCanvas.h"
-#include "cev/PreviewRender.h"
-#include "cev/PreviewPage.h"
-#include "cev/Node.h"
-#include "cev/MessageID.h"
-#include "cev/WxEditorPanel.h"
-#include "cev/WxGraphPage.h"
-#include "cev/WxTextPage.h"
+#include "archlab/WxPreviewCanvas.h"
+#include "archlab/PreviewRender.h"
+#include "archlab/PreviewPage.h"
+#include "archlab/Node.h"
+#include "archlab/MessageID.h"
+#include "archlab/WxEditorPanel.h"
+#include "archlab/WxGraphPage.h"
+#include "archlab/WxTextPage.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -28,7 +28,7 @@ const uint32_t LIGHT_SELECT_COLOR = 0x88000088;
 
 }
 
-namespace cev
+namespace archlab
 {
 
 WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM

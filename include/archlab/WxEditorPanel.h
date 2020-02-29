@@ -1,19 +1,19 @@
 #pragma once
 
-#include "cev/Scene.h"
+#include "archlab/Scene.h"
 
 #include <ee0/Observer.h>
 #include <ee0/SubjectMgr.h>
 #include <ee0/typedef.h>
 
-#include <ce/EvalContext.h>
+#include <archgraph/EvalContext.h>
 #include <node0/typedef.h>
 
 #include <wx/panel.h>
 
 class wxNotebook;
 
-namespace cev
+namespace archlab
 {
 
 class WxTextPage;
@@ -23,7 +23,7 @@ class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
     WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-        std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator);
+        std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator);
     virtual ~WxEditorPanel();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
@@ -38,10 +38,10 @@ public:
 
     auto& GetScene() const { return m_scene; }
 
-    std::shared_ptr<cgac::StringPool> GetTextPageStrPool() const;
+    std::shared_ptr<cga::StringPool> GetTextPageStrPool() const;
 
 private:
-    void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator);
+    void InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator);
 
     void ShowRule(const std::string& name);
 
@@ -61,7 +61,7 @@ private:
     WxGraphPage* m_graph_page;
     WxTextPage*  m_text_page;
 
-    ce::EvalContext m_ctx;
+    archgraph::EvalContext m_ctx;
 
     Scene m_scene;
 

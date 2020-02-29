@@ -2,9 +2,9 @@
 
 #include <blueprint/Node.h>
 
-#include <ce/Operation.h>
+#include <archgraph/Operation.h>
 
-namespace cev
+namespace archlab
 {
 
 class Node : public bp::Node
@@ -23,7 +23,7 @@ public:
     bool GetDisplay() const { return m_display; }
     void SetDisplay(bool display) { m_display = display; }
 
-    void UpdatePins(const ce::Operation& node);
+    void UpdatePins(const archgraph::Operation& node);
 
 protected:
     struct PinDesc
@@ -49,7 +49,7 @@ private:
         bool is_input);
 
     static void PortBack2Front(std::vector<PinDesc>& dst,
-        const std::vector<ce::Operation::Port>& src);
+        const std::vector<archgraph::Operation::Port>& src);
 
 private:
     std::string m_name;

@@ -1,21 +1,21 @@
-#include "cev/WxTextPage.h"
-#include "cev/MsgHelper.h"
-#include "cev/ModelAdapter.h"
+#include "archlab/WxTextPage.h"
+#include "archlab/MsgHelper.h"
+#include "archlab/ModelAdapter.h"
 
 #include <ee0/WxCodeCtrl.h>
 
-#include <ce/EvalRule.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalContext.h>
-#include <cgac/StringPool.h>
-#include <cep/CompCE.h>
+#include <archgraph/EvalRule.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalContext.h>
+#include <cga/StringPool.h>
+#include <easyarchgraph/CompArchGraph.h>
 #include <node0/SceneNode.h>
 #include <ns/NodeFactory.h>
 
 #include <wx/sizer.h>
 #include <wx/button.h>
 
-namespace cev
+namespace archlab
 {
 
 WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
@@ -23,11 +23,11 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
     : wxPanel(parent)
     , m_scene(scene)
     , m_preview_sub_mgr(preview_sub_mgr)
-    , m_str_pool(std::make_shared<cgac::StringPool>())
+    , m_str_pool(std::make_shared<cga::StringPool>())
 {
     m_preview_obj = ns::NodeFactory::Create3D();
     ModelAdapter::SetupModel(*m_preview_obj);
-    m_preview_obj->AddUniqueComp<cep::CompCE>();
+    m_preview_obj->AddUniqueComp<easyarchgraph::CompArchGraph>();
 
     InitLayout();
 }
@@ -67,11 +67,11 @@ void WxTextPage::RebuildEval()
 {
     auto str = m_code->GetText().ToStdString();
 
-    m_eval_ctx = std::make_shared<ce::EvalContext>();
+    m_eval_ctx = std::make_shared<archgraph::EvalContext>();
 
-    ce::RuleLoader loader(m_str_pool);
+    archgraph::RuleLoader loader(m_str_pool);
     if (!m_eval) {
-        m_eval = std::make_shared<ce::EvalRule>();
+        m_eval = std::make_shared<archgraph::EvalRule>();
     } else {
         m_eval->Clear();
     }

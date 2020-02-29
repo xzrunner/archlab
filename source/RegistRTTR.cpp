@@ -1,4 +1,4 @@
-#include "cev/RegistNodes.h"
+#include "archlab/RegistNodes.h"
 
 #include <ee0/ReflectPropTypes.h>
 
@@ -8,7 +8,7 @@ extern void regist_sm_rttr();
 extern void regist_pt0_rttr();
 }
 
-namespace cev
+namespace archlab
 {
 
 void regist_rttr()

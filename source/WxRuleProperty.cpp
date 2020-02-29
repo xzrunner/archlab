@@ -1,4 +1,4 @@
-#include "cev/WxRuleProperty.h"
+#include "archlab/WxRuleProperty.h"
 
 #include <wx/wx.h>
 #include <wx/propgrid/propgrid.h>
@@ -80,10 +80,10 @@ private:
 
 }
 
-namespace cev
+namespace archlab
 {
 
-WxRuleProperty::WxRuleProperty(wxWindow* parent, ce::EvalContext& ctx)
+WxRuleProperty::WxRuleProperty(wxWindow* parent, archgraph::EvalContext& ctx)
     : wxPanel(parent)
     , m_ctx(ctx)
 {
@@ -133,7 +133,7 @@ void WxRuleProperty::OnAddPress(wxCommandEvent& event)
         return;
     }
 
-    ce::EvalContext::Parm p;
+    archgraph::EvalContext::Parm p;
     p.name = dlg.GetKey();
     switch (dlg.GetSelectIdx())
     {
@@ -172,7 +172,7 @@ void WxRuleProperty::ReloadParmProps()
     }
 }
 
-void WxRuleProperty::AddParmToProp(const ce::EvalContext::Parm& p)
+void WxRuleProperty::AddParmToProp(const archgraph::EvalContext::Parm& p)
 {
     switch (p.value.type)
     {

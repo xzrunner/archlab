@@ -5,12 +5,12 @@
 #include <vector>
 #include <memory>
 
-namespace ce { class EvalContext; class EvalRule; }
+namespace archgraph { class EvalContext; class EvalRule; }
 namespace mm { class LinearAllocator; }
 namespace n0 { class SceneNode; }
-namespace cgac { class StringPool; }
+namespace cga { class StringPool; }
 
-namespace cev
+namespace archlab
 {
 
 class Rule;
@@ -23,8 +23,8 @@ public:
         std::string filepath;
         std::string name;
 
-        std::shared_ptr<ce::EvalContext> ctx  = nullptr;
-        std::shared_ptr<ce::EvalRule>    impl = nullptr;
+        std::shared_ptr<archgraph::EvalContext> ctx  = nullptr;
+        std::shared_ptr<archgraph::EvalRule>    impl = nullptr;
 
         std::shared_ptr<n0::SceneNode> root = nullptr;
         std::string text;
@@ -32,7 +32,7 @@ public:
 
 public:
     std::shared_ptr<Rule>
-        AddRule(const std::string& filepath, const std::shared_ptr<ce::EvalRule>& rule);
+        AddRule(const std::string& filepath, const std::shared_ptr<archgraph::EvalRule>& rule);
     std::shared_ptr<Rule> QueryRule(const std::string& filepath) const;
 
     auto& GetAllRules() const { return m_rules; }
@@ -40,11 +40,11 @@ public:
     void StoreToJson(const std::string& dir, rapidjson::Value& val,
         rapidjson::MemoryPoolAllocator<>& alloc) const;
     void LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
-        const rapidjson::Value& val, const std::shared_ptr<cgac::StringPool>& str_pool);
+        const rapidjson::Value& val, const std::shared_ptr<cga::StringPool>& str_pool);
 
 private:
     static std::shared_ptr<Rule>
-        CreateRule(const std::string& filepath, const std::shared_ptr<cgac::StringPool>& str_pool);
+        CreateRule(const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool);
 
 private:
     std::vector<std::shared_ptr<Rule>> m_rules;

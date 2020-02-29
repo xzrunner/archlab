@@ -1,22 +1,22 @@
-#include "cev/CEV.h"
-#include "cev/PinCallback.h"
-#include "cev/Node.h"
+#include "archlab/ArchLab.h"
+#include "archlab/PinCallback.h"
+#include "archlab/Node.h"
 
 #include <blueprint/NodeBuilder.h>
 #include <blueprint/node/Commentary.h>
 
-#include <ce/CE.h>
+#include <archgraph/ArchGraph.h>
 
-namespace cev
+namespace archlab
 {
 
-CU_SINGLETON_DEFINITION(CEV);
+CU_SINGLETON_DEFINITION(ArchLab);
 
 extern void regist_rttr();
 
-CEV::CEV()
+ArchLab::ArchLab()
 {
-	ce::CE::Instance();
+	archgraph::ArchGraph::Instance();
 
 	regist_rttr();
 
@@ -25,7 +25,7 @@ CEV::CEV()
     InitPinCallback();
 }
 
-void CEV::InitNodes()
+void ArchLab::InitNodes()
 {
     const int bp_count = 1;
 

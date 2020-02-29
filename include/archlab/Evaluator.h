@@ -2,8 +2,8 @@
 
 #include <blueprint/typedef.h>
 
-#include <ce/EvalOp.h>
-#include <ce/typedef.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/typedef.h>
 #include <node0/typedef.h>
 
 #include <boost/noncopyable.hpp>
@@ -13,7 +13,7 @@
 
 namespace bp { class Connecting; }
 
-namespace cev
+namespace archlab
 {
 
 class Evaluator : boost::noncopyable
@@ -36,24 +36,24 @@ public:
     void OnRebuildConnection();
 
     // calc
-    float CalcFloat(const std::string& expr, const ce::Operation& node, float expect = 0.0f) const;
-    int CalcInt(const std::string& expr, const ce::Operation& node, int expect = 0) const;
+    float CalcFloat(const std::string& expr, const archgraph::Operation& node, float expect = 0.0f) const;
+    int CalcInt(const std::string& expr, const archgraph::Operation& node, int expect = 0) const;
 
     auto& GetEvalCtx() const { return m_eval_ctx; }
     auto& GetEval() const { return m_eval; }
 
     auto& GetAllNodes() const { return m_nodes_map; }
 
-    ce::OpPtr QueryBackNode(const bp::Node& front_node) const;
+    archgraph::OpPtr QueryBackNode(const bp::Node& front_node) const;
 
 private:
     void Update();
 
 private:
-    std::shared_ptr<ce::EvalContext> m_eval_ctx = nullptr;
-    ce::EvalOp m_eval;
+    std::shared_ptr<archgraph::EvalContext> m_eval_ctx = nullptr;
+    archgraph::EvalOp m_eval;
 
-    std::unordered_map<const bp::Node*, ce::OpPtr> m_nodes_map;
+    std::unordered_map<const bp::Node*, archgraph::OpPtr> m_nodes_map;
 
 }; // Evaluator
 

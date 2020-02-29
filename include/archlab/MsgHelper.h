@@ -3,16 +3,16 @@
 #include <string>
 
 namespace ee0 { class SubjectMgr; }
-namespace ce { class EvalRule; class EvalContext; }
+namespace archgraph { class EvalRule; class EvalContext; }
 
-namespace cev
+namespace archlab
 {
 
 class MsgHelper
 {
 public:
     static void RuleChanged(ee0::SubjectMgr& sub_mgr, const std::string& filepath,
-        const std::shared_ptr<ce::EvalRule>& rule, const std::shared_ptr<ce::EvalContext>& rule_ctx);
+        const std::shared_ptr<archgraph::EvalRule>& rule, const std::shared_ptr<archgraph::EvalContext>& rule_ctx);
 
 }; // MsgHelper
 

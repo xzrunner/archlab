@@ -11,7 +11,7 @@
 class wxPropertyGrid;
 class wxPropertyGridEvent;
 
-namespace cev
+namespace archlab
 {
 
 class Scene;

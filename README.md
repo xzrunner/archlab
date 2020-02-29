@@ -1,3 +1,3 @@
-# cev
+# archlab
 
-CityEngine front-end.
+Node based architectural editor. Editor of archgraph.

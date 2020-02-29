@@ -1,11 +1,11 @@
-#include "cev/PreviewRender.h"
-#include "cev/Evaluator.h"
+#include "archlab/PreviewRender.h"
+#include "archlab/Evaluator.h"
 
 #include <painting3/RenderSystem.h>
 #include <node0/SceneNode.h>
 #include <node3/RenderSystem.h>
 
-namespace cev
+namespace archlab
 {
 
 PreviewRender::PreviewRender(const pt3::Viewport& vp,

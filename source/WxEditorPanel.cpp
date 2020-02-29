@@ -1,9 +1,9 @@
-#include "cev/WxEditorPanel.h"
-#include "cev/WxTextPage.h"
-#include "cev/WxGraphPage.h"
-#include "cev/Evaluator.h"
-#include "cev/MessageID.h"
-#include "cev/ModelAdapter.h"
+#include "archlab/WxEditorPanel.h"
+#include "archlab/WxTextPage.h"
+#include "archlab/WxGraphPage.h"
+#include "archlab/Evaluator.h"
+#include "archlab/MessageID.h"
+#include "archlab/ModelAdapter.h"
 
 #include <blueprint/NSCompNode.h>
 #include <blueprint/Serializer.h>
@@ -12,18 +12,18 @@
 #include <sx/ResFileHelper.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
-#include <cep/CompCE.h>
+#include <easyarchgraph/CompArchGraph.h>
 
 #include <wx/notebook.h>
 #include <wx/sizer.h>
 
 #include <boost/filesystem.hpp>
 
-namespace cev
+namespace archlab
 {
 
 WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
-                             std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator)
+                             std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
@@ -54,16 +54,16 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
     {
         auto var_rule = variants.GetVariant("rule");
         GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<ce::EvalRule>* rule
-            = static_cast<const std::shared_ptr<ce::EvalRule>*>(var_rule.m_val.pv);
+        const std::shared_ptr<archgraph::EvalRule>* rule
+            = static_cast<const std::shared_ptr<archgraph::EvalRule>*>(var_rule.m_val.pv);
 
         auto var_ctx = variants.GetVariant("ctx");
         GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<ce::EvalContext>* rule_ctx
-            = static_cast<const std::shared_ptr<ce::EvalContext>*>(var_ctx.m_val.pv);
+        const std::shared_ptr<archgraph::EvalContext>* rule_ctx
+            = static_cast<const std::shared_ptr<archgraph::EvalContext>*>(var_ctx.m_val.pv);
 
         auto node = GetCurrPagePreviewObj();
-        auto& ccga = node->GetUniqueComp<cep::CompCE>();
+        auto& ccga = node->GetUniqueComp<easyarchgraph::CompArchGraph>();
         if (ccga.GetRule() != *rule) {
             ccga.SetRule(*rule, *rule_ctx);
         }
@@ -117,7 +117,7 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
     }
 
     auto filename = boost::filesystem::path(filepath).filename();
-    std::shared_ptr<ce::EvalRule> rule = nullptr;
+    std::shared_ptr<archgraph::EvalRule> rule = nullptr;
 
     switch (m_nb->GetSelection())
     {
@@ -199,13 +199,13 @@ WxEditorPanel::GetCurrPagePreviewObj() const
     return node;
 }
 
-std::shared_ptr<cgac::StringPool>
+std::shared_ptr<cga::StringPool>
 WxEditorPanel::GetTextPageStrPool() const
 {
     return m_text_page->GetStringPool();
 }
 
-void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, ce::EvalContext&)> graph_page_creator)
+void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator)
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
 

@@ -1,12 +1,12 @@
-#include "cev/WxRuleNodeProp.h"
-#include "cev/RegistNodes.h"
+#include "archlab/WxRuleNodeProp.h"
+#include "archlab/RegistNodes.h"
 
 #include <ee0/ReflectPropTypes.h>
 
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
 
-namespace cev
+namespace archlab
 {
 
 WxRuleNodeProp::WxRuleNodeProp(wxWindow* parent, const ee0::SubjectMgrPtr& sub_mgr)
@@ -28,11 +28,11 @@ bool WxRuleNodeProp::InitView(const rttr::property& prop, const bp::NodePtr& nod
     auto prop_type = prop.get_type();
     if (prop_type.is_sequential_container())
     {
-        if (prop_type == rttr::type::get<std::vector<ce::op::Comp::Selector>>())
+        if (prop_type == rttr::type::get<std::vector<archgraph::op::Comp::Selector>>())
         {
             wxArrayString all_items, selected_items;
 
-            auto type = rttr::type::get<ce::op::Comp::Selector>();
+            auto type = rttr::type::get<archgraph::op::Comp::Selector>();
             auto vars = type.get_enumeration().get_values();
             all_items.resize(vars.size());
             for (auto& var : vars)
@@ -52,7 +52,7 @@ bool WxRuleNodeProp::InitView(const rttr::property& prop, const bp::NodePtr& nod
                 bool find = false;
                 for (auto var : vars)
                 {
-                    if (var.get_value<ce::op::Comp::Selector>() == sel)
+                    if (var.get_value<archgraph::op::Comp::Selector>() == sel)
                     {
                         auto desc = type.get_enumeration().get_metadata(var.to_int());
                         selected_items.push_back(desc.to_string());
@@ -90,15 +90,15 @@ bool WxRuleNodeProp::UpdateView(const rttr::property& prop, const wxPGProperty& 
 
     if (prop_type.is_sequential_container() && key == ui_info.desc)
     {
-        if (prop_type == rttr::type::get<std::vector<ce::op::Comp::Selector>>())
+        if (prop_type == rttr::type::get<std::vector<archgraph::op::Comp::Selector>>())
         {
-            std::vector<ce::op::Comp::Selector> dst;
+            std::vector<archgraph::op::Comp::Selector> dst;
             auto src = wxANY_AS(val, wxArrayString);
             dst.reserve(src.size());
 
-            auto enum_type = rttr::type::get<ce::op::Comp::Selector>();
+            auto enum_type = rttr::type::get<archgraph::op::Comp::Selector>();
             auto enum_vars = enum_type.get_enumeration().get_values();
-            auto enum_prop = rttr::type::get<ce::op::Comp::Selector>().get_enumeration();
+            auto enum_prop = rttr::type::get<archgraph::op::Comp::Selector>().get_enumeration();
             for (auto& s : src)
             {
                 auto label = s.ToStdString();
@@ -109,7 +109,7 @@ bool WxRuleNodeProp::UpdateView(const rttr::property& prop, const wxPGProperty& 
                     auto idx = var.to_int();
                     if (enum_type.get_enumeration().get_metadata(idx) == label)
                     {
-                        dst.push_back(var.get_value<ce::op::Comp::Selector>());
+                        dst.push_back(var.get_value<archgraph::op::Comp::Selector>());
                         find = true;
                         break;
                     }

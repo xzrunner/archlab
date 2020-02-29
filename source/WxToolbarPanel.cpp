@@ -1,10 +1,10 @@
-#include "cev/WxToolbarPanel.h"
-#include "cev/Node.h"
-#include "cev/WxRuleNodeProp.h"
-#include "cev/WxRuleProperty.h"
-#include "cev/MessageID.h"
-#include "cev/WxEditorPanel.h"
-#include "cev/WxSceneProp.h"
+#include "archlab/WxToolbarPanel.h"
+#include "archlab/Node.h"
+#include "archlab/WxRuleNodeProp.h"
+#include "archlab/WxRuleProperty.h"
+#include "archlab/MessageID.h"
+#include "archlab/WxEditorPanel.h"
+#include "archlab/WxSceneProp.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/SubjectMgr.h>
@@ -18,10 +18,10 @@
 
 #include <wx/notebook.h>
 
-namespace cev
+namespace archlab
 {
 
-WxToolbarPanel::WxToolbarPanel(wxWindow* parent, ce::EvalContext& ctx,
+WxToolbarPanel::WxToolbarPanel(wxWindow* parent, archgraph::EvalContext& ctx,
                                const ee0::SubjectMgrPtr& graph_sub_mgr,
                                const ee0::SubjectMgrPtr& preview_sub_mgr)
 	: wxPanel(parent)
@@ -70,7 +70,7 @@ void WxToolbarPanel::ReloadRulesList()
     m_scene_prop->ReloadRulesList(m_editor_panel->GetScene());
 }
 
-void WxToolbarPanel::InitLayout(ce::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr)
+void WxToolbarPanel::InitLayout(archgraph::EvalContext& ctx, const ee0::SubjectMgrPtr& graph_sub_mgr)
 {
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 
@@ -120,7 +120,7 @@ void WxToolbarPanel::InitButtonsPanel(wxSizer* sizer)
     sizer->Add(rule_sizer);
 }
 
-void WxToolbarPanel::InitPropsPanel(wxSizer* sizer, ce::EvalContext& ctx,
+void WxToolbarPanel::InitPropsPanel(wxSizer* sizer, archgraph::EvalContext& ctx,
                                     const ee0::SubjectMgrPtr& graph_sub_mgr)
 {
     m_prop_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
@@ -164,7 +164,7 @@ void WxToolbarPanel::OnSelectionClear(const ee0::VariantSet& variants)
 void WxToolbarPanel::OnSaveRule(wxCommandEvent& event)
 {
     assert(m_editor_panel);
-    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.ce";
+    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.archgraph";
     wxFileDialog dlg(this, wxT("Save Rule"), wxEmptyString, wxEmptyString, filter, wxFD_OPEN);
     if (dlg.ShowModal() == wxID_OK) {
         m_editor_panel->SaveRuleToFile(dlg.GetPath().ToStdString());
@@ -174,7 +174,7 @@ void WxToolbarPanel::OnSaveRule(wxCommandEvent& event)
 void WxToolbarPanel::OnLoadRule(wxCommandEvent& event)
 {
     assert(m_editor_panel);
-    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.ce";
+    const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.archgraph";
     wxFileDialog dlg(this, wxT("Open Rule"), wxEmptyString, wxEmptyString, filter, wxFD_OPEN);
     if (dlg.ShowModal() == wxID_OK) {
         m_editor_panel->LoadRuleFromFile(dlg.GetPath().ToStdString());

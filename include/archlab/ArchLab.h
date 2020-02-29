@@ -7,10 +7,10 @@
 #include <vector>
 #include <memory>
 
-namespace cev
+namespace archlab
 {
 
-class CEV
+class ArchLab
 {
 public:
     auto& GetAllNodes() { return m_nodes; }
@@ -21,8 +21,8 @@ private:
 private:
     std::vector<bp::NodePtr> m_nodes;
 
-    CU_SINGLETON_DECLARATION(CEV)
+    CU_SINGLETON_DECLARATION(ArchLab)
 
-}; // CEV
+}; // ArchLab
 
 }

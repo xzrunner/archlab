@@ -1,5 +1,5 @@
-cev/
+archlab/
 projects/*
 
-!projects/cev.vcxproj
-!projects/cev.vcxproj.filters
+!projects/archlab.vcxproj
+!projects/archlab.vcxproj.filters

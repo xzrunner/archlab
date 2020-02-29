@@ -1,12 +1,12 @@
-#include "cev/PreviewPage.h"
-#include "cev/MessageID.h"
-#include "cev/ModelAdapter.h"
-#include "cev/MessageID.h"
-#include "cev/WxGraphPage.h"
-#include "cev/WxTextPage.h"
-#include "cev/Evaluator.h"
-#include "cev/MessageID.h"
-#include "cev/Scene.h"
+#include "archlab/PreviewPage.h"
+#include "archlab/MessageID.h"
+#include "archlab/ModelAdapter.h"
+#include "archlab/MessageID.h"
+#include "archlab/WxGraphPage.h"
+#include "archlab/WxTextPage.h"
+#include "archlab/Evaluator.h"
+#include "archlab/MessageID.h"
+#include "archlab/Scene.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/GameObj.h>
@@ -18,11 +18,11 @@
 #include <draft3/PolygonSelectOP.h>
 
 #include <guard/check.h>
-#include <cep/CEP.h>
-#include <cep/CompCE.h>
+#include <easyarchgraph/EasyArchGraph.h>
+#include <easyarchgraph/CompArchGraph.h>
 #include <node0/SceneNode.h>
 
-namespace cev
+namespace archlab
 {
 
 PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
@@ -36,7 +36,7 @@ PreviewPage::PreviewPage(ee0::WxStagePage& stage_page)
         stage_page.GetSubjectMgr()->RegisterObserver(msg, this);
     }
 
-    cep::CEP::Init();
+    easyarchgraph::EasyArchGraph::Init();
 }
 
 PreviewPage::~PreviewPage()
@@ -57,8 +57,8 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         const ee0::GameObj* obj = static_cast<const ee0::GameObj*>(var.m_val.pv);
         GD_ASSERT(obj, "err scene obj");
 
-        if (!(*obj)->HasUniqueComp<cep::CompCE>()) {
-            (*obj)->AddUniqueComp<cep::CompCE>();
+        if (!(*obj)->HasUniqueComp<easyarchgraph::CompArchGraph>()) {
+            (*obj)->AddUniqueComp<easyarchgraph::CompArchGraph>();
         }
     }
         break;
@@ -80,24 +80,24 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
 
         auto var_rule = variants.GetVariant("rule");
         GD_ASSERT(var_rule.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<ce::EvalRule>* rule
-            = static_cast<const std::shared_ptr<ce::EvalRule>*>(var_rule.m_val.pv);
+        const std::shared_ptr<archgraph::EvalRule>* rule
+            = static_cast<const std::shared_ptr<archgraph::EvalRule>*>(var_rule.m_val.pv);
 
         auto var_ctx = variants.GetVariant("ctx");
         GD_ASSERT(var_ctx.m_type == ee0::VT_PVOID, "err var");
-        const std::shared_ptr<ce::EvalContext>* ctx
-            = static_cast<const std::shared_ptr<ce::EvalContext>*>(var_rule.m_val.pv);
+        const std::shared_ptr<archgraph::EvalContext>* ctx
+            = static_cast<const std::shared_ptr<archgraph::EvalContext>*>(var_rule.m_val.pv);
 
         m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
         {
-            if (!obj->HasUniqueComp<cep::CompCE>()) {
+            if (!obj->HasUniqueComp<easyarchgraph::CompArchGraph>()) {
                 return true;
             }
 
-            auto& ccga = obj->GetUniqueComp<cep::CompCE>();
+            auto& ccga = obj->GetUniqueComp<easyarchgraph::CompArchGraph>();
             if (ccga.GetFilepath() == rule_path)
             {
-                auto& ccga = obj->GetUniqueComp<cep::CompCE>();
+                auto& ccga = obj->GetUniqueComp<easyarchgraph::CompArchGraph>();
                 if (ccga.GetRule() != *rule) {
                     ccga.SetRule(*rule, *ctx);
                 }
@@ -138,11 +138,11 @@ void PreviewPage::InitSceneNodeRule(const Scene& scene)
 {
     m_stage_page.Traverse([&](const ee0::GameObj& obj)->bool
     {
-        if (!obj->HasUniqueComp<cep::CompCE>()) {
+        if (!obj->HasUniqueComp<easyarchgraph::CompArchGraph>()) {
             return true;
         }
 
-        auto& ccga = obj->GetUniqueComp<cep::CompCE>();
+        auto& ccga = obj->GetUniqueComp<easyarchgraph::CompArchGraph>();
         for (auto& rule : scene.GetAllRules()) {
             if (rule->filepath == ccga.GetFilepath()) {
                 ccga.SetRule(rule->impl, rule->ctx);

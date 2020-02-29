@@ -1,18 +1,18 @@
-#include "cev/WxSceneProp.h"
-#include "cev/MessageID.h"
-#include "cev/Scene.h"
-#include "cev/ModelAdapter.h"
+#include "archlab/WxSceneProp.h"
+#include "archlab/MessageID.h"
+#include "archlab/Scene.h"
+#include "archlab/ModelAdapter.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/GameObj.h>
 
 #include <node0/SceneNode.h>
-#include <cep/CompCE.h>
+#include <easyarchgraph/CompArchGraph.h>
 
 #include <wx/sizer.h>
 #include <wx/propgrid/propgrid.h>
 
-namespace cev
+namespace archlab
 {
 
 WxSceneProp::WxSceneProp(wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
@@ -113,8 +113,8 @@ void WxSceneProp::OnNodePropChanged(wxPropertyGridEvent& event)
     wxAny val = property->GetValue();
     auto idx = wxANY_AS(val, int);
 
-    assert(m_selected_node && m_selected_node->HasUniqueComp<cep::CompCE>());
-    auto& ccga = m_selected_node->GetUniqueComp<cep::CompCE>();
+    assert(m_selected_node && m_selected_node->HasUniqueComp<easyarchgraph::CompArchGraph>());
+    auto& ccga = m_selected_node->GetUniqueComp<easyarchgraph::CompArchGraph>();
     if (idx == 0)
     {
         ccga.SetRule(nullptr, nullptr);
@@ -154,11 +154,11 @@ void WxSceneProp::LoadFromNode(const n0::SceneNodePtr& node)
 {
     m_node_prop->Clear();
 
-    if (!node->HasUniqueComp<cep::CompCE>()) {
+    if (!node->HasUniqueComp<easyarchgraph::CompArchGraph>()) {
         return;
     }
 
-    auto& ccga = node->GetUniqueComp<cep::CompCE>();
+    auto& ccga = node->GetUniqueComp<easyarchgraph::CompArchGraph>();
     auto& rule = ccga.GetRule();
 
     wxArrayString rule_choices;

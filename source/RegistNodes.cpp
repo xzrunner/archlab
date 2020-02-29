@@ -1,4 +1,4 @@
-#include "cev/RegistNodes.h"
+#include "archlab/RegistNodes.h"
 
 #include <ee0/ReflectPropTypes.h>
 
@@ -7,24 +7,24 @@ RTTR_REGISTRATION
 
 // base
 
-rttr::registration::class_<cev::Node>("cev::node")
-.property("name", &cev::Node::GetName, &cev::Node::SetName)
+rttr::registration::class_<archlab::Node>("archlab::node")
+.property("name", &archlab::Node::GetName, &archlab::Node::SetName)
 (
 	rttr::metadata(ee0::UIMetaInfoTag(), ee0::UIMetaInfo("Name"))
 )
-.property("display", &cev::Node::GetDisplay, &cev::Node::SetDisplay)
+.property("display", &archlab::Node::GetDisplay, &archlab::Node::SetDisplay)
 (
-	rttr::metadata(ee0::UIMetaInfoTag(), ee0::UIMetaInfo(cev::Node::STR_PROP_DISPLAY))
+	rttr::metadata(ee0::UIMetaInfoTag(), ee0::UIMetaInfo(archlab::Node::STR_PROP_DISPLAY))
 )
 ;
 
-#define EXE_FILEPATH "cev/node_rttr_gen.h"
-#include "cev/node_regist_cfg.h"
+#define EXE_FILEPATH "archlab/node_rttr_gen.h"
+#include "archlab/node_regist_cfg.h"
 #undef EXE_FILEPATH
 
 }
 
-namespace cev
+namespace archlab
 {
 
 void nodes_regist_rttr()

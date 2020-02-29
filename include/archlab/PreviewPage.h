@@ -8,7 +8,7 @@
 namespace ee0 { class WxStagePage; }
 namespace n0 { class SceneNode; }
 
-namespace cev
+namespace archlab
 {
 
 class Scene;

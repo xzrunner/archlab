@@ -1,5 +1,5 @@
-#include "cev/Scene.h"
-#include "cev/Evaluator.h"
+#include "archlab/Scene.h"
+#include "archlab/Evaluator.h"
 
 #include <blueprint/CompNode.h>
 #include <blueprint/NSCompNode.h>
@@ -9,18 +9,18 @@
 #include <ns/NodeFactory.h>
 #include <sx/ResFileHelper.h>
 #include <js/RapidJsonHelper.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 
 #include <boost/filesystem.hpp>
 
-namespace cev
+namespace archlab
 {
 
 std::shared_ptr<Scene::Rule>
-Scene::AddRule(const std::string& filepath, const std::shared_ptr<ce::EvalRule>& rule)
+Scene::AddRule(const std::string& filepath, const std::shared_ptr<archgraph::EvalRule>& rule)
 {
     auto find = QueryRule(filepath);
     if (find)
@@ -64,7 +64,7 @@ void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,
 }
 
 void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
-                         const rapidjson::Value& val, const std::shared_ptr<cgac::StringPool>& str_pool)
+                         const rapidjson::Value& val, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     m_rules.clear();
 
@@ -78,7 +78,7 @@ void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
 }
 
 std::shared_ptr<Scene::Rule>
-Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::StringPool>& str_pool)
+Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     std::shared_ptr<Rule> rule = std::make_shared<Rule>();
     rule->filepath = filepath;
@@ -131,16 +131,16 @@ Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cgac::Strin
     {
         auto ext = boost::filesystem::extension(filepath);
         std::transform(ext.begin(), ext.end(), ext.begin(), tolower);
-        assert(ext == ".ce");
+        assert(ext == ".archgraph");
 
         std::ifstream fin(filepath);
         std::string str((std::istreambuf_iterator<char>(fin)),
             std::istreambuf_iterator<char>());
         fin.close();
 
-        ce::RuleLoader loader(str_pool);
-        auto eval_ctx = std::make_shared<ce::EvalContext>();
-        auto eval = std::make_shared<ce::EvalRule>();
+        archgraph::RuleLoader loader(str_pool);
+        auto eval_ctx = std::make_shared<archgraph::EvalContext>();
+        auto eval = std::make_shared<archgraph::EvalRule>();
         loader.RunString(*eval_ctx, str, *eval/*, true*/);
 
         rule->impl = eval;
