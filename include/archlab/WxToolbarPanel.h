@@ -8,6 +8,7 @@
 namespace ee0 { class WxStageCanvas; class WxNavigationBar; }
 namespace bp { class WxNodeProperty; }
 namespace archgraph { class EvalContext; }
+namespace ur2 { class Device; }
 
 class wxNotebook;
 
@@ -21,7 +22,7 @@ class WxSceneProp;
 class WxToolbarPanel : public wxPanel, public ee0::Observer
 {
 public:
-	WxToolbarPanel(wxWindow* parent, archgraph::EvalContext& ctx,
+	WxToolbarPanel(const ur2::Device& dev, wxWindow* parent, archgraph::EvalContext& ctx,
         const ee0::SubjectMgrPtr& graph_sub_mgr, const ee0::SubjectMgrPtr& preview_sub_mgr);
     virtual ~WxToolbarPanel();
 
@@ -48,6 +49,8 @@ private:
     void OnLoadRule(wxCommandEvent& event);
 
 private:
+    const ur2::Device& m_dev;
+
     ee0::SubjectMgrPtr m_graph_sub_mgr   = nullptr;
     ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
 

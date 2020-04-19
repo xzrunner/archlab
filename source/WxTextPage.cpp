@@ -18,7 +18,7 @@
 namespace archlab
 {
 
-WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
+WxTextPage::WxTextPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
                        const ee0::SubjectMgrPtr& preview_sub_mgr)
     : wxPanel(parent)
     , m_scene(scene)
@@ -26,7 +26,7 @@ WxTextPage::WxTextPage(wxWindow* parent, Scene& scene,
     , m_str_pool(std::make_shared<cga::StringPool>())
 {
     m_preview_obj = ns::NodeFactory::Create3D();
-    ModelAdapter::SetupModel(*m_preview_obj);
+    ModelAdapter::SetupModel(dev, *m_preview_obj);
     m_preview_obj->AddUniqueComp<easyarchgraph::CompArchGraph>();
 
     InitLayout();

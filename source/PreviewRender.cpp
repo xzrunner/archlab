@@ -15,7 +15,8 @@ PreviewRender::PreviewRender(const pt3::Viewport& vp,
 {
 }
 
-void PreviewRender::DrawNode3D(const pt0::RenderContext& rc,
+void PreviewRender::DrawNode3D(const ur2::Device& dev, ur2::Context& ctx,
+                               const pt0::RenderContext& rc,
                                const n0::SceneNode& node,
                                bool draw_face, bool draw_shape) const
 {
@@ -31,12 +32,12 @@ void PreviewRender::DrawNode3D(const pt0::RenderContext& rc,
     // draw face
     if (draw_face) {
         rp.mask.reset(pt3::RenderParams::DrawMeshBorder);
-        n3::RenderSystem::Draw(node, rp, rc);
+        n3::RenderSystem::Draw(dev, ctx, node, rp, rc);
     }
 
     // draw edge
     rp.mask.set(pt3::RenderParams::DrawMeshBorder);
-    n3::RenderSystem::Draw(node, rp, rc);
+    n3::RenderSystem::Draw(dev, ctx, node, rp, rc);
 }
 
 }

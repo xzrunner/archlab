@@ -21,10 +21,11 @@
 namespace archlab
 {
 
-WxToolbarPanel::WxToolbarPanel(wxWindow* parent, archgraph::EvalContext& ctx,
+WxToolbarPanel::WxToolbarPanel(const ur2::Device& dev, wxWindow* parent, archgraph::EvalContext& ctx,
                                const ee0::SubjectMgrPtr& graph_sub_mgr,
                                const ee0::SubjectMgrPtr& preview_sub_mgr)
 	: wxPanel(parent)
+    , m_dev(dev)
     , m_graph_sub_mgr(graph_sub_mgr)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
@@ -58,7 +59,7 @@ void WxToolbarPanel::SetEditorPanel(WxEditorPanel* editor_panel)
     m_editor_panel = editor_panel;
 
     assert(m_preview_sub_mgr);
-    m_scene_prop = new WxSceneProp(
+    m_scene_prop = new WxSceneProp(m_dev,
         m_prop_nb, m_editor_panel->GetSubMgr(),
         *m_preview_sub_mgr, m_editor_panel->GetScene()
     );
@@ -124,7 +125,7 @@ void WxToolbarPanel::InitPropsPanel(wxSizer* sizer, archgraph::EvalContext& ctx,
                                     const ee0::SubjectMgrPtr& graph_sub_mgr)
 {
     m_prop_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
-    m_prop_nb->AddPage(m_rule_node_prop = new WxRuleNodeProp(m_prop_nb, graph_sub_mgr), "Rule Node");
+    m_prop_nb->AddPage(m_rule_node_prop = new WxRuleNodeProp(m_dev, m_prop_nb, graph_sub_mgr), "Rule Node");
     m_prop_nb->AddPage(m_rule_prop = new WxRuleProperty(m_prop_nb, ctx), "Rule");
 	sizer->Add(m_prop_nb, 1, wxEXPAND);
 }
@@ -177,7 +178,7 @@ void WxToolbarPanel::OnLoadRule(wxCommandEvent& event)
     const auto filter = m_editor_panel->IsCurrGraphPage() ? "*.json" : "*.archgraph";
     wxFileDialog dlg(this, wxT("Open Rule"), wxEmptyString, wxEmptyString, filter, wxFD_OPEN);
     if (dlg.ShowModal() == wxID_OK) {
-        m_editor_panel->LoadRuleFromFile(dlg.GetPath().ToStdString());
+        m_editor_panel->LoadRuleFromFile(m_dev, dlg.GetPath().ToStdString());
     }
 }
 

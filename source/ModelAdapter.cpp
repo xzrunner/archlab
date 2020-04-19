@@ -22,7 +22,7 @@ namespace archlab
 {
 
 // todo: copy from sop::GeoAdaptor::Init
-void ModelAdapter::SetupModel(n0::SceneNode& node)
+void ModelAdapter::SetupModel(const ur2::Device& dev, n0::SceneNode& node)
 {
     auto& cmodel = node.AddSharedComp<n3::CompModel>();
     cmodel.DisableSerialize();
@@ -39,7 +39,7 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
     mat->AddVar(UNIFORMS::shininess.name, pt0::RenderVariant(50.0f));
     cmaterial.SetMaterial(mat);
 
-    auto model = std::make_shared<model::Model>();
+    auto model = std::make_shared<model::Model>(&dev);
     cmodel.SetModel(model);
 
     cmodel_inst.SetModel(model, 0);
@@ -53,15 +53,15 @@ void ModelAdapter::SetupModel(n0::SceneNode& node)
     cmodel_inst.GetModel()->SetModelExt(model_ext);
 }
 
-void ModelAdapter::UpdateModel(const std::vector<archgraph::GeoPtr>& geos, const n0::SceneNode& node)
+void ModelAdapter::UpdateModel(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos, const n0::SceneNode& node)
 {
     if (geos.empty()) {
         return;
     }
 
-    std::shared_ptr<model::Model> model = CreateModelFromFilepath(geos);
+    std::shared_ptr<model::Model> model = CreateModelFromFilepath(dev, geos);
     if (!model) {
-        model = CreateBrushModel(geos);
+        model = CreateBrushModel(dev, geos);
     }
     assert(model);
 
@@ -75,7 +75,7 @@ void ModelAdapter::UpdateModel(const std::vector<archgraph::GeoPtr>& geos, const
     caabb.SetAABB(model->aabb);
 }
 
-bool ModelAdapter::BuildModel(n0::SceneNode& node)
+bool ModelAdapter::BuildModel(const ur2::Device& dev, n0::SceneNode& node)
 {
     if (!node.HasUniqueComp<easyarchgraph::CompArchGraph>()) {
         return false;
@@ -113,16 +113,16 @@ bool ModelAdapter::BuildModel(n0::SceneNode& node)
     if (!out_geos.empty())
     {
         if (!node.HasSharedComp<n3::CompModel>()) {
-            SetupModel(node);
+            SetupModel(dev, node);
         }
-        UpdateModel(out_geos, node);
+        UpdateModel(dev, out_geos, node);
     }
 
     return true;
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateModelFromFilepath(const std::vector<archgraph::GeoPtr>& geos)
+ModelAdapter::CreateModelFromFilepath(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
 {
     for (auto& geo : geos)
     {
@@ -134,8 +134,8 @@ ModelAdapter::CreateModelFromFilepath(const std::vector<archgraph::GeoPtr>& geos
             continue;
         }
 
-        auto model = std::make_unique<model::Model>();
-        if (model::AssimpHelper::Load(*model, geo_path)) {
+        auto model = std::make_unique<model::Model>(&dev);
+        if (model::AssimpHelper::Load(dev, *model, geo_path)) {
             return model;
         }
     }
@@ -143,7 +143,7 @@ ModelAdapter::CreateModelFromFilepath(const std::vector<archgraph::GeoPtr>& geos
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateBrushModel(const std::vector<archgraph::GeoPtr>& geos)
+ModelAdapter::CreateBrushModel(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
 {
     assert(!geos.empty());
 
@@ -156,7 +156,7 @@ ModelAdapter::CreateBrushModel(const std::vector<archgraph::GeoPtr>& geos)
 
     auto brush_model = std::make_unique<model::BrushModel>();
     brush_model->SetBrushes(brushes);
-    return model::BrushBuilder::PolymeshFromBrushPNC(*brush_model, colors);
+    return model::BrushBuilder::PolymeshFromBrushPNC(dev, *brush_model, colors);
 }
 
 void ModelAdapter::GeoToBrush(const archgraph::GeoPtr& geo,

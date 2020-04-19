@@ -63,7 +63,7 @@ void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,
     }
 }
 
-void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
+void Scene::LoadFromJson(const ur2::Device& dev, mm::LinearAllocator& alloc, const std::string& dir,
                          const rapidjson::Value& val, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     m_rules.clear();
@@ -71,14 +71,14 @@ void Scene::LoadFromJson(mm::LinearAllocator& alloc, const std::string& dir,
     for (auto& path_val : val.GetArray())
     {
         auto absolute = boost::filesystem::absolute(path_val.GetString(), dir).string();
-        auto rule = CreateRule(absolute, str_pool);
+        auto rule = CreateRule(dev, absolute, str_pool);
         assert(rule);
         m_rules.push_back(rule);
     }
 }
 
 std::shared_ptr<Scene::Rule>
-Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool)
+Scene::CreateRule(const ur2::Device& dev, const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     std::shared_ptr<Rule> rule = std::make_shared<Rule>();
     rule->filepath = filepath;
@@ -92,9 +92,9 @@ Scene::CreateRule(const std::string& filepath, const std::shared_ptr<cga::String
         js::RapidJsonHelper::ReadFromFile(filepath.c_str(), doc);
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
-        auto node = ns::NodeFactory::Create(filepath);
+        auto node = ns::NodeFactory::Create(dev, filepath);
 
-        Evaluator eval;
+        Evaluator eval(dev);
         assert(node->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = node->GetSharedComp<n0::CompComplex>();
         for (auto& cnode : ccomplex.GetAllChildren())

@@ -15,9 +15,10 @@
 namespace archlab
 {
 
-WxSceneProp::WxSceneProp(wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
+WxSceneProp::WxSceneProp(const ur2::Device& dev, wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
                          ee0::SubjectMgr& preview_sub_mgr, const Scene& scene)
     : wxPanel(parent)
+    , m_dev(dev)
     , m_editor_panel_sub_mgr(editor_panel_sub_mgr)
     , m_preview_sub_mgr(preview_sub_mgr)
     , m_scene(scene)
@@ -128,7 +129,7 @@ void WxSceneProp::OnNodePropChanged(wxPropertyGridEvent& event)
         ccga.SetFilepath(rule->filepath);
     }
 
-    ModelAdapter::BuildModel(*m_selected_node);
+    ModelAdapter::BuildModel(m_dev, *m_selected_node);
 
     m_preview_sub_mgr.NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 }

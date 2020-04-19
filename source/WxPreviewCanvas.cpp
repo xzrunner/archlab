@@ -13,6 +13,7 @@
 #include <blueprint/CompNode.h>
 
 #include <node0/SceneNode.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/MaterialMgr.h>
 #include <painting3/Blackboard.h>
@@ -31,9 +32,9 @@ const uint32_t LIGHT_SELECT_COLOR = 0x88000088;
 namespace archlab
 {
 
-WxPreviewCanvas::WxPreviewCanvas(ee0::WxStagePage* stage, ECS_WORLD_PARAM
-                                 const ee0::RenderContext& rc)
-    : ee3::WxStageCanvas(stage, ECS_WORLD_VAR &rc, nullptr, true)
+WxPreviewCanvas::WxPreviewCanvas(const ur2::Device& dev, ee0::WxStagePage* stage,
+                                 ECS_WORLD_PARAM const ee0::RenderContext& rc)
+    : ee3::WxStageCanvas(dev, stage, ECS_WORLD_VAR &rc, nullptr, true)
 {
     stage->GetSubjectMgr()->RegisterObserver(MSG_SET_EDIT_OP, this);
     stage->GetSubjectMgr()->RegisterObserver(MSG_SET_SELECT_OP, this);
@@ -81,16 +82,16 @@ void WxPreviewCanvas::DrawForeground3D() const
             pt0::RenderVariant(persp->GetPos())
         );
     }
-    auto& wc = pt3::Blackboard::Instance()->GetWindowContext();
-    assert(wc);
-    rc.AddVar(
-        pt3::MaterialMgr::PosTransUniforms::view.name,
-        pt0::RenderVariant(wc->GetViewMat())
-    );
-    rc.AddVar(
-        pt3::MaterialMgr::PosTransUniforms::projection.name,
-        pt0::RenderVariant(wc->GetProjMat())
-    );
+    //auto& wc = pt3::Blackboard::Instance()->GetWindowContext();
+    //assert(wc);
+    //rc.AddVar(
+    //    pt3::MaterialMgr::PosTransUniforms::view.name,
+    //    pt0::RenderVariant(wc->GetViewMat())
+    //);
+    //rc.AddVar(
+    //    pt3::MaterialMgr::PosTransUniforms::projection.name,
+    //    pt0::RenderVariant(wc->GetProjMat())
+    //);
 
     auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
     PreviewRender pr(GetViewport(), cam_mat);
@@ -110,8 +111,10 @@ void WxPreviewCanvas::DrawForeground3D() const
         assert(0);
     }
 
+    auto& ctx = *GetRenderContext().ur_ctx;
+
     m_stage->Traverse([&](const ee0::GameObj& obj)->bool {
-        pr.DrawNode3D(rc, *obj, draw_face, draw_shape);
+        pr.DrawNode3D(m_dev, ctx, rc, *obj, draw_face, draw_shape);
         return true;
     });
 
@@ -119,11 +122,12 @@ void WxPreviewCanvas::DrawForeground3D() const
     {
         auto obj = m_editor_panel->GetCurrPagePreviewObj();
         if (obj) {
-            pr.DrawNode3D(rc, *obj, true, false);
+            pr.DrawNode3D(m_dev, ctx, rc, *obj, true, false);
         }
     }
 
-    pt2::RenderSystem::DrawPainter(pr.GetPainter());
+    ur2::RenderState rs;
+    pt2::RenderSystem::DrawPainter(m_dev, ctx, rs, pr.GetPainter());
 }
 
 void WxPreviewCanvas::DrawForeground2D() const

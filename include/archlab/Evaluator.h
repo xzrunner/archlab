@@ -19,7 +19,7 @@ namespace archlab
 class Evaluator : boost::noncopyable
 {
 public:
-    Evaluator();
+    Evaluator(const ur2::Device& dev);
 
     // update nodes
     void OnAddNode(const bp::Node& node, const n0::SceneNodePtr& snode,
@@ -50,6 +50,8 @@ private:
     void Update();
 
 private:
+    const ur2::Device& m_dev;
+
     std::shared_ptr<archgraph::EvalContext> m_eval_ctx = nullptr;
     archgraph::EvalOp m_eval;
 

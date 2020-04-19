@@ -3,6 +3,7 @@
 #include <ee0/WxStagePage.h>
 
 namespace n0 { class CompComplex; }
+namespace ur2 { class Device; }
 
 namespace archlab
 {
@@ -13,7 +14,7 @@ class Scene;
 class WxGraphPage : public ee0::WxStagePage
 {
 public:
-	WxGraphPage(wxWindow* parent, Scene& scene,
+	WxGraphPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
         const ee0::SubjectMgrPtr& preview_sub_mgr, const ee0::GameObj& root);
     virtual ~WxGraphPage();
 

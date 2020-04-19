@@ -101,7 +101,8 @@ void PreviewPage::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
                 if (ccga.GetRule() != *rule) {
                     ccga.SetRule(*rule, *ctx);
                 }
-                ModelAdapter::BuildModel(*obj);
+                auto& dev = m_stage_page.GetImpl().GetCanvas()->GetRenderDevice();
+                ModelAdapter::BuildModel(dev, *obj);
             }
 
             return true;
@@ -150,7 +151,8 @@ void PreviewPage::InitSceneNodeRule(const Scene& scene)
             }
         }
 
-        ModelAdapter::BuildModel(*obj);
+        auto& dev = m_stage_page.GetImpl().GetCanvas()->GetRenderDevice();
+        ModelAdapter::BuildModel(dev, *obj);
 
         return true;
     });

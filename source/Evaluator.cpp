@@ -17,14 +17,14 @@
 namespace
 {
 
-void update_model(const std::vector<archgraph::GeoPtr>& geos, void* ud)
+void update_model(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos, void* ud)
 {
     auto snode = static_cast<n0::SceneNode*>(ud);
     if (snode) {
         if (!snode->HasSharedComp<n3::CompModel>()) {
-            archlab::ModelAdapter::SetupModel(*snode);
+            archlab::ModelAdapter::SetupModel(dev, *snode);
         }
-        archlab::ModelAdapter::UpdateModel(geos, *snode);
+        archlab::ModelAdapter::UpdateModel(dev, geos, *snode);
     }
 }
 
@@ -33,8 +33,9 @@ void update_model(const std::vector<archgraph::GeoPtr>& geos, void* ud)
 namespace archlab
 {
 
-Evaluator::Evaluator()
-    : m_eval_ctx(std::make_shared<archgraph::EvalContext>())
+Evaluator::Evaluator(const ur2::Device& dev)
+    : m_dev(dev)
+    , m_eval_ctx(std::make_shared<archgraph::EvalContext>())
     , m_eval(update_model)
 {
 }
@@ -194,7 +195,7 @@ archgraph::OpPtr Evaluator::QueryBackNode(const bp::Node& front_node) const
 
 void Evaluator::Update()
 {
-    m_eval.Eval(*m_eval_ctx);
+    m_eval.Eval(m_dev, *m_eval_ctx);
 
     bool conn_changed = false;
     for (auto& itr : m_nodes_map)

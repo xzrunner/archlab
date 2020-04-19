@@ -22,9 +22,10 @@
 namespace archlab
 {
 
-WxEditorPanel::WxEditorPanel(wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+WxEditorPanel::WxEditorPanel(const ur2::Device& dev, wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
                              std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
+    , m_dev(dev)
     , m_preview_sub_mgr(preview_sub_mgr)
 {
     InitLayout(graph_page_creator);
@@ -67,7 +68,7 @@ void WxEditorPanel::OnNotify(uint32_t msg, const ee0::VariantSet& variants)
         if (ccga.GetRule() != *rule) {
             ccga.SetRule(*rule, *rule_ctx);
         }
-        ModelAdapter::BuildModel(*node);
+        ModelAdapter::BuildModel(m_dev, *node);
     }
         break;
     }
@@ -108,7 +109,7 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
     }
 }
 
-void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
+void WxEditorPanel::LoadRuleFromFile(const ur2::Device& dev, const std::string& filepath)
 {
     for (auto& rule : m_scene.GetAllRules()) {
         if (rule->filepath == filepath) {
@@ -132,7 +133,7 @@ void WxEditorPanel::LoadRuleFromFile(const std::string& filepath)
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
         auto root = m_graph_page->GetRootNode();
-        bp::Serializer::LoadFromJson(*m_graph_page, root, doc, dir);
+        bp::Serializer::LoadFromJson(dev, *m_graph_page, root, doc, dir);
 
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
@@ -212,7 +213,7 @@ void WxEditorPanel::InitLayout(std::function<WxGraphPage*(wxWindow*, Scene&, arc
     // property
     m_nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM);
     m_nb->AddPage(m_graph_page = graph_page_creator(m_nb, m_scene, m_ctx), "Graph");
-    m_nb->AddPage(m_text_page = new WxTextPage(m_nb, m_scene, m_preview_sub_mgr), "Text");
+    m_nb->AddPage(m_text_page = new WxTextPage(m_dev, m_nb, m_scene, m_preview_sub_mgr), "Text");
     sizer->Add(m_nb, 1, wxEXPAND);
 
     SetSizer(sizer);

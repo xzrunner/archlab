@@ -40,7 +40,7 @@ const uint32_t MESSAGES[] =
 namespace archlab
 {
 
-WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
+WxGraphPage::WxGraphPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
                          const ee0::SubjectMgrPtr& preview_sub_mgr,
                          const ee0::GameObj& root)
     : ee0::WxStagePage(parent)
@@ -50,10 +50,10 @@ WxGraphPage::WxGraphPage(wxWindow* parent, Scene& scene,
 {
     bp::Blueprint::Instance();
 
-    m_eval = std::make_shared<Evaluator>();
+    m_eval = std::make_shared<Evaluator>(dev);
 
     m_preview_obj = ns::NodeFactory::Create3D();
-    ModelAdapter::SetupModel(*m_preview_obj);
+    ModelAdapter::SetupModel(dev, *m_preview_obj);
     m_preview_obj->AddUniqueComp<easyarchgraph::CompArchGraph>();
 
     for (auto& msg : MESSAGES) {
