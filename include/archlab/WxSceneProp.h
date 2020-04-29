@@ -11,7 +11,7 @@
 class wxPropertyGrid;
 class wxPropertyGridEvent;
 
-namespace ur2 { class Device; }
+namespace ur { class Device; }
 
 namespace archlab
 {
@@ -21,7 +21,7 @@ class Scene;
 class WxSceneProp : public wxPanel, public ee0::Observer
 {
 public:
-    WxSceneProp(const ur2::Device& dev, wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
+    WxSceneProp(const ur::Device& dev, wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
         ee0::SubjectMgr& preview_sub_mgr, const Scene& scene);
     virtual ~WxSceneProp();
 
@@ -40,7 +40,7 @@ private:
     void LoadFromNode(const n0::SceneNodePtr& node);
 
 private:
-    const ur2::Device& m_dev;
+    const ur::Device& m_dev;
 
     ee0::SubjectMgr& m_editor_panel_sub_mgr;
     ee0::SubjectMgr& m_preview_sub_mgr;

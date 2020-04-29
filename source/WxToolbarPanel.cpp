@@ -21,7 +21,7 @@
 namespace archlab
 {
 
-WxToolbarPanel::WxToolbarPanel(const ur2::Device& dev, wxWindow* parent, archgraph::EvalContext& ctx,
+WxToolbarPanel::WxToolbarPanel(const ur::Device& dev, wxWindow* parent, archgraph::EvalContext& ctx,
                                const ee0::SubjectMgrPtr& graph_sub_mgr,
                                const ee0::SubjectMgrPtr& preview_sub_mgr)
 	: wxPanel(parent)

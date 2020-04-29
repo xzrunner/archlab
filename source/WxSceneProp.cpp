@@ -15,7 +15,7 @@
 namespace archlab
 {
 
-WxSceneProp::WxSceneProp(const ur2::Device& dev, wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
+WxSceneProp::WxSceneProp(const ur::Device& dev, wxWindow* parent, ee0::SubjectMgr& editor_panel_sub_mgr,
                          ee0::SubjectMgr& preview_sub_mgr, const Scene& scene)
     : wxPanel(parent)
     , m_dev(dev)

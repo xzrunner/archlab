@@ -17,7 +17,7 @@
 namespace
 {
 
-void update_model(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos, void* ud)
+void update_model(const ur::Device& dev, const std::vector<archgraph::GeoPtr>& geos, void* ud)
 {
     auto snode = static_cast<n0::SceneNode*>(ud);
     if (snode) {
@@ -33,7 +33,7 @@ void update_model(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& 
 namespace archlab
 {
 
-Evaluator::Evaluator(const ur2::Device& dev)
+Evaluator::Evaluator(const ur::Device& dev)
     : m_dev(dev)
     , m_eval_ctx(std::make_shared<archgraph::EvalContext>())
     , m_eval(update_model)

@@ -40,7 +40,7 @@ const uint32_t MESSAGES[] =
 namespace archlab
 {
 
-WxGraphPage::WxGraphPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
+WxGraphPage::WxGraphPage(const ur::Device& dev, wxWindow* parent, Scene& scene,
                          const ee0::SubjectMgrPtr& preview_sub_mgr,
                          const ee0::GameObj& root)
     : ee0::WxStagePage(parent)

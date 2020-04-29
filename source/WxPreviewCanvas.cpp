@@ -13,7 +13,7 @@
 #include <blueprint/CompNode.h>
 
 #include <node0/SceneNode.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/MaterialMgr.h>
 #include <painting3/Blackboard.h>
@@ -32,7 +32,7 @@ const uint32_t LIGHT_SELECT_COLOR = 0x88000088;
 namespace archlab
 {
 
-WxPreviewCanvas::WxPreviewCanvas(const ur2::Device& dev, ee0::WxStagePage* stage,
+WxPreviewCanvas::WxPreviewCanvas(const ur::Device& dev, ee0::WxStagePage* stage,
                                  ECS_WORLD_PARAM const ee0::RenderContext& rc)
     : ee3::WxStageCanvas(dev, stage, ECS_WORLD_VAR &rc, nullptr, true)
 {
@@ -126,7 +126,7 @@ void WxPreviewCanvas::DrawForeground3D() const
         }
     }
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
     pt2::RenderSystem::DrawPainter(m_dev, ctx, rs, pr.GetPainter());
 }
 

@@ -63,7 +63,7 @@ void Scene::StoreToJson(const std::string& dir, rapidjson::Value& val,
     }
 }
 
-void Scene::LoadFromJson(const ur2::Device& dev, mm::LinearAllocator& alloc, const std::string& dir,
+void Scene::LoadFromJson(const ur::Device& dev, mm::LinearAllocator& alloc, const std::string& dir,
                          const rapidjson::Value& val, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     m_rules.clear();
@@ -78,7 +78,7 @@ void Scene::LoadFromJson(const ur2::Device& dev, mm::LinearAllocator& alloc, con
 }
 
 std::shared_ptr<Scene::Rule>
-Scene::CreateRule(const ur2::Device& dev, const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool)
+Scene::CreateRule(const ur::Device& dev, const std::string& filepath, const std::shared_ptr<cga::StringPool>& str_pool)
 {
     std::shared_ptr<Rule> rule = std::make_shared<Rule>();
     rule->filepath = filepath;

@@ -22,7 +22,7 @@
 namespace archlab
 {
 
-WxEditorPanel::WxEditorPanel(const ur2::Device& dev, wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+WxEditorPanel::WxEditorPanel(const ur::Device& dev, wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
                              std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator)
     : wxPanel(parent)
     , m_dev(dev)
@@ -109,7 +109,7 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
     }
 }
 
-void WxEditorPanel::LoadRuleFromFile(const ur2::Device& dev, const std::string& filepath)
+void WxEditorPanel::LoadRuleFromFile(const ur::Device& dev, const std::string& filepath)
 {
     for (auto& rule : m_scene.GetAllRules()) {
         if (rule->filepath == filepath) {

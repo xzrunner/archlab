@@ -22,7 +22,7 @@ namespace archlab
 {
 
 // todo: copy from sop::GeoAdaptor::Init
-void ModelAdapter::SetupModel(const ur2::Device& dev, n0::SceneNode& node)
+void ModelAdapter::SetupModel(const ur::Device& dev, n0::SceneNode& node)
 {
     auto& cmodel = node.AddSharedComp<n3::CompModel>();
     cmodel.DisableSerialize();
@@ -53,7 +53,7 @@ void ModelAdapter::SetupModel(const ur2::Device& dev, n0::SceneNode& node)
     cmodel_inst.GetModel()->SetModelExt(model_ext);
 }
 
-void ModelAdapter::UpdateModel(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos, const n0::SceneNode& node)
+void ModelAdapter::UpdateModel(const ur::Device& dev, const std::vector<archgraph::GeoPtr>& geos, const n0::SceneNode& node)
 {
     if (geos.empty()) {
         return;
@@ -75,7 +75,7 @@ void ModelAdapter::UpdateModel(const ur2::Device& dev, const std::vector<archgra
     caabb.SetAABB(model->aabb);
 }
 
-bool ModelAdapter::BuildModel(const ur2::Device& dev, n0::SceneNode& node)
+bool ModelAdapter::BuildModel(const ur::Device& dev, n0::SceneNode& node)
 {
     if (!node.HasUniqueComp<easyarchgraph::CompArchGraph>()) {
         return false;
@@ -122,7 +122,7 @@ bool ModelAdapter::BuildModel(const ur2::Device& dev, n0::SceneNode& node)
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateModelFromFilepath(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
+ModelAdapter::CreateModelFromFilepath(const ur::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
 {
     for (auto& geo : geos)
     {
@@ -143,7 +143,7 @@ ModelAdapter::CreateModelFromFilepath(const ur2::Device& dev, const std::vector<
 }
 
 std::unique_ptr<model::Model>
-ModelAdapter::CreateBrushModel(const ur2::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
+ModelAdapter::CreateBrushModel(const ur::Device& dev, const std::vector<archgraph::GeoPtr>& geos)
 {
     assert(!geos.empty());
 

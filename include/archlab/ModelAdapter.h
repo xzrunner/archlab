@@ -9,7 +9,7 @@
 namespace archgraph { class Geometry; }
 namespace n0 { class SceneNode; }
 namespace model { struct Model; }
-namespace ur2 { class Device; }
+namespace ur { class Device; }
 
 namespace archlab
 {
@@ -17,17 +17,17 @@ namespace archlab
 class ModelAdapter
 {
 public:
-    static void SetupModel(const ur2::Device& dev, n0::SceneNode& node);
+    static void SetupModel(const ur::Device& dev, n0::SceneNode& node);
 
-    static void UpdateModel(const ur2::Device& dev,
+    static void UpdateModel(const ur::Device& dev,
         const std::vector<archgraph::GeoPtr>& geos, const n0::SceneNode& node);
 
-    static bool BuildModel(const ur2::Device& dev, n0::SceneNode& node);
+    static bool BuildModel(const ur::Device& dev, n0::SceneNode& node);
 
 private:
-    static std::unique_ptr<model::Model> CreateBrushModel(const ur2::Device& dev,
+    static std::unique_ptr<model::Model> CreateBrushModel(const ur::Device& dev,
         const std::vector<archgraph::GeoPtr>& geos);
-    static std::unique_ptr<model::Model> CreateModelFromFilepath(const ur2::Device& dev,
+    static std::unique_ptr<model::Model> CreateModelFromFilepath(const ur::Device& dev,
             const std::vector<archgraph::GeoPtr>& geos);
 
     static void GeoToBrush(const archgraph::GeoPtr& geo,

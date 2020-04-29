@@ -18,7 +18,7 @@
 namespace archlab
 {
 
-WxTextPage::WxTextPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
+WxTextPage::WxTextPage(const ur::Device& dev, wxWindow* parent, Scene& scene,
                        const ee0::SubjectMgrPtr& preview_sub_mgr)
     : wxPanel(parent)
     , m_scene(scene)

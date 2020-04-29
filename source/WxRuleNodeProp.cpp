@@ -9,7 +9,7 @@
 namespace archlab
 {
 
-WxRuleNodeProp::WxRuleNodeProp(const ur2::Device& dev, wxWindow* parent,
+WxRuleNodeProp::WxRuleNodeProp(const ur::Device& dev, wxWindow* parent,
                                const ee0::SubjectMgrPtr& sub_mgr)
     : bp::WxNodeProperty(dev, parent, sub_mgr)
 {

@@ -4,7 +4,7 @@
 #include <painting0/RenderContext.h>
 
 namespace n0 { class SceneNode; }
-namespace ur2 { class Device; class Context; }
+namespace ur { class Device; class Context; }
 namespace pt3 { class Viewport; }
 
 namespace archlab
@@ -15,7 +15,7 @@ class PreviewRender
 public:
     PreviewRender(const pt3::Viewport& vp, const sm::mat4& cam_mat);
 
-    void DrawNode3D(const ur2::Device& dev, ur2::Context& ctx, const pt0::RenderContext& rc,
+    void DrawNode3D(const ur::Device& dev, ur::Context& ctx, const pt0::RenderContext& rc,
         const n0::SceneNode& node, bool draw_face, bool draw_shape) const;
 //    void DrawNode2D(const archgraph::Operation& back, const bp::Node& front) const;
 

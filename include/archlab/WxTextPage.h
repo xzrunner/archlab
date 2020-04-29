@@ -9,7 +9,7 @@
 namespace ee0 { class WxCodeCtrl; }
 namespace archgraph { class EvalContext; class EvalRule; }
 namespace cga { class StringPool; }
-namespace ur2 { class Device; }
+namespace ur { class Device; }
 
 namespace archlab
 {
@@ -19,7 +19,7 @@ class Scene;
 class WxTextPage : public wxPanel
 {
 public:
-    WxTextPage(const ur2::Device& dev, wxWindow* parent, Scene& scene,
+    WxTextPage(const ur::Device& dev, wxWindow* parent, Scene& scene,
         const ee0::SubjectMgrPtr& preview_sub_mgr);
 
     std::string GetText() const;

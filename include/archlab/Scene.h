@@ -9,7 +9,7 @@ namespace archgraph { class EvalContext; class EvalRule; }
 namespace mm { class LinearAllocator; }
 namespace n0 { class SceneNode; }
 namespace cga { class StringPool; }
-namespace ur2 { class Device; }
+namespace ur { class Device; }
 
 namespace archlab
 {
@@ -40,11 +40,11 @@ public:
 
     void StoreToJson(const std::string& dir, rapidjson::Value& val,
         rapidjson::MemoryPoolAllocator<>& alloc) const;
-    void LoadFromJson(const ur2::Device& dev, mm::LinearAllocator& alloc, const std::string& dir,
+    void LoadFromJson(const ur::Device& dev, mm::LinearAllocator& alloc, const std::string& dir,
         const rapidjson::Value& val, const std::shared_ptr<cga::StringPool>& str_pool);
 
 private:
-    static std::shared_ptr<Rule> CreateRule(const ur2::Device& dev,
+    static std::shared_ptr<Rule> CreateRule(const ur::Device& dev,
         const std::string& filepath,  const std::shared_ptr<cga::StringPool>& str_pool);
 
 private:

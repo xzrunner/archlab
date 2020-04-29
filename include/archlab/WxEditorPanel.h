@@ -11,7 +11,7 @@
 
 #include <wx/panel.h>
 
-namespace ur2 { class Device; }
+namespace ur { class Device; }
 
 class wxNotebook;
 
@@ -24,14 +24,14 @@ class WxGraphPage;
 class WxEditorPanel : public wxPanel, public ee0::Observer
 {
 public:
-    WxEditorPanel(const ur2::Device& dev, wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
+    WxEditorPanel(const ur::Device& dev, wxWindow* parent, const ee0::SubjectMgrPtr& preview_sub_mgr,
         std::function<WxGraphPage*(wxWindow*, Scene&, archgraph::EvalContext&)> graph_page_creator);
     virtual ~WxEditorPanel();
 
     virtual void OnNotify(uint32_t msg, const ee0::VariantSet& variants) override;
 
     void SaveRuleToFile(const std::string& filepath);
-    void LoadRuleFromFile(const ur2::Device& dev, const std::string& filepath);
+    void LoadRuleFromFile(const ur::Device& dev, const std::string& filepath);
 
     bool IsCurrGraphPage() const;
     n0::SceneNodePtr GetCurrPagePreviewObj() const;
@@ -55,7 +55,7 @@ private:
     };
 
 private:
-    const ur2::Device& m_dev;
+    const ur::Device& m_dev;
 
     ee0::SubjectMgr m_sub_mgr;
     ee0::SubjectMgrPtr m_preview_sub_mgr = nullptr;
