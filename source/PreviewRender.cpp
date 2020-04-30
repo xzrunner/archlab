@@ -1,6 +1,7 @@
 #include "archlab/PreviewRender.h"
 #include "archlab/Evaluator.h"
 
+#include <unirender/DrawState.h>
 #include <painting3/RenderSystem.h>
 #include <node0/SceneNode.h>
 #include <node3/RenderSystem.h>
@@ -25,6 +26,8 @@ void PreviewRender::DrawNode3D(const ur::Device& dev, ur::Context& ctx,
     rp.viewport = &m_vp;
     rp.cam_mat  = &m_cam_mat;
 
+    ur::DrawState ds;
+
     if (!draw_shape) {
         rp.mask.set(pt3::RenderParams::NotDrawShape);
     }
@@ -32,12 +35,12 @@ void PreviewRender::DrawNode3D(const ur::Device& dev, ur::Context& ctx,
     // draw face
     if (draw_face) {
         rp.mask.reset(pt3::RenderParams::DrawMeshBorder);
-        n3::RenderSystem::Draw(dev, ctx, node, rp, rc);
+        n3::RenderSystem::Draw(dev, ctx, ds, node, rp, rc);
     }
 
     // draw edge
     rp.mask.set(pt3::RenderParams::DrawMeshBorder);
-    n3::RenderSystem::Draw(dev, ctx, node, rp, rc);
+    n3::RenderSystem::Draw(dev, ctx, ds, node, rp, rc);
 }
 
 }
