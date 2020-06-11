@@ -13,6 +13,7 @@
 #include <node0/SceneNode.h>
 #include <node0/CompComplex.h>
 #include <easyarchgraph/CompArchGraph.h>
+#include <archgraph/OpVarType.h>
 
 #include <wx/notebook.h>
 #include <wx/sizer.h>
@@ -87,7 +88,7 @@ void WxEditorPanel::SaveRuleToFile(const std::string& filepath)
         auto& alloc = doc.GetAllocator();
 
         auto root = m_graph_page->GetRootNode();
-        bp::Serializer::StoreToJson(root, dir, doc, alloc);
+        bp::Serializer<archgraph::OpVarType>::StoreToJson(root, dir, doc, alloc);
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
         bp::NSCompNode::StoreConnection(ccomplex.GetAllChildren(), doc["nodes"], alloc);
@@ -133,7 +134,7 @@ void WxEditorPanel::LoadRuleFromFile(const ur::Device& dev, const std::string& f
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
         auto root = m_graph_page->GetRootNode();
-        bp::Serializer::LoadFromJson(dev, *m_graph_page, root, doc, dir);
+        bp::Serializer<archgraph::OpVarType>::LoadFromJson(dev, *m_graph_page, root, doc, dir);
 
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
