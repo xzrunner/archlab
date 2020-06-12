@@ -134,7 +134,7 @@ void WxEditorPanel::LoadRuleFromFile(const ur::Device& dev, const std::string& f
 
         auto dir = boost::filesystem::path(filepath).parent_path().string();
         auto root = m_graph_page->GetRootNode();
-        bp::Serializer<archgraph::OpVarType>::LoadFromJson(dev, *m_graph_page, root, doc, dir);
+        bp::Serializer<archgraph::OpVarType>::LoadFromJson(dev, *m_graph_page, root, doc, dir, nullptr);
 
         assert(root->HasSharedComp<n0::CompComplex>());
         auto& ccomplex = root->GetSharedComp<n0::CompComplex>();
